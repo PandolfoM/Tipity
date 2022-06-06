@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+      rel="stylesheet"
+    />
+    <link href="./assets/css/index.css" rel="stylesheet" />
+    <title>Tip Calculator</title>
+  </head>
+  <body>
+    <nav class="nav d-flex justify-content-between">
+      <a class="nav-link">
+        <i class="fa-solid fa-arrow-rotate-left"></i> 
+        Clear
+      </a>
+      <a class="nav-link">Settings <i class="fa-solid fa-gear"></i></a>
+    </nav>
+    <h3>Bill Total:</h3>
+    <input type="number" placeholder="$0.00" class="billTotalInput"/>
+    <h3>Service:</h3>
+    <form class="serviceRadio">
+      <input type="radio" id="25percent" name="service" value="25" />
+      <label for="25percent"></label>
+      <input type="radio" id="20percent" name="service" value="20" />
+      <label for="20percent"></label>
+      <input type="radio" id="15percent" name="service" value="15" />
+      <label for="15percent"></label>
+      <input type="radio" id="10percent" name="service" value="10" />
+      <label for="10percent"></label>
+      <input type="radio" id="5percent" name="service" value="5" />
+      <label for="5percent"></label>
+    </form>
+    <h3>Total With Tip:</h3>
+    <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
+    <h3>Total Tip: <span>$0.00</span></h3>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./assets/js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+.billTotalInput {
+  width: 100%;
+  height: 65px;
+  font-size: 3.5rem;
+  text-align: center;
+  color: rgb(35, 175, 35);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size-adjust: 0.5;
+  font-weight: 500;
+}
+
+.billTotalInput:focus-visible {
+  outline: none;
+}
+
+.serviceRadio > input[type=radio]{
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.serviceRadio > input[type=radio] + label::before {
+  font-weight: 500;
+  font-family: 'Font Awesome\ 6 Free';
+  display: inline-block;
+  content: "\f005";
+  letter-spacing: 10px;
+  font-size: 2.7em;
+  color: #535353;
+  width: 1.4em;
+}
+
+.serviceRadio > input[type=radio]:checked ~ label:before {
+  font-weight: 600;
+  font-family: 'Font Awesome\ 6 Free';
+  content: "\f005";
+  font-size: 2.7em;
+  color: rgb(35, 175, 35);
+  letter-spacing: 5px;
+}
+
+.serviceRadio > input[type=radio]:focus ~ label:before {
+  color: rgb(35, 175, 35);
+}
+
+.serviceRadio {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.totalAmt {
+  width: 100%;
+  height: 65px;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 500;
+}
