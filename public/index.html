@@ -16,31 +16,43 @@
     <title>Tip Calculator</title>
   </head>
   <body>
-    <nav class="nav d-flex justify-content-between">
+    <nav class="nav d-flex justify-content-between align-items-end text-light">
       <a class="nav-link" onclick="clearInputs()">
-        <i class="fa-solid fa-arrow-rotate-left"></i> 
+        <i class="fa-solid fa-arrow-rotate-left"></i>
         Clear
       </a>
+      <div class="form-check form-switch roundUpSwitch">
+        <input class="form-check-input" type="checkbox" role="switch" id="roundUpSwitch">
+        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
+      </div>
       <a class="nav-link">Settings <i class="fa-solid fa-gear"></i></a>
     </nav>
-    <h3>Bill Total:</h3>
-    <input type="number" placeholder="$0.00" class="billTotalInput"/>
-    <h3>Service: <span class="servicePercent"></span>%</h3>
-    <form class="serviceRadio" onchange="getValues()">
-      <input type="radio" id="25percent" name="service" value="25" />
-      <label for="25percent"></label>
-      <input type="radio" id="20percent" name="service" value="20" />
-      <label for="20percent"></label>
-      <input type="radio" id="15percent" name="service" value="15" />
-      <label for="15percent"></label>
-      <input type="radio" id="10percent" name="service" value="10" />
-      <label for="10percent"></label>
-      <input type="radio" id="5percent" name="service" value="05" checked="checked"/>
-      <label for="5percent"></label>
-    </form>
-    <h3>Total With Tip:</h3>
-    <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
-    <h3>Total Tip: $<span class="totalTip">0.00</span></h3>
+    <div style="padding: 0 1rem;">
+      <h3>Bill Total:</h3>
+      <input type="number" placeholder="$0.00" class="billTotalInput" />
+      <h3>Service: <span class="servicePercent"></span>%</h3>
+      <form class="serviceRadio justify-center">
+        <input type="radio" id="25percent" name="service" value="25" />
+        <label for="25percent"></label>
+        <input type="radio" id="20percent" name="service" value="20" />
+        <label for="20percent"></label>
+        <input type="radio" id="15percent" name="service" value="15" />
+        <label for="15percent"></label>
+        <input type="radio" id="10percent" name="service" value="10" />
+        <label for="10percent"></label>
+        <input
+          type="radio"
+          id="5percent"
+          name="service"
+          value="05"
+          checked="checked"
+        />
+        <label for="5percent"></label>
+      </form>
+      <h3>Total With Tip:</h3>
+      <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
+      <h3 class="justify-center">Total Tip: $<span class="totalTip">0.00</span></h3>
+    </div>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/js/index.js"></script>
