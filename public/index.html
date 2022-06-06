@@ -25,8 +25,8 @@
     </nav>
     <h3>Bill Total:</h3>
     <input type="number" placeholder="$0.00" class="billTotalInput"/>
-    <h3>Service:</h3>
-    <form class="serviceRadio">
+    <h3>Service: <span class="servicePercent"></span>%</h3>
+    <form class="serviceRadio" onchange="getValues()">
       <input type="radio" id="25percent" name="service" value="25" />
       <label for="25percent"></label>
       <input type="radio" id="20percent" name="service" value="20" />
@@ -40,7 +40,7 @@
     </form>
     <h3>Total With Tip:</h3>
     <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
-    <h3>Total Tip: <span>$0.00</span></h3>
+    <h3>Total Tip: $<span class="totalTip">0.00</span></h3>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/js/index.js"></script>
