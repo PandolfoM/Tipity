@@ -21,15 +21,14 @@
         <i class="fa-solid fa-arrow-rotate-left"></i>
         Clear
       </a>
-      <div class="form-check form-switch roundUpSwitch">
-        <input class="form-check-input" type="checkbox" role="switch" id="roundUpSwitch">
-        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
-      </div>
       <a class="nav-link">Settings <i class="fa-solid fa-gear"></i></a>
     </nav>
-    <div style="padding: 0 1rem;">
+    <div style="padding: 0 1rem">
       <h3>Bill Total:</h3>
-      <input type="number" placeholder="$0.00" class="billTotalInput" />
+      <input
+        type="number"
+        class="billTotalInput green-color"
+      />
       <h3>Service: <span class="servicePercent"></span>%</h3>
       <form class="serviceRadio justify-center">
         <input type="radio" id="25percent" name="service" value="25" />
@@ -50,8 +49,22 @@
         <label for="5percent"></label>
       </form>
       <h3>Total With Tip:</h3>
-      <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
-      <h3 class="justify-center">Total Tip: $<span class="totalTip">0.00</span></h3>
+      <h4 class="totalAmt green-color">
+        $<span class="totalAmtSpan">0.00</span>
+      </h4>
+      <h3>
+        Total Tip:
+        <span class="green-color">$<span class="totalTip">0.00</span></span>
+      </h3>
+      <div class="form-check form-switch roundUpSwitch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="roundUpSwitch"
+        />
+        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
+      </div>
     </div>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>

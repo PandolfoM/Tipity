@@ -5,6 +5,13 @@ $(document).ready(function () {
     getValues($("#roundUpSwitch").is(':checked'));
   });
 
+  $(".billTotalInput").on('blur change input', function() {
+    $(this).val(function(i, input) {
+      input = input.replace(/\D/g, '');
+      return (input / 100).toFixed(2);
+    });
+  }).trigger('blur');
+
   $(".serviceRadio").change(function () { 
     getValues($("#roundUpSwitch").is(':checked'));
   });
@@ -17,17 +24,19 @@ $(document).ready(function () {
 function getValues(round) {
   let serviceVal = $("input[type='radio']:checked").val();
   let billInput = $(".billTotalInput").val();
+
   if (round) {
     let getTipTotal = serviceVal * billInput;
     let getTotal = `1.${serviceVal}` * billInput;
     $(".totalTip").html(roundUp(getTipTotal / 100).toFixed(2));
-    $(".totalAmtSpan").html(roundUp(getTotal.toFixed(2)));
+    $(".totalAmtSpan").html(roundUp(getTotal).toFixed(2));
   } else {
     let getTipTotal = serviceVal * billInput;
     let getTotal = `1.${serviceVal}` * billInput;
     $(".totalTip").html((getTipTotal / 100).toFixed(2));
     $(".totalAmtSpan").html(getTotal.toFixed(2));
   }
+
   if (serviceVal == "05") {
     $(".servicePercent").html("5");
   } else {
