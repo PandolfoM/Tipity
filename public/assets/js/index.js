@@ -1,16 +1,17 @@
 $(document).ready(function () {
   $(".servicePercent").html("5");
 
-  $(".billTotalInput").on("input", function () {
-    getValues($("#roundUpSwitch").is(':checked'));
-  });
-
+  
   $(".billTotalInput").on('blur change input', function() {
     $(this).val(function(i, input) {
       input = input.replace(/\D/g, '');
       return (input / 100).toFixed(2);
     });
   }).trigger('blur');
+  
+  $(".billTotalInput").on("input", function () {
+    getValues($("#roundUpSwitch").is(':checked'));
+  });
 
   $(".serviceRadio").change(function () { 
     getValues($("#roundUpSwitch").is(':checked'));
