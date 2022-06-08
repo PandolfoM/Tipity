@@ -6,7 +6,7 @@ Mobile calculator to calculate tips at restaurants.
 * HTML
 * CSS
 * Bootstrap
-* 
+  
 ## Website
 [Deployed Site](https://pandolfom.github.io/tip-calculator/)
 
