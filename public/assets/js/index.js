@@ -47,7 +47,7 @@ function getValues(round) {
 function clearInputs() {
   $(".totalTip").html("0.00");
   $(".totalAmtSpan").html("0.00");
-  $(".billTotalInput").val("");
+  $(".billTotalInput").val("0.00");
   $(".servicePercent").html("5");
   $("input[type=radio]").prop("checked", function () {
     return this.getAttribute("checked") == "checked";

@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <link
-      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link href="./assets/css/index.css" rel="stylesheet" />
@@ -21,16 +21,18 @@
         <i class="fa-solid fa-arrow-rotate-left"></i>
         Clear
       </a>
-      <a class="nav-link">Settings <i class="fa-solid fa-gear"></i></a>
     </nav>
-    <div style="padding: 0 1rem">
+    <div>
       <h3>Bill Total:</h3>
-      <input
-        type="number"
-        class="billTotalInput green-color"
-      />
+      <div class="background-gradient">
+        <input
+          type="number"
+          pattern="[0-9]*"
+          class="billTotalInput blue-color"
+        />
+      </div>
       <h3>Service: <span class="servicePercent"></span>%</h3>
-      <form class="serviceRadio justify-center">
+      <form class="serviceRadio justify-center background-gradient">
         <input type="radio" id="25percent" name="service" value="25" />
         <label for="25percent"></label>
         <input type="radio" id="20percent" name="service" value="20" />
@@ -48,13 +50,18 @@
         />
         <label for="5percent"></label>
       </form>
-      <h3>Total With Tip:</h3>
-      <h4 class="totalAmt green-color">
-        $<span class="totalAmtSpan">0.00</span>
-      </h4>
+      <div
+      style="
+          background: #00426b;
+          background: linear-gradient(to top, #00426b 30%, #008be7 100%);
+          "
+      >
+      <h3 class="nobackground">Total With Tip:</h3>
+        <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
+      </div>
       <h3>
         Total Tip:
-        <span class="green-color">$<span class="totalTip">0.00</span></span>
+        <span class="blue-color">$<span class="totalTip">0.00</span></span>
       </h3>
       <div class="form-check form-switch roundUpSwitch">
         <input
