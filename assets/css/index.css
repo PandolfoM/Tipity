@@ -25,12 +25,21 @@ h3 {
   font-size: 1.3rem;
 }
 
-.nav{
-  font-size: 1.3rem;
+.nav {
+  font-size: 1.4rem;
 }
 
-.roundUpSwitch {
-  font-size: 1.3rem;
+.nav-link {
+  display: flex;
+  align-items: center;
+}
+
+.fa-arrow-rotate-left {
+  margin-right: 10px;
+}
+
+.form-check {
+  padding-left: 60px;
 }
 
 .form-check-input {
