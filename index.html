@@ -8,10 +8,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
       rel="stylesheet"
     />
-    <link
-      href="./assets/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./assets/css/index.css" rel="stylesheet" />
     <link
       rel="apple-touch-icon"
@@ -39,6 +36,15 @@
         <i class="fa-solid fa-arrow-rotate-left"></i>
         Clear
       </a>
+      <div class="form-check form-switch roundUpSwitch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="roundUpSwitch"
+        />
+        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
+      </div>
     </nav>
     <div>
       <h3>Bill Total:</h3>
@@ -49,6 +55,34 @@
           class="billTotalInput blue-color"
         />
       </div>
+      <h3>Split: <span class="splitAmt"></span></h3>
+      <form class="splitRadio justify-center background-gradient">
+        <input type="radio" id="5split" name="split" value="5" />
+        <label for="5split"></label>
+        <input type="radio" id="4split" name="split" value="4" />
+        <label for="4split"></label>
+        <input type="radio" id="3split" name="split" value="3" />
+        <label for="3split"></label>
+        <input type="radio" id="2split" name="split" value="2" />
+        <label for="2split"></label>
+        <input
+          type="radio"
+          id="1split"
+          name="split"
+          value="1"
+          checked="checked"
+        />
+        <label for="1split"></label>
+      </form>
+      <h3
+        class="perWithoutTip"
+        style="
+          background: #00426b;
+          background: linear-gradient(to top, #00426b 10%, #008be7 100%);
+        "
+      >
+        Per Person Without Tip: $<span>0.00</span>
+      </h3>
       <h3>Service: <span class="servicePercent"></span>%</h3>
       <form class="serviceRadio justify-center background-gradient">
         <input type="radio" id="25percent" name="service" value="25" />
@@ -69,27 +103,26 @@
         <label for="5percent"></label>
       </form>
       <div
-      style="
+        style="
           background: #00426b;
-          background: linear-gradient(to top, #00426b 30%, #008be7 100%);
-          "
+          background: linear-gradient(to top, #00426b 10%, #008be7 100%);
+        "
       >
-      <h3 class="nobackground">Total With Tip:</h3>
+        <h3 class="nobackground">Total With Tip:</h3>
         <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
       </div>
+      <h3>
+        Total Per Person:
+        <span class="blue-color">$<span class="totalPer">0.00</span></span>
+      </h3>
       <h3>
         Total Tip:
         <span class="blue-color">$<span class="totalTip">0.00</span></span>
       </h3>
-      <div class="form-check form-switch roundUpSwitch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="roundUpSwitch"
-        />
-        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
-      </div>
+      <h3>
+        Tip Per Person:
+        <span class="blue-color">$<span class="tipPer">0.00</span></span>
+      </h3>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./assets/js/bootstrap.min.js"></script>
