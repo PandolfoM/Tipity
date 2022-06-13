@@ -17,8 +17,9 @@ h3 {
   font-size: 1.8rem;
   margin: 0;
   text-indent: 10px;
+  padding: 4px 0;
   background: rgb(28,33,38);
-  background: linear-gradient(90deg, rgba(28,33,38,1) 0%, rgba(42,52,60,1) 89%);
+  background: linear-gradient(to top, rgba(28,33,38,1) 10%, rgba(42,52,60,1) 89%);
 }
 
 .perWithoutTip {
