@@ -1,6 +1,6 @@
 :root {
-  --bs-body-bg: #12171d;
-  --bs-link-hover-color: #008be7;
+  --bs-body-bg: #16161d;
+  --bs-link-hover-color: #bb9af7;
   --bs-heading-color: #fff;
   --bs-link-color: #fff;
   --title-bg: #232b32;
@@ -18,12 +18,15 @@ h3 {
   margin: 0;
   text-indent: 10px;
   padding: 4px 0;
-  background: rgb(28,33,38);
-  background: linear-gradient(to top, rgba(28,33,38,1) 10%, rgba(42,52,60,1) 89%);
+  background: #1b1c27;
 }
 
 .perWithoutTip {
   font-size: 1.3rem;
+}
+
+.perWithoutTip > span {
+  color: #bb9af7;
 }
 
 .nav {
@@ -36,14 +39,6 @@ h3 {
 }
 
 .fa-arrow-rotate-left {
-  margin-right: 10px;
-}
-
-.form-check {
-  padding-left: 60px;
-}
-
-.form-check-input {
   margin-right: 10px;
 }
 
@@ -79,7 +74,7 @@ h3 {
   content: "\f005";
   letter-spacing: 10px;
   font-size: 3.5em;
-  color: #535353;
+  color: #565f89;
   width: 1.4em;
 }
 
@@ -88,10 +83,7 @@ h3 {
   font-family: 'Font Awesome\ 6 Free';
   content: "\f005";
   font-size: 3.5em;
-  background: #00426b;
-  background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #bb9af7;
 }
 
 .splitRadio > input[type=radio] + label::before{
@@ -101,7 +93,7 @@ h3 {
   content: "\f007";
   letter-spacing: 10px;
   font-size: 3.5em;
-  color: #535353;
+  color: #565f89;
   width: 1.4em;
 }
 
@@ -110,18 +102,12 @@ h3 {
   font-family: 'Font Awesome\ 6 Free';
   content: "\f007";
   font-size: 3.5em;
-  background: #00426b;
-  background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #bb9af7;
 }
 
 .serviceRadio > input[type=radio]:focus ~ label:before,
 .splitRadio > input[type=radio]:focus ~ label:before {
-  background: #00426b;
-  background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #bb9af7;
 }
 
 .serviceRadio, .splitRadio {
@@ -135,6 +121,7 @@ h3 {
   font-size: 5em;
   text-align: center;
   font-weight: 500;
+  color: #bb9af7;
 }
 
 .justify-center {
@@ -143,28 +130,57 @@ h3 {
   justify-content: center;
 }
 
-.form-check-input:focus {
-  box-shadow: none;
-}
-
-.blue-color {
-  background: #00426b;
-  background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 .nobackground {
   background: rgba(28, 33, 38, 0);
   background: linear-gradient(90deg, rgba(28, 33, 38, 0) 0%, rgba(42, 52, 60, 0) 89%);
 }
 
 .background-gradient {
-  background: rgb(28,33,38);
-  background: linear-gradient(0deg, rgba(28,33,38,1) 0%, rgba(42,52,60,1) 89%);
+  background: #16161d
 }
 
-.form-check-input:checked {
-  background-color: #008be7;
-  border-color: #008be7;
+.text-color {
+  color: #bb9af7;
+}
+
+.switch-input{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.switch-label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 50px;
+	height: 25px;
+	background: #1b1c27;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+.switch-label:after {
+	content: '';
+	position: absolute;
+	top: 0.3vh;
+	left: 2px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-radius: 20px;
+	transition: 0.3s;
+}
+
+.switch-input:checked + .switch-label {
+	background: #bb9af7;
+}
+
+.switch-input:checked + .switch-label:after {
+	left: calc(100% - 3px);
+	transform: translateX(-100%);
+}
+
+.switch-label:active:after {
+	width: 30px;
 }

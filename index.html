@@ -38,25 +38,19 @@
         <i class="fa-solid fa-arrow-rotate-left"></i>
         Clear
       </a>
-      <div class="nav-link align-items-start form-check form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="roundUpSwitch"
-        />
-        <label class="form-check-label" for="roundUpSwitch">Round Up</label>
+      <div class="nav-link align-items-center form-check form-switch">
+        <input class="switch-input" type="checkbox" id="roundUpSwitch" />
+        <label class="switch-label" for="roundUpSwitch">Round Up</label>
+        <p style="margin: auto auto auto 10px;">Round Up</p>
       </div>
     </nav>
     <div>
       <h3>Bill Total:</h3>
-      <div class="background-gradient">
-        <input
-          type="number"
-          pattern="[0-9]*"
-          class="billTotalInput blue-color"
-        />
-      </div>
+      <input
+        type="number"
+        pattern="[0-9]*"
+        class="billTotalInput background-gradient text-color"
+      />
       <h3>Split: <span class="splitAmt"></span></h3>
       <form class="splitRadio justify-center background-gradient">
         <input type="radio" id="5split" name="split" value="5" />
@@ -76,14 +70,8 @@
         />
         <label for="1split"></label>
       </form>
-      <h3
-        class="perWithoutTip"
-        style="
-          background: #00426b;
-          background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-        "
-      >
-        Per Person Without Tip: $<span>0.00</span>
+      <h3 class="perWithoutTip" style="background-color: #414868;">
+        Per Person Without Tip: <span>$<span>0.00</span></span>
       </h3>
       <h3>Service: <span class="servicePercent"></span>%</h3>
       <form class="serviceRadio justify-center background-gradient">
@@ -105,30 +93,27 @@
         <label for="5percent"></label>
       </form>
       <div
-        style="
-          background: #00426b;
-          background: linear-gradient(to top, #00426b 10%, #008be7 100%);
-        "
+        style="background-color: #414868;"
       >
         <h3 class="nobackground">Total With Tip:</h3>
-        <h4 class="totalAmt">$<span class="totalAmtSpan">0.00</span></h4>
+        <h4 class="totalAmt">$<span>0.00</span></h4>
       </div>
       <h3>
         Total Per Person:
-        <span class="blue-color">$<span class="totalPer">0.00</span></span>
+        <span class="text-color">$<span class="totalPer">0.00</span></span>
       </h3>
       <h3>
         Total Tip:
-        <span class="blue-color">$<span class="totalTip">0.00</span></span>
+        <span class="text-color">$<span class="totalTip">0.00</span></span>
       </h3>
       <h3>
         Tip Per Person:
-        <span class="blue-color">$<span class="tipPer">0.00</span></span>
+        <span class="text-color">$<span class="tipPer">0.00</span></span>
       </h3>
     </div>
     <footer>
       <a
-        style="color: var(--title-bg); text-decoration: none"
+        style="color: #565f89; text-decoration: none"
         href="https://github.com/PandolfoM"
         target="_blank"
         >Created by PandolfoM</a

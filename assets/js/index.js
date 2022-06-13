@@ -23,7 +23,7 @@ $(document).ready(function () {
     getValues($("#roundUpSwitch").is(":checked"));
   });
 
-  $(".roundUpSwitch").change(function () {
+  $("#roundUpSwitch").change(function () {
     getValues($("#roundUpSwitch").is(":checked"));
   });
 });
@@ -41,16 +41,16 @@ function getValues(round) {
     $(".totalTip").html(totalTip);
     $(".tipPer").html((totalTip / splitVal).toFixed(2));
     $(".totalPer").html((total / splitVal).toFixed(2));
-    $(".totalAmtSpan").html(total);
-    $(".perWithoutTip > span").html((billInput / splitVal).toFixed(2));
+    $(".totalAmt > span").html(total);
+    $(".perWithoutTip > span > span").html((billInput / splitVal).toFixed(2));
   } else {
     let total = getTotal.toFixed(2);
     let totalTip = (getTipTotal / 100).toFixed(2);
     $(".totalTip").html(totalTip);
     $(".tipPer").html((totalTip / splitVal).toFixed(2));
     $(".totalPer").html((total / splitVal).toFixed(2));
-    $(".totalAmtSpan").html(total);
-    $(".perWithoutTip > span").html((billInput / splitVal).toFixed(2));
+    $(".totalAmt > span").html(total);
+    $(".perWithoutTip > span > span").html((billInput / splitVal).toFixed(2));
   }
 
   $(".splitAmt").html(splitVal);
@@ -65,10 +65,11 @@ function clearInputs() {
   $(".totalTip").html("0.00");
   $(".totalPer").html("0.00");
   $(".tipPer").html("0.00");
-  $(".totalAmtSpan").html("0.00");
-  $(".perWithoutTip > span").html("0.00");
+  $(".totalAmt > span").html("0.00");
+  $(".perWithoutTip > span > span").html("0.00");
   $(".billTotalInput").val("0.00");
   $(".servicePercent").html("5");
+  $(".splitAmt").html("1");
   $("input[type=radio]").prop("checked", function () {
     return this.getAttribute("checked") == "checked";
   });
