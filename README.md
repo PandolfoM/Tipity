@@ -11,7 +11,7 @@ Mobile calculator to calculate tips at restaurants.
 [Deployed Site](https://pandolfom.github.io/tip-calculator/)
 
 ## Site Preview
-![Preview](https://i.imgur.com/7C2vGRP.png)
+![Preview](https://i.imgur.com/a4rBRaG.png)
 
 ## Contribution
 <a href="https://github.com/pandolfom/tip-calculator/graphs/contributors">
