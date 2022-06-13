@@ -1,16 +1,15 @@
-:root {
-  --bs-body-bg: #16161d;
-  --bs-link-hover-color: #bb9af7;
-  --bs-heading-color: #fff;
-  --bs-link-color: #fff;
-  --title-bg: #232b32;
-}
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: 'Oxygen', sans-serif;
+}
+
+body, html {
+  background: #16161d;
 }
 
 h3 {
@@ -19,6 +18,7 @@ h3 {
   text-indent: 10px;
   padding: 4px 0;
   background: #1b1c27;
+  color: white;
 }
 
 .perWithoutTip {
@@ -31,11 +31,20 @@ h3 {
 
 .nav {
   font-size: 1.4rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
+}
+
+.nav-link:hover {
+  color: #bb9af7;
+  cursor: pointer;
 }
 
 .fa-arrow-rotate-left {
@@ -163,7 +172,7 @@ h3 {
 .switch-label:after {
 	content: '';
 	position: absolute;
-	top: 0.3vh;
+	top: 2.5px;
 	left: 2px;
 	width: 20px;
 	height: 20px;
@@ -177,7 +186,7 @@ h3 {
 }
 
 .switch-input:checked + .switch-label:after {
-	left: calc(100% - 3px);
+	left: calc(100% - 2px);
 	transform: translateX(-100%);
 }
 
