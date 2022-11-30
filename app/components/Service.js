@@ -4,28 +4,46 @@ import colors from "../config/colors";
 import sizes from "../config/sizes";
 import Rating from "./Rating";
 
-function Split(props) {
-  const { split, setSplit } = props;
+function Service(props) {
+  const { service, setService } = props;
   return (
     <View>
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Split: </Text>
+        <Text style={styles.sectionTitle}>Service: </Text>
         <TextInput
           style={styles.sectionInput}
-          value={split.toString()}
-          onChangeText={setSplit}
+          value={service.toString()}
+          onChangeText={setService}
           maxLength={3}
           keyboardType="number-pad"></TextInput>
+        <Text style={styles.percent}>%</Text>
+        {service.toString() === "0" && (
+          <Text style={styles.badPerson}>Don't be that guy</Text>
+        )}
       </View>
-      <Rating split={split} setSplit={setSplit} />
+      <Rating service={service} setService={setService} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  badPerson: {
+    color: "red",
+    textAlign: "right",
+    alignSelf: "center",
+    paddingRight: sizes.sm,
+    flex: 1,
+    fontSize: sizes.fmd,
+  },
   section: {
     flexDirection: "row",
     backgroundColor: colors.secondary,
+  },
+  percent: {
+    fontSize: sizes.flg,
+    fontWeight: "bold",
+    color: "white",
+    alignSelf: "center",
   },
   sectionInput: {
     fontSize: sizes.flg,
@@ -43,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Split;
+export default Service;

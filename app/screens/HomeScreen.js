@@ -9,7 +9,9 @@ import {
   View,
 } from "react-native";
 import Header from "../components/Header";
+import Service from "../components/Service";
 import Split from "../components/Split";
+import Totals from "../components/Totals";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 
@@ -17,6 +19,7 @@ function HomeScreen() {
   const [isRounding, setIsRounding] = useState(false);
   const [billTotal, setBillTotal] = useState(0);
   const [split, setSplit] = useState(1);
+  const [service, setService] = useState(15);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -39,6 +42,9 @@ function HomeScreen() {
               Per Person Without Tip:{" "}
               <Text style={styles.accentText}>$10.00</Text>
             </Text>
+            {/* Service */}
+            <Service service={service} setService={setService} />
+            <Totals />
           </View>
         </View>
       </SafeAreaView>
@@ -61,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   perWithoutTip: {
-    backgroundColor: "#414868",
+    backgroundColor: colors.tertiary,
     color: colors.white,
     fontSize: sizes.md,
     paddingLeft: sizes.sm,

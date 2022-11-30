@@ -5,19 +5,21 @@ import colors from "../config/colors.js";
 import sizes from "../config/sizes.js";
 
 function Rating(props) {
-  const { split, setSplit } = props;
+  const { split, setSplit, service, setService } = props;
 
   return (
     <View style={styles.container}>
       <Slider
-        value={split}
+        value={split ? split : service}
         step={1}
         thumbTintColor={colors.accent}
         minimumTrackTintColor={colors.accent}
         maximumTrackTintColor={colors.secondary}
-        minimumValue={1}
-        maximumValue={100}
-        onValueChange={(value) => setSplit(value)}
+        minimumValue={split ? 1 : 0}
+        maximumValue={split ? 5 : 50}
+        onValueChange={(value) =>
+          setSplit ? setSplit(value) : setService(value)
+        }
         thumbStyle={styles.thumb}
         trackStyle={styles.track}
         style={styles.slider}

@@ -3,5 +3,6 @@ export default {
   sm: 10,
   md: 20,
   fmd: 20,
-  flg: 30,
+  flg: 25,
+  fxl: 30,
 };
