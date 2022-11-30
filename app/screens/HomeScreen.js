@@ -9,8 +9,9 @@ import {
   View,
 } from "react-native";
 import Header from "../components/Header";
-import Rating from "../components/Rating";
+import Split from "../components/Split";
 import colors from "../config/colors";
+import sizes from "../config/sizes";
 
 function HomeScreen() {
   const [isRounding, setIsRounding] = useState(false);
@@ -23,6 +24,7 @@ function HomeScreen() {
         <View>
           <Header isRounding={isRounding} setIsRounding={setIsRounding} />
           <View>
+            {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>
             <TextInput
               value={billTotal}
@@ -31,16 +33,12 @@ function HomeScreen() {
               placeholder={"0.00"}
               style={styles.billInput}
             />
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Split:</Text>
-              <TextInput
-                style={styles.sectionInput}
-                value={split.toString()}
-                onChangeText={setSplit}
-                maxLength={3}
-                keyboardType="number-pad"></TextInput>
-            </View>
-            <Rating split={split} setSplit={setSplit} />
+            {/* Split check */}
+            <Split split={split} setSplit={setSplit} />
+            <Text style={styles.perWithoutTip}>
+              Per Person Without Tip:{" "}
+              <Text style={styles.accentText}>$10.00</Text>
+            </Text>
           </View>
         </View>
       </SafeAreaView>
@@ -49,6 +47,9 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  accentText: {
+    color: colors.accent,
+  },
   billInput: {
     height: 100,
     fontSize: 50,
@@ -59,26 +60,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
-  section: {
-    flexDirection: "row",
-    backgroundColor: colors.secondary,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  sectionInput: {
-    fontSize: 30,
+  perWithoutTip: {
+    backgroundColor: "#414868",
+    color: colors.white,
+    fontSize: sizes.md,
+    paddingLeft: sizes.sm,
+    paddingVertical: sizes.xs,
+    marginTop: sizes.sm,
     fontWeight: "bold",
-    color: "white",
-    minWidth: 50,
-    textAlign: "center",
   },
   sectionTitle: {
-    fontSize: 30,
+    fontSize: sizes.flg,
     fontWeight: "bold",
     color: "white",
     backgroundColor: colors.secondary,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingLeft: sizes.sm,
+    paddingVertical: sizes.xs,
   },
 });
 

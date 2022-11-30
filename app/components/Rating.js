@@ -2,6 +2,7 @@ import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import colors from "../config/colors.js";
+import sizes from "../config/sizes.js";
 
 function Rating(props) {
   const { split, setSplit } = props;
@@ -29,8 +30,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "stretch",
     justifyContent: "center",
-    marginHorizontal: 10,
-    marginTop: 10,
+    marginHorizontal: sizes.sm,
+    marginTop: sizes.sm,
   },
   thumb: {
     height: 40,

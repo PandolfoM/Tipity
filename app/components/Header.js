@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 import colors from "../config/colors";
+import sizes from "../config/sizes";
 
 function Header(props) {
   const { isRounding, setIsRounding } = props;
@@ -25,15 +26,15 @@ function Header(props) {
 const styles = StyleSheet.create({
   clearButton: {
     color: colors.white,
-    fontSize: 20,
+    fontSize: sizes.fmd,
   },
   header: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    paddingHorizontal: sizes.sm,
+    marginBottom: sizes.sm,
   },
   roundContainer: {
     flexDirection: "row",
@@ -41,8 +42,8 @@ const styles = StyleSheet.create({
   },
   roundText: {
     color: colors.white,
-    fontSize: 20,
-    paddingLeft: 10,
+    fontSize: sizes.fmd,
+    paddingLeft: sizes.sm,
   },
 });
 
