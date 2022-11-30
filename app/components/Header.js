@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 import colors from "../config/colors";
 
-function Header() {
-  const [isEnabled, setIsEnabled] = useState(false);
+function Header(props) {
+  const { isRounding, setIsRounding } = props;
 
   return (
     <View style={styles.header}>
@@ -12,9 +12,9 @@ function Header() {
       </Text>
       <View style={styles.roundContainer}>
         <Switch
-          value={isEnabled}
+          value={isRounding}
           trackColor={{ false: colors.secondary, true: colors.accent }}
-          onValueChange={() => setIsEnabled(!isEnabled)}
+          onValueChange={() => setIsRounding(!isRounding)}
         />
         <Text style={styles.roundText}>Round Up</Text>
       </View>
@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 10,
+    marginBottom: 10,
   },
   roundContainer: {
     flexDirection: "row",
