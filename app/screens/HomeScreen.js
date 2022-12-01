@@ -26,7 +26,11 @@ function HomeScreen() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.container}>
         <View>
-          <Header isRounding={isRounding} setIsRounding={setIsRounding} />
+          <Header
+            isRounding={isRounding}
+            setIsRounding={setIsRounding}
+            setBillTotal={setBillTotal}
+          />
           <View>
             {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>

@@ -4,11 +4,11 @@ import colors from "../config/colors";
 import sizes from "../config/sizes";
 
 function Header(props) {
-  const { isRounding, setIsRounding } = props;
+  const { isRounding, setIsRounding, setBillTotal } = props;
 
   return (
     <View style={styles.header}>
-      <Text style={styles.clearButton} onPress={() => console.log("Cleared")}>
+      <Text style={styles.clearButton} onPress={() => setBillTotal(0)}>
         Clear
       </Text>
       <View style={styles.roundContainer}>
