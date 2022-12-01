@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 import Header from "../components/Header";
 import Service from "../components/Service";
 import Split from "../components/Split";
@@ -29,22 +30,31 @@ function HomeScreen() {
           <View>
             {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>
-            <TextInput
+            <TextInputMask
+              type="money"
+              maxLength={11}
+              options={{
+                precision: 2,
+                separator: ".",
+                delimiter: ",",
+                unit: "$",
+                suffixUnit: "",
+              }}
               value={billTotal}
               onChangeText={setBillTotal}
-              keyboardType="numeric"
-              placeholder={"0.00"}
+              keyboardType="number-pad"
               style={styles.billInput}
             />
             {/* Split check */}
             <Split split={split} setSplit={setSplit} />
-            <Text style={styles.perWithoutTip}>
-              Per Person Without Tip:{" "}
-              <Text style={styles.accentText}>$10.00</Text>
-            </Text>
             {/* Service */}
             <Service service={service} setService={setService} />
-            <Totals />
+            <Totals
+              billTotal={billTotal}
+              split={split}
+              service={service}
+              isRounding={isRounding}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -53,9 +63,6 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  accentText: {
-    color: colors.accent,
-  },
   billInput: {
     height: 100,
     fontSize: 50,
@@ -65,15 +72,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-  },
-  perWithoutTip: {
-    backgroundColor: colors.tertiary,
-    color: colors.white,
-    fontSize: sizes.md,
-    paddingLeft: sizes.sm,
-    paddingVertical: sizes.xs,
-    marginTop: sizes.sm,
-    fontWeight: "bold",
   },
   sectionTitle: {
     fontSize: sizes.flg,

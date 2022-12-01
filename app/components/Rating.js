@@ -16,7 +16,7 @@ function Rating(props) {
         minimumTrackTintColor={colors.accent}
         maximumTrackTintColor={colors.secondary}
         minimumValue={split ? 1 : 0}
-        maximumValue={split ? 5 : 50}
+        maximumValue={split ? 5 : 30}
         onValueChange={(value) =>
           setSplit ? setSplit(value) : setService(value)
         }
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "center",
     marginHorizontal: sizes.sm,
-    marginTop: sizes.sm,
+    marginVertical: sizes.sm,
   },
   thumb: {
     height: 40,
