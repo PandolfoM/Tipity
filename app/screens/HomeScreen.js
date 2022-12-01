@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Keyboard,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -25,6 +26,7 @@ function HomeScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.container}>
+        <StatusBar animated={true} barStyle={"light-content"} />
         <View>
           <Header
             isRounding={isRounding}
