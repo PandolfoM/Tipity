@@ -17,9 +17,6 @@ function Service(props) {
           maxLength={3}
           keyboardType="number-pad"></TextInput>
         <Text style={styles.percent}>%</Text>
-        {service.toString() === "0" && (
-          <Text style={styles.badPerson}>Don't be that guy</Text>
-        )}
       </View>
       <Rating service={service} setService={setService} />
     </View>
