@@ -41,9 +41,10 @@ function Totals(props) {
               })}
         </Text>
       </View>
+      <Text style={styles.totalsCategory}>Per Person:</Text>
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Per Person:</Text>
+          <Text style={styles.totalExtrasHeader}>With Tip:</Text>
           <Text numberOfLines={1} style={styles.totalExtrasPrice}>
             $
             {isRounding
@@ -58,9 +59,7 @@ function Totals(props) {
           </Text>
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>
-            Per Person: <Text style={styles.info}>(w/o Tip)</Text>
-          </Text>
+          <Text style={styles.totalExtrasHeader}>Without Tip:</Text>
           <Text numberOfLines={1} style={styles.totalExtrasPrice}>
             $
             {isRounding
@@ -75,9 +74,10 @@ function Totals(props) {
           </Text>
         </View>
       </View>
+      <Text style={styles.totalsCategory}>Tip:</Text>
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Tip:</Text>
+          <Text style={styles.totalExtrasHeader}>Total:</Text>
           <Text numberOfLines={1} style={styles.totalExtrasPrice}>
             $
             {isRounding
@@ -92,9 +92,7 @@ function Totals(props) {
           </Text>
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>
-            Tip: <Text style={styles.info}>(Per Person)</Text>
-          </Text>
+          <Text style={styles.totalExtrasHeader}>Per Person:</Text>
           <Text numberOfLines={1} style={styles.totalExtrasPrice}>
             $
             {isRounding
@@ -127,6 +125,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
   },
+  totalsCategory: {
+    color: colors.white,
+    fontSize: sizes.flg,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
   totalExtras: {
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
@@ -135,19 +139,20 @@ const styles = StyleSheet.create({
   totalExtrasContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
+    borderTopColor: colors.tertiary,
+    borderRadius: 50,
+    borderTopWidth: 2,
   },
   totalExtrasHeader: {
     color: colors.white,
     fontSize: sizes.fmd,
-    fontWeight: "bold",
+    fontWeight: "500",
   },
   totalExtrasPrice: {
     color: colors.accent,
-    fontWeight: "bold",
+    fontWeight: "500",
     fontSize: sizes.flg,
     width: "100%",
-    height: 70,
-    textAlign: "center",
     alignSelf: "center",
     flexDirection: "row",
   },
