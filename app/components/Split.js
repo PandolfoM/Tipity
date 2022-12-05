@@ -3,19 +3,29 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import Rating from "./Rating";
+import RNPickerSelect from "react-native-picker-select";
 
 function Split(props) {
+  let valuesArr = [];
   const { split, setSplit } = props;
+  for (let i = 1; i < 101; i++) {
+    valuesArr.push({ label: `${i}`, value: `${i}` });
+  }
+
   return (
     <View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Split: </Text>
-        <TextInput
-          style={styles.sectionInput}
-          value={split.toString()}
-          onChangeText={setSplit}
-          maxLength={3}
-          keyboardType="number-pad"></TextInput>
+        <View style={styles.pickerContainer}>
+          <RNPickerSelect
+            onValueChange={(value) =>
+              setSplit(split === null ? "1" : split.toString())
+            }
+            value={split === null ? "1" : split.toString()}
+            style={styles.picker}
+            items={valuesArr}
+          />
+        </View>
       </View>
       <Rating split={split} setSplit={setSplit} />
     </View>
@@ -23,11 +33,23 @@ function Split(props) {
 }
 
 const styles = StyleSheet.create({
+  pickerContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  picker: {
+    inputIOS: {
+      fontSize: sizes.flg,
+      fontWeight: "bold",
+      color: colors.white,
+      alignSelf: "center",
+      width: "100%",
+      paddingRight: 20,
+    },
+  },
   section: {
     flexDirection: "row",
     backgroundColor: colors.secondary,
-    borderTopColor: colors.primary,
-    borderTopWidth: 5,
   },
   sectionInput: {
     fontSize: sizes.flg,
