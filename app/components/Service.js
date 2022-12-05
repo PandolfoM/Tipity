@@ -18,9 +18,7 @@ function Service(props) {
         <Text style={styles.sectionTitle}>Service: </Text>
         <View style={styles.pickerContainer}>
           <RNPickerSelect
-            onValueChange={(value) =>
-              setService(service === null ? "1" : service.toString())
-            }
+            onValueChange={(value) => setService(value === null ? 1 : value)}
             value={service === null ? "1" : service.toString()}
             style={styles.picker}
             items={valuesArr}

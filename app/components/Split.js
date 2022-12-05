@@ -18,9 +18,7 @@ function Split(props) {
         <Text style={styles.sectionTitle}>Split: </Text>
         <View style={styles.pickerContainer}>
           <RNPickerSelect
-            onValueChange={(value) =>
-              setSplit(split === null ? "1" : split.toString())
-            }
+            onValueChange={(value) => setSplit(value === null ? 1 : value)}
             value={split === null ? "1" : split.toString()}
             style={styles.picker}
             items={valuesArr}
