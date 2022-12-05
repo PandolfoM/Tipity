@@ -28,7 +28,10 @@ function Totals(props) {
             />
           </Pressable>
         </View>
-        <Text numberOfLines={1} style={styles.totalTextAccent}>
+        <Text
+          numberOfLines={1}
+          style={styles.totalTextAccent}
+          adjustsFontSizeToFit>
           $
           {isRounding
             ? Math.ceil(TotalWTip).toLocaleString(undefined, {
@@ -45,7 +48,10 @@ function Totals(props) {
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>With Tip:</Text>
-          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+          <Text
+            numberOfLines={1}
+            style={styles.totalExtrasPrice}
+            adjustsFontSizeToFit>
             $
             {isRounding
               ? Math.ceil(TotalWTip / split).toLocaleString(undefined, {
@@ -60,7 +66,10 @@ function Totals(props) {
         </View>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>Without Tip:</Text>
-          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+          <Text
+            numberOfLines={1}
+            style={styles.totalExtrasPrice}
+            adjustsFontSizeToFit>
             $
             {isRounding
               ? Math.ceil(Total / split).toLocaleString(undefined, {
@@ -78,7 +87,10 @@ function Totals(props) {
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>Total:</Text>
-          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+          <Text
+            numberOfLines={1}
+            style={styles.totalExtrasPrice}
+            adjustsFontSizeToFit>
             $
             {isRounding
               ? Math.ceil(Total * TipPercent).toLocaleString(undefined, {
@@ -93,7 +105,10 @@ function Totals(props) {
         </View>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>Per Person:</Text>
-          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+          <Text
+            numberOfLines={1}
+            style={styles.totalExtrasPrice}
+            adjustsFontSizeToFit>
             $
             {isRounding
               ? Math.ceil((Total * TipPercent) / split).toLocaleString(
