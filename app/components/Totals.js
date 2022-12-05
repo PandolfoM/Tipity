@@ -11,7 +11,7 @@ function Totals(props) {
   let TipPercent =
     `${service.toString().length > 1 ? "0." : "0.0"}` + service.toString();
   let Tip = Total * TipPercent;
-  let ToalWTip = parseInt(Total.toString().replace(/\.(.*)/g, "")) + Tip;
+  let TotalWTip = parseInt(Total.toString().replace(/\.(.*)/g, "")) + Tip;
 
   return (
     <View>
@@ -31,11 +31,11 @@ function Totals(props) {
         <Text numberOfLines={1} style={styles.totalTextAccent}>
           $
           {isRounding
-            ? Math.ceil(ToalWTip).toLocaleString(undefined, {
+            ? Math.ceil(TotalWTip).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })
-            : ToalWTip.toLocaleString(undefined, {
+            : TotalWTip.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
@@ -47,11 +47,11 @@ function Totals(props) {
           <Text numberOfLines={1} style={styles.totalExtrasPrice}>
             $
             {isRounding
-              ? Math.ceil(ToalWTip / split).toLocaleString(undefined, {
+              ? Math.ceil(TotalWTip / split).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })
-              : (ToalWTip / split).toLocaleString(undefined, {
+              : (TotalWTip / split).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
