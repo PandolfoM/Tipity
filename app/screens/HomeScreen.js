@@ -60,6 +60,7 @@ function HomeScreen() {
               split={split}
               service={service}
               isRounding={isRounding}
+              setBillTotal={setBillTotal}
             />
           </View>
         </View>
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: colors.accent,
     textAlign: "center",
+    backgroundColor: colors.secondary,
   },
   container: {
     flex: 1,

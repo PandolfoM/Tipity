@@ -16,7 +16,7 @@ function Rating(props) {
         minimumTrackTintColor={colors.accent}
         maximumTrackTintColor={colors.secondary}
         minimumValue={split ? 1 : 0}
-        maximumValue={split ? 5 : 30}
+        maximumValue={split ? 6 : 30}
         onValueChange={(value) =>
           setSplit ? setSplit(value) : setService(value)
         }

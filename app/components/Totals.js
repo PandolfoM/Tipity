@@ -1,10 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
 
 function Totals(props) {
-  const { billTotal, split, service, isRounding } = props;
+  const { billTotal, split, service, isRounding, setBillTotal } = props;
   let Total = billTotal.toString().replaceAll(/[,$]/g, "");
   let TipPercent =
     `${service.toString().length > 1 ? "0." : "0.0"}` + service.toString();
@@ -14,10 +16,19 @@ function Totals(props) {
   return (
     <View>
       <View style={styles.total}>
-        <Text style={styles.totalText}>Total With Tip: </Text>
-        <Text
-          numberOfLines={1}
-          style={[styles.totalText, styles.totalTextAccent]}>
+        <View style={styles.totalText}>
+          <Text style={styles.totalTextSub}>Total:</Text>
+          <Pressable
+            style={styles.totalTextSub}
+            onPress={() => setBillTotal(0)}>
+            <FontAwesomeIcon
+              style={styles.totalTextSub}
+              icon={faRotateLeft}
+              size={sizes.flg}
+            />
+          </Pressable>
+        </View>
+        <Text numberOfLines={1} style={styles.totalTextAccent}>
           $
           {isRounding
             ? Math.ceil(ToalWTip).toLocaleString(undefined, {
@@ -30,68 +41,76 @@ function Totals(props) {
               })}
         </Text>
       </View>
-      <View style={styles.totalExtras}>
-        <Text style={styles.totalExtrasHeader}>Per Person:</Text>
-        <Text numberOfLines={1} style={styles.totalExtrasPrice}>
-          $
-          {isRounding
-            ? Math.ceil(ToalWTip / split).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
-            : (ToalWTip / split).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
-      </View>
-      <View style={styles.totalExtras}>
-        <Text style={styles.totalExtrasHeader}>Per Person (No Tip):</Text>
-        <Text numberOfLines={1} style={styles.totalExtrasPrice}>
-          $
-          {isRounding
-            ? Math.ceil(Total / split).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
-            : (Total / split).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
-      </View>
-      <View style={styles.totalExtras}>
-        <Text style={styles.totalExtrasHeader}>Total Tip:</Text>
-        <Text numberOfLines={1} style={styles.totalExtrasPrice}>
-          $
-          {isRounding
-            ? Math.ceil(Total * TipPercent).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
-            : (Total * TipPercent).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
-      </View>
-      <View style={styles.totalExtras}>
-        <Text style={styles.totalExtrasHeader}>Tip Per Person:</Text>
-        <Text numberOfLines={1} style={styles.totalExtrasPrice}>
-          $
-          {isRounding
-            ? Math.ceil((Total * TipPercent) / split).toLocaleString(
-                undefined,
-                {
+      <View style={styles.totalExtrasContainer}>
+        <View style={styles.totalExtras}>
+          <Text style={styles.totalExtrasHeader}>Per Person:</Text>
+          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+            $
+            {isRounding
+              ? Math.ceil(ToalWTip / split).toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                }
-              )
-            : ((Total * TipPercent) / split).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
+                })
+              : (ToalWTip / split).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+          </Text>
+        </View>
+        <View style={styles.totalExtras}>
+          <Text style={styles.totalExtrasHeader}>
+            Per Person: <Text style={styles.info}>(w/o Tip)</Text>
+          </Text>
+          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+            $
+            {isRounding
+              ? Math.ceil(Total / split).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : (Total / split).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.totalExtrasContainer}>
+        <View style={styles.totalExtras}>
+          <Text style={styles.totalExtrasHeader}>Tip:</Text>
+          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+            $
+            {isRounding
+              ? Math.ceil(Total * TipPercent).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : (Total * TipPercent).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+          </Text>
+        </View>
+        <View style={styles.totalExtras}>
+          <Text style={styles.totalExtrasHeader}>
+            Tip: <Text style={styles.info}>(Per Person)</Text>
+          </Text>
+          <Text numberOfLines={1} style={styles.totalExtrasPrice}>
+            $
+            {isRounding
+              ? Math.ceil((Total * TipPercent) / split).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )
+              : ((Total * TipPercent) / split).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -100,6 +119,9 @@ function Totals(props) {
 export default Totals;
 
 const styles = StyleSheet.create({
+  info: {
+    fontSize: sizes.fsm,
+  },
   total: {
     backgroundColor: colors.tertiary,
     paddingHorizontal: sizes.sm,
@@ -108,8 +130,11 @@ const styles = StyleSheet.create({
   totalExtras: {
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
+    width: "50%",
+  },
+  totalExtrasContainer: {
+    flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   totalExtrasHeader: {
     color: colors.white,
@@ -119,16 +144,16 @@ const styles = StyleSheet.create({
   totalExtrasPrice: {
     color: colors.accent,
     fontWeight: "bold",
-    fontSize: sizes.fmd,
-    // backgroundColor: "dodgerblue",
-    maxWidth: 150,
-    width: 150,
-    textAlign: "right",
+    fontSize: sizes.flg,
+    width: "100%",
+    height: 70,
+    textAlign: "center",
+    alignSelf: "center",
+    flexDirection: "row",
   },
   totalText: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: colors.white,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   totalTextAccent: {
     fontWeight: "bold",
@@ -136,5 +161,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 80,
+  },
+  totalTextSub: {
+    fontSize: sizes.flg,
+    fontWeight: "bold",
+    color: colors.white,
+    alignSelf: "center",
   },
 });

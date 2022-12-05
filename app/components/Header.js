@@ -8,9 +8,9 @@ function Header(props) {
 
   return (
     <View style={styles.header}>
-      <Text style={styles.clearButton} onPress={() => setBillTotal(0)}>
+      {/* <Text style={styles.clearButton} onPress={() => setBillTotal(0)}>
         Clear
-      </Text>
+      </Text> */}
       <View style={styles.roundContainer}>
         <Switch
           value={isRounding}

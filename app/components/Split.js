@@ -26,6 +26,8 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: "row",
     backgroundColor: colors.secondary,
+    borderTopColor: colors.primary,
+    borderTopWidth: 5,
   },
   sectionInput: {
     fontSize: sizes.flg,
