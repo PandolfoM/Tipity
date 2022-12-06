@@ -168,10 +168,8 @@ const styles = StyleSheet.create({
   totalExtrasPrice: {
     color: colors.accent,
     fontWeight: "500",
-    fontSize: sizes.flg,
-    width: "100%",
-    alignSelf: "center",
-    flexDirection: "row",
+    fontSize: sizes.fxl,
+    textAlign: "center",
   },
   totalText: {
     flexDirection: "row",

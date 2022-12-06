@@ -9,7 +9,7 @@ function Split(props) {
   let valuesArr = [];
   const { split, setSplit } = props;
   for (let i = 1; i < 101; i++) {
-    valuesArr.push({ label: `${i}`, value: `${i}` });
+    valuesArr.push({ label: `${i}`, value: `${i}`, color: "white" });
   }
 
   return (
@@ -39,10 +39,17 @@ const styles = StyleSheet.create({
     inputIOS: {
       fontSize: sizes.flg,
       fontWeight: "bold",
-      color: colors.white,
+      color: colors.accent,
       alignSelf: "center",
       width: "100%",
       paddingRight: 20,
+    },
+    modalViewMiddle: {
+      backgroundColor: colors.secondary,
+      borderTopWidth: 0,
+    },
+    modalViewBottom: {
+      backgroundColor: colors.primary,
     },
   },
   section: {
