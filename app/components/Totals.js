@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   },
   total: {
     backgroundColor: colors.tertiary,
+    height: 150,
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
   },
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: sizes.fmd,
     fontWeight: "500",
+    textAlign: "center",
   },
   totalExtrasPrice: {
     color: colors.accent,
