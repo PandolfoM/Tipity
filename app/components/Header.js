@@ -8,12 +8,10 @@ function Header(props) {
 
   return (
     <View style={styles.header}>
-      {/* <Text style={styles.clearButton} onPress={() => setBillTotal(0)}>
-        Clear
-      </Text> */}
       <View style={styles.roundContainer}>
         <Switch
           value={isRounding}
+          style={styles.switch}
           trackColor={{ false: colors.secondary, true: colors.accent }}
           onValueChange={() => setIsRounding(!isRounding)}
         />
@@ -34,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: sizes.sm,
-    marginBottom: sizes.sm,
+    marginBottom: sizes.xs,
   },
   roundContainer: {
     flexDirection: "row",
@@ -42,8 +40,11 @@ const styles = StyleSheet.create({
   },
   roundText: {
     color: colors.white,
-    fontSize: sizes.fmd,
+    fontSize: sizes.fsm,
     paddingLeft: sizes.sm,
+  },
+  switch: {
+    transform: [{ scale: 0.8 }],
   },
 });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -131,13 +131,14 @@ function Totals(props) {
 
 export default Totals;
 
+const height = Dimensions.get("screen").height;
 const styles = StyleSheet.create({
   info: {
     fontSize: sizes.fsm,
   },
   total: {
     backgroundColor: colors.tertiary,
-    height: 150,
+    height: height <= 667 ? 100 : 150,
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
   },
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 80,
+    fontSize: height <= 667 ? 50 : 80,
   },
   totalTextSub: {
     fontSize: sizes.flg,

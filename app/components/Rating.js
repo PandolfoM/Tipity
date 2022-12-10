@@ -1,6 +1,6 @@
 import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import colors from "../config/colors.js";
 import sizes from "../config/sizes.js";
 
@@ -28,20 +28,21 @@ function Rating(props) {
   );
 }
 
+const height = Dimensions.get("screen").height;
 const styles = StyleSheet.create({
   container: {
     alignItems: "stretch",
     justifyContent: "center",
     marginHorizontal: sizes.sm,
-    marginVertical: sizes.sm,
+    marginVertical: height <= 667 ? sizes.xxs : sizes.sm,
   },
   thumb: {
-    height: 40,
-    width: 40,
+    height: height <= 667 ? 20 : 40,
+    width: height <= 667 ? 20 : 40,
     borderRadius: "100%",
   },
   track: {
-    height: 15,
+    height: height <= 667 ? 10 : 15,
     borderRadius: "100%",
   },
 });
