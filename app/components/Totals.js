@@ -132,13 +132,32 @@ function Totals(props) {
 export default Totals;
 
 const height = Dimensions.get("screen").height;
+let totalHeight;
+let totalFont;
+
+if (height <= 667) {
+  totalHeight = 100;
+} else if (height >= 1194) {
+  totalHeight = 300;
+} else {
+  totalHeight = 150;
+}
+
+if (height <= 667) {
+  totalFont = 50;
+} else if (height >= 1194) {
+  totalFont = 180;
+} else {
+  totalFont = 80;
+}
+
 const styles = StyleSheet.create({
   info: {
     fontSize: sizes.fsm,
   },
   total: {
     backgroundColor: colors.tertiary,
-    height: height <= 667 ? 100 : 150,
+    height: totalHeight,
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
   },
@@ -162,14 +181,14 @@ const styles = StyleSheet.create({
   },
   totalExtrasHeader: {
     color: colors.white,
-    fontSize: sizes.fmd,
+    fontSize: height >= 1194 ? sizes.fxl : sizes.fmd,
     fontWeight: "500",
     textAlign: "center",
   },
   totalExtrasPrice: {
     color: colors.accent,
     fontWeight: "500",
-    fontSize: sizes.fxl,
+    fontSize: height >= 1194 ? sizes.fxxl : sizes.fxl,
     textAlign: "center",
   },
   totalText: {
@@ -181,7 +200,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: height <= 667 ? 50 : 80,
+    fontSize: totalFont,
   },
   totalTextSub: {
     fontSize: sizes.flg,

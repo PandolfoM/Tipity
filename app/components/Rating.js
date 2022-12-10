@@ -29,20 +29,48 @@ function Rating(props) {
 }
 
 const height = Dimensions.get("screen").height;
+let thumbSize;
+let trackSize;
+let marginSize;
+
+if (height <= 667) {
+  thumbSize = 20;
+} else if (height >= 1194) {
+  thumbSize = 60;
+} else {
+  thumbSize = 40;
+}
+
+if (height <= 667) {
+  trackSize = 10;
+} else if (height >= 1194) {
+  trackSize = 25;
+} else {
+  trackSize = 15;
+}
+
+if (height <= 667) {
+  marginSize = sizes.xxs;
+} else if (height >= 1194) {
+  marginSize = sizes.lg;
+} else {
+  marginSize = sizes.sm;
+}
+
 const styles = StyleSheet.create({
   container: {
     alignItems: "stretch",
     justifyContent: "center",
     marginHorizontal: sizes.sm,
-    marginVertical: height <= 667 ? sizes.xxs : sizes.sm,
+    marginVertical: marginSize,
   },
   thumb: {
-    height: height <= 667 ? 20 : 40,
-    width: height <= 667 ? 20 : 40,
+    height: thumbSize,
+    width: thumbSize,
     borderRadius: "100%",
   },
   track: {
-    height: height <= 667 ? 10 : 15,
+    height: trackSize,
     borderRadius: "100%",
   },
 });

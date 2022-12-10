@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Dimensions,
   Keyboard,
   SafeAreaView,
   StatusBar,
@@ -68,10 +69,12 @@ function HomeScreen() {
   );
 }
 
+const height = Dimensions.get("screen").height;
+
 const styles = StyleSheet.create({
   billInput: {
     height: 100,
-    fontSize: 50,
+    fontSize: height >= 1194 ? 100 : 50,
     color: colors.accent,
     textAlign: "center",
     backgroundColor: colors.secondary,
