@@ -17,7 +17,9 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pandolfom.TipCalculator",
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +30,11 @@
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
-    "description": "Simple restaurant gratitude calculator"
+    "description": "Simple restaurant gratitude calculator",
+    "extra": {
+      "eas": {
+        "projectId": "d79858d0-0229-4946-85f5-bf810d3d7df9"
+      }
+    }
   }
 }
