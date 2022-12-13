@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import Rating from "./Rating";
-import RNPickerSelect from "react-native-picker-select";
 
 function Split(props) {
   let valuesArr = [];
@@ -16,14 +15,14 @@ function Split(props) {
     <View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Split: </Text>
-        <View style={styles.pickerContainer}>
-          <RNPickerSelect
-            onValueChange={(value) => setSplit(value === null ? 1 : value)}
-            value={split === null ? "1" : split.toString()}
-            style={styles.picker}
-            items={valuesArr}
-          />
-        </View>
+        <TextInput
+          maxLength={3}
+          onFocus={() => setSplit("")}
+          onChangeText={(value) => setSplit(value)}
+          keyboardType="number-pad"
+          value={split === null ? "1" : split.toString()}
+          style={styles.numberInput}
+        />
       </View>
       <Rating split={split} setSplit={setSplit} />
     </View>
@@ -31,6 +30,12 @@ function Split(props) {
 }
 
 const styles = StyleSheet.create({
+  numberInput: {
+    fontSize: sizes.flg,
+    fontWeight: "bold",
+    color: colors.accent,
+    alignSelf: "center",
+  },
   pickerContainer: {
     flexDirection: "column",
     justifyContent: "center",

@@ -8,8 +8,16 @@ import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
 function Totals(props) {
   const { billTotal, split, service, isRounding, setBillTotal } = props;
   let Total = billTotal.toString().replace(/[,$]/g, "");
-  let TipPercent =
-    `${service.toString().length > 1 ? "0." : "0.0"}` + service.toString();
+  let TipPercent;
+
+  if (service.toString() === "100") {
+    TipPercent = "2";
+  } else if (service.toString().length > 1) {
+    TipPercent = "0." + service.toString();
+  } else {
+    TipPercent = "0.0" + service.toString();
+  }
+
   let Tip = Total * TipPercent;
   let TotalWTip = parseInt(Total.toString().replace(/\.(.*)/g, "")) + Tip;
 

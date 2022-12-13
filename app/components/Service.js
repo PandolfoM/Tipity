@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import Rating from "./Rating";
-import RNPickerSelect from "react-native-picker-select";
 
 function Service(props) {
   let valuesArr = [];
@@ -16,14 +15,14 @@ function Service(props) {
     <View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Service: </Text>
-        <View style={styles.pickerContainer}>
-          <RNPickerSelect
-            onValueChange={(value) => setService(value === null ? 1 : value)}
-            value={service === null ? "1" : service.toString()}
-            style={styles.picker}
-            items={valuesArr}
-          />
-        </View>
+        <TextInput
+          maxLength={3}
+          onFocus={() => setService("")}
+          onChangeText={(value) => setService(value > 100 ? 100 : value)}
+          keyboardType="number-pad"
+          value={service === null ? "1" : service.toString()}
+          style={styles.numberInput}
+        />
         <Text style={styles.percent}>%</Text>
       </View>
       <Rating service={service} setService={setService} />
@@ -32,13 +31,11 @@ function Service(props) {
 }
 
 const styles = StyleSheet.create({
-  badPerson: {
-    color: "red",
-    textAlign: "right",
+  numberInput: {
+    fontSize: sizes.flg,
+    fontWeight: "bold",
+    color: colors.accent,
     alignSelf: "center",
-    paddingRight: sizes.sm,
-    flex: 1,
-    fontSize: sizes.fmd,
   },
   pickerContainer: {
     flexDirection: "column",
