@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Tip Calculator",
+    "slug": "Tip-Calculator",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "owner": "pandolfom",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#16161d"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pandolfom.TipCalculator",
+      "buildNumber": "4"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/adaptive-icon.png",
+        "backgroundColor": "#16161d"
+      }
+    },
+    "web": {
+      "favicon": "./app/assets/favicon.png"
+    },
+    "description": "Simple restaurant gratitude calculator",
+    "extra": {
+      "eas": {
+        "projectId": "d79858d0-0229-4946-85f5-bf810d3d7df9"
+      }
+    }
+  }
+}

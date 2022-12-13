@@ -1,22 +1,15 @@
-# tip-calculator
-Mobile calculator to calculate tips at restaurants.
+# Tipity
+
+Tipity is an easily accessible app to calculate your tip and split a bill in seconds.
 
 ## Built With
-* JavaScript
-* HTML
-* CSS
-* Bootstrap
-  
-## Website
-[Deployed Site](https://pandolfom.github.io/tip-calculator/)
 
-## Site Preview
-![Preview](https://i.imgur.com/a4rBRaG.png)
+- Expo
 
-## Contribution
-<a href="https://github.com/pandolfom/tip-calculator/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=pandolfom/tip-calculator" />
-</a>
+## App
 
-## License
-[MIT](./LICENSE)
+[View on App Store](https://apps.apple.com/us/app/tipity-tip-calculator/id6444921554)
+
+## App Preview
+
+![Preview](./preview.png)
