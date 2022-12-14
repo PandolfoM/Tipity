@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Keyboard,
@@ -16,12 +16,34 @@ import Split from "../components/Split";
 import Totals from "../components/Totals";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getData } from "../utils";
 
 function HomeScreen() {
   const [isRounding, setIsRounding] = useState(false);
   const [billTotal, setBillTotal] = useState(0);
   const [split, setSplit] = useState(1);
   const [service, setService] = useState(15);
+
+  const storeData = async (splitAmt, serviceAmt) => {
+    try {
+      await AsyncStorage.setItem("splitAmt", splitAmt.toString());
+      await AsyncStorage.setItem("serviceAmt", serviceAmt.toString());
+    } catch (e) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getData().then((value) => {
+      setSplit(value[0]);
+      setService(value[1]);
+    });
+  }, []);
+
+  useEffect(() => {
+    storeData(split, service);
+  }, [split, service]);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

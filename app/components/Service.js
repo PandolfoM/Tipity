@@ -18,9 +18,10 @@ function Service(props) {
         <TextInput
           maxLength={3}
           onFocus={() => setService("")}
+          onEndEditing={() => !service && setService("15")}
           onChangeText={(value) => setService(value > 100 ? 100 : value)}
           keyboardType="number-pad"
-          value={service === null ? "1" : service.toString()}
+          value={service.toString()}
           style={styles.numberInput}
         />
         <Text style={styles.percent}>%</Text>

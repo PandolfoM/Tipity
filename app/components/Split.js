@@ -18,9 +18,10 @@ function Split(props) {
         <TextInput
           maxLength={3}
           onFocus={() => setSplit("")}
+          onEndEditing={() => !split && setSplit("1")}
           onChangeText={(value) => setSplit(value)}
           keyboardType="number-pad"
-          value={split === null ? "1" : split.toString()}
+          value={split.toString()}
           style={styles.numberInput}
         />
       </View>
