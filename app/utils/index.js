@@ -5,9 +5,10 @@ export const getData = async () => {
     let values = [];
     const splitAmt = await AsyncStorage.getItem("splitAmt");
     const serviceAmt = await AsyncStorage.getItem("serviceAmt");
-    values.push(splitAmt, serviceAmt);
+    const rounding = await AsyncStorage.getItem("rounding");
+    values.push(splitAmt, serviceAmt, rounding);
     return values;
   } catch (e) {
-    console.log(e);
+    return;
   }
 };

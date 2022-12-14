@@ -25,10 +25,11 @@ function HomeScreen() {
   const [split, setSplit] = useState(1);
   const [service, setService] = useState(15);
 
-  const storeData = async (splitAmt, serviceAmt) => {
+  const storeData = async (splitAmt, serviceAmt, rounding) => {
     try {
       await AsyncStorage.setItem("splitAmt", splitAmt.toString());
       await AsyncStorage.setItem("serviceAmt", serviceAmt.toString());
+      await AsyncStorage.setItem("rounding", rounding.toString());
     } catch (e) {
       return;
     }
@@ -38,12 +39,13 @@ function HomeScreen() {
     getData().then((value) => {
       setSplit(value[0]);
       setService(value[1]);
+      setIsRounding(value[2] === "true" ? true : false);
     });
   }, []);
 
   useEffect(() => {
-    storeData(split, service);
-  }, [split, service]);
+    storeData(split, service, isRounding);
+  }, [split, service, isRounding]);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
