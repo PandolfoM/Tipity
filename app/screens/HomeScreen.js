@@ -26,25 +26,31 @@ function HomeScreen() {
   const [service, setService] = useState(15);
 
   const storeData = async (splitAmt, serviceAmt, rounding) => {
+    console.log(serviceAmt);
     try {
       await AsyncStorage.setItem("splitAmt", splitAmt.toString());
       await AsyncStorage.setItem("serviceAmt", serviceAmt.toString());
       await AsyncStorage.setItem("rounding", rounding.toString());
     } catch (e) {
-      return;
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    getData().then((value) => {
-      setSplit(value[0]);
-      setService(value[1]);
-      setIsRounding(value[2] === "true" ? true : false);
-    });
+    getData()
+      .then((value) => {
+        setSplit(value[0] | 1);
+        setService(value[1] | 15);
+        setIsRounding(value[2] === "true" ? true : false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   useEffect(() => {
     storeData(split, service, isRounding);
+    console.log(service);
   }, [split, service, isRounding]);
 
   return (
