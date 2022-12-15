@@ -26,7 +26,6 @@ function HomeScreen() {
   const [service, setService] = useState(15);
 
   const storeData = async (splitAmt, serviceAmt, rounding) => {
-    console.log(serviceAmt);
     try {
       await AsyncStorage.setItem("splitAmt", splitAmt.toString());
       await AsyncStorage.setItem("serviceAmt", serviceAmt.toString());
@@ -39,8 +38,8 @@ function HomeScreen() {
   useEffect(() => {
     getData()
       .then((value) => {
-        setSplit(value[0] | 1);
-        setService(value[1] | 15);
+        setSplit(value[0] || 1);
+        setService(value[1] || 15);
         setIsRounding(value[2] === "true" ? true : false);
       })
       .catch((e) => {
@@ -50,7 +49,6 @@ function HomeScreen() {
 
   useEffect(() => {
     storeData(split, service, isRounding);
-    console.log(service);
   }, [split, service, isRounding]);
 
   return (
@@ -67,6 +65,8 @@ function HomeScreen() {
             {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>
             <TextInputMask
+              autoComplete={false}
+              autoCapitalize={false}
               type="money"
               maxLength={11}
               options={{
