@@ -18,8 +18,8 @@ function Totals(props) {
     TipPercent = "0.0" + service.toString();
   }
 
-  let Tip = Total * TipPercent;
-  let TotalWTip = parseInt(Total.toString().replace(/\.(.*)/g, "")) + Tip;
+  let Tip = parseFloat(Total * TipPercent);
+  let TotalWTip = Tip + parseFloat(Total);
 
   return (
     <View>
