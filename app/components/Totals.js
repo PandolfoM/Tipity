@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import FixedText from "./FixedText";
@@ -27,15 +27,15 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
       <View style={styles.total}>
         <View style={styles.totalText}>
           <Text style={styles.totalTextSub}>Total:</Text>
-          <Pressable
-            style={[styles.totalTextSub, { padding: 5 }]}
+          <TouchableOpacity
+            style={[styles.totalTextSub]}
             onPress={() => setBillTotal(0)}>
             <MaterialCommunityIcons
               style={styles.totalTextSub}
               name="undo"
               size={sizes.flg}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <FixedText number={TotalWTip} isRounding={isRounding} />
       </View>
