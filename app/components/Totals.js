@@ -1,11 +1,11 @@
 import React from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import colors from "../config/colors";
-import sizes from "../config/sizes";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import FixedText from "./FixedText";
 import Text from "./Text";
+import colors from "../config/colors";
+import sizes from "../config/sizes";
 
 function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
   let Total = billTotal.toString().replace(/[,$]/g, "");
@@ -28,11 +28,11 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
         <View style={styles.totalText}>
           <Text style={styles.totalTextSub}>Total:</Text>
           <Pressable
-            style={styles.totalTextSub}
+            style={[styles.totalTextSub, { padding: 5 }]}
             onPress={() => setBillTotal(0)}>
-            <FontAwesomeIcon
+            <MaterialCommunityIcons
               style={styles.totalTextSub}
-              icon={faRotateLeft}
+              name="undo"
               size={sizes.flg}
             />
           </Pressable>
