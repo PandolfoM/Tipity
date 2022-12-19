@@ -7,7 +7,6 @@ const height = Dimensions.get("screen").height;
 export default {
   colors,
   text: {
-    color: colors.white,
     fontSize: height >= 1194 ? sizes.fxl : sizes.fmd,
     fontWeight: "500",
     textAlign: "center",

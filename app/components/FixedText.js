@@ -1,6 +1,7 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text } from "react-native";
+import { Dimensions, StyleSheet, Text, useColorScheme } from "react-native";
 import colors from "../config/colors";
+import useDarkMode from "../hooks/useDarkMode";
 
 const height = Dimensions.get("screen").height;
 let totalFont;
@@ -13,9 +14,12 @@ if (height <= 667) {
 }
 
 function FixedText({ number = 0, isRounding, style }) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = useDarkMode(colorScheme);
+
   return (
     <Text
-      style={[styles.container, style]}
+      style={[styles.container, { color: isDarkMode.accent }, style]}
       adjustsFontSizeToFit
       numberOfLines={1}>
       $
@@ -35,7 +39,6 @@ function FixedText({ number = 0, isRounding, style }) {
 const styles = StyleSheet.create({
   container: {
     fontWeight: "bold",
-    color: colors.accent,
     textAlign: "center",
     fontWeight: "bold",
     fontSize: totalFont,

@@ -1,20 +1,22 @@
 import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-import colors from "../config/colors.js";
+import { Dimensions, StyleSheet, useColorScheme, View } from "react-native";
 import sizes from "../config/sizes.js";
+import useDarkMode from "../hooks/useDarkMode.js";
 
 function Rating(props) {
   const { split, setSplit, service, setService } = props;
+  const colorScheme = useColorScheme();
+  const isDarkMode = useDarkMode(colorScheme);
 
   return (
     <View style={styles.container}>
       <Slider
         value={split ? split : service}
         step={1}
-        thumbTintColor={colors.accent}
-        minimumTrackTintColor={colors.accent}
-        maximumTrackTintColor={colors.secondary}
+        thumbTintColor={isDarkMode.accent}
+        minimumTrackTintColor={isDarkMode.accent}
+        maximumTrackTintColor={isDarkMode.secondary}
         minimumValue={split ? 1 : 0}
         maximumValue={split ? 6 : 30}
         onValueChange={(value) =>

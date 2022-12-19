@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -9,17 +10,21 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { useColorScheme } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
+
 import Header from "../components/Header";
 import Service from "../components/Service";
 import Split from "../components/Split";
 import Totals from "../components/Totals";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getData } from "../utils";
+import useDarkMode from "../hooks/useDarkMode";
 
 function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = useDarkMode(colorScheme);
   const [isRounding, setIsRounding] = useState(false);
   const [billTotal, setBillTotal] = useState(0);
   const [split, setSplit] = useState(1);
@@ -53,7 +58,8 @@ function HomeScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: isDarkMode.primary }]}>
         <StatusBar animated={true} barStyle={"light-content"} />
         <View>
           <Header
@@ -63,7 +69,13 @@ function HomeScreen() {
           />
           <View>
             {/* Bill Total */}
-            <Text style={styles.sectionTitle}>Bill Total:</Text>
+            <Text
+              style={[
+                styles.sectionTitle,
+                { backgroundColor: isDarkMode.secondary },
+              ]}>
+              Bill Total:
+            </Text>
             <TextInputMask
               autoComplete={false}
               autoCapitalize={false}
@@ -80,7 +92,13 @@ function HomeScreen() {
               onPressIn={() => setBillTotal("")}
               onChangeText={setBillTotal}
               keyboardType="number-pad"
-              style={styles.billInput}
+              style={[
+                styles.billInput,
+                {
+                  backgroundColor: isDarkMode.secondary,
+                  color: isDarkMode.accent,
+                },
+              ]}
             />
             {/* Split check */}
             <Split split={split} setSplit={setSplit} />
@@ -106,19 +124,15 @@ const styles = StyleSheet.create({
   billInput: {
     height: 100,
     fontSize: height >= 1194 ? 100 : 50,
-    color: colors.accent,
     textAlign: "center",
-    backgroundColor: colors.secondary,
   },
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
   },
   sectionTitle: {
     fontSize: sizes.flg,
     fontWeight: "bold",
     color: "white",
-    backgroundColor: colors.secondary,
     paddingLeft: sizes.sm,
     paddingVertical: sizes.xs,
   },

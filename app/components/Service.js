@@ -1,10 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import colors from "../config/colors";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  useColorScheme,
+  View,
+} from "react-native";
 import sizes from "../config/sizes";
+import useDarkMode from "../hooks/useDarkMode";
 import Rating from "./Rating";
 
 function Service(props) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = useDarkMode(colorScheme);
   let valuesArr = [];
   const { service, setService } = props;
   for (let i = 1; i < 101; i++) {
@@ -13,8 +21,14 @@ function Service(props) {
 
   return (
     <View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Service: </Text>
+      <View style={[styles.section, { backgroundColor: isDarkMode.secondary }]}>
+        <Text
+          style={[
+            styles.sectionTitle,
+            { backgroundColor: isDarkMode.secondary },
+          ]}>
+          Service:{" "}
+        </Text>
         <TextInput
           maxLength={3}
           onFocus={() => setService("")}
@@ -22,9 +36,9 @@ function Service(props) {
           onChangeText={(value) => setService(value > 100 ? 100 : value)}
           keyboardType="number-pad"
           value={service.toString()}
-          style={styles.numberInput}
+          style={[styles.numberInput, { color: isDarkMode.accent }]}
         />
-        <Text style={styles.percent}>%</Text>
+        <Text style={[styles.percent, { color: isDarkMode.accent }]}>%</Text>
       </View>
       <Rating service={service} setService={setService} />
     </View>
@@ -35,39 +49,16 @@ const styles = StyleSheet.create({
   numberInput: {
     fontSize: sizes.flg,
     fontWeight: "bold",
-    color: colors.accent,
     alignSelf: "center",
-  },
-  pickerContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  picker: {
-    inputIOS: {
-      fontSize: sizes.flg,
-      fontWeight: "bold",
-      color: colors.accent,
-      alignSelf: "center",
-      width: "100%",
-    },
-    modalViewMiddle: {
-      backgroundColor: colors.secondary,
-      borderTopWidth: 0,
-    },
-    modalViewBottom: {
-      backgroundColor: colors.primary,
-    },
   },
   section: {
     flexDirection: "row",
-    backgroundColor: colors.secondary,
   },
   percent: {
     fontSize: sizes.flg,
     fontWeight: "bold",
     color: "white",
     alignSelf: "center",
-    color: colors.accent,
   },
   sectionInput: {
     fontSize: sizes.flg,
@@ -79,7 +70,6 @@ const styles = StyleSheet.create({
     fontSize: sizes.flg,
     fontWeight: "bold",
     color: "white",
-    backgroundColor: colors.secondary,
     paddingLeft: sizes.sm,
     paddingVertical: sizes.xs,
   },

@@ -1,13 +1,22 @@
 import React from "react";
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import FixedText from "./FixedText";
 import Text from "./Text";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
+import useDarkMode from "../hooks/useDarkMode";
 
 function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = useDarkMode(colorScheme);
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
 
@@ -24,14 +33,16 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
 
   return (
     <View>
-      <View style={styles.total}>
+      <View style={[styles.total, { backgroundColor: isDarkMode.tertiary }]}>
         <View style={styles.totalText}>
-          <Text style={styles.totalTextSub}>Total:</Text>
+          <Text style={[styles.totalTextSub, { color: isDarkMode.white }]}>
+            Total:
+          </Text>
           <TouchableOpacity
-            style={[styles.totalTextSub]}
+            style={[styles.totalTextSub, { color: isDarkMode.white }]}
             onPress={() => setBillTotal(0)}>
             <MaterialCommunityIcons
-              style={styles.totalTextSub}
+              style={[styles.totalTextSub, { color: isDarkMode.white }]}
               name="undo"
               size={sizes.flg}
             />
@@ -39,10 +50,18 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
         </View>
         <FixedText number={TotalWTip} isRounding={isRounding} />
       </View>
-      <Text style={styles.totalsCategory}>Per Person:</Text>
-      <View style={styles.totalExtrasContainer}>
+      <Text style={[styles.totalsCategory, { color: isDarkMode.white }]}>
+        Per Person:
+      </Text>
+      <View
+        style={[
+          styles.totalExtrasContainer,
+          { borderTopColor: isDarkMode.tertiary },
+        ]}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>With Tip:</Text>
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            With Tip:
+          </Text>
           <FixedText
             number={TotalWTip / split}
             isRounding={isRounding}
@@ -50,7 +69,9 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
           />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>WithoutTip:</Text>
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Without Tip:
+          </Text>
           <FixedText
             style={styles.totalExtrasPrice}
             number={Total / split}
@@ -58,10 +79,18 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
           />
         </View>
       </View>
-      <Text style={styles.totalsCategory}>Tip:</Text>
-      <View style={styles.totalExtrasContainer}>
+      <Text style={[styles.totalsCategory, { color: isDarkMode.white }]}>
+        Tip:
+      </Text>
+      <View
+        style={[
+          styles.totalExtrasContainer,
+          { borderTopColor: isDarkMode.tertiary },
+        ]}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Total:</Text>
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Total:
+          </Text>
           <FixedText
             style={styles.totalExtrasPrice}
             number={Total * TipPercent}
@@ -69,7 +98,9 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
           />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Per Person:</Text>
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Per Person:
+          </Text>
           <FixedText
             style={styles.totalExtrasPrice}
             number={(Total * TipPercent) / split}
@@ -99,13 +130,11 @@ const styles = StyleSheet.create({
     fontSize: sizes.fsm,
   },
   total: {
-    backgroundColor: colors.tertiary,
     height: totalHeight,
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
   },
   totalsCategory: {
-    color: colors.white,
     fontSize: sizes.flg,
     fontWeight: "bold",
     alignSelf: "center",
@@ -118,12 +147,10 @@ const styles = StyleSheet.create({
   totalExtrasContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
-    borderTopColor: colors.tertiary,
     borderRadius: 50,
     borderTopWidth: 2,
   },
   totalExtrasHeader: {
-    color: colors.white,
     fontSize: height >= 1194 ? sizes.fxl : sizes.fmd,
     fontWeight: "500",
     textAlign: "center",
@@ -139,7 +166,6 @@ const styles = StyleSheet.create({
   totalTextSub: {
     fontSize: sizes.flg,
     fontWeight: "bold",
-    color: colors.white,
     alignSelf: "center",
   },
 });
