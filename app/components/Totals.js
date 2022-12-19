@@ -1,9 +1,11 @@
 import React from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
+import FixedText from "./FixedText";
+import Text from "./Text";
 
 function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
   let Total = billTotal.toString().replace(/[,$]/g, "");
@@ -25,6 +27,7 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
       <View style={styles.total}>
         <View style={styles.totalText}>
           <Text style={styles.totalTextSub}>Total:</Text>
+          {/* <Text style={styles.totalTextSub}>Total:</Text> */}
           <Pressable
             style={styles.totalTextSub}
             onPress={() => setBillTotal(0)}>
@@ -35,101 +38,44 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
             />
           </Pressable>
         </View>
-        <Text
-          numberOfLines={1}
-          style={styles.totalTextAccent}
-          adjustsFontSizeToFit>
-          $
-          {isRounding
-            ? Math.ceil(TotalWTip).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
-            : TotalWTip.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
+        <FixedText number={TotalWTip} isRounding={isRounding} />
       </View>
       <Text style={styles.totalsCategory}>Per Person:</Text>
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>With Tip:</Text>
-          <Text
-            numberOfLines={1}
+          <FixedText
+            number={TotalWTip / split}
+            isRounding={isRounding}
             style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(TotalWTip / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (TotalWTip / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-          </Text>
+          />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Without Tip:</Text>
-          <Text
-            numberOfLines={1}
+          <Text style={styles.totalExtrasHeader}>WithoutTip:</Text>
+          <FixedText
             style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(Total / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (Total / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-          </Text>
+            number={Total / split}
+            isRounding={isRounding}
+          />
         </View>
       </View>
       <Text style={styles.totalsCategory}>Tip:</Text>
       <View style={styles.totalExtrasContainer}>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>Total:</Text>
-          <Text
-            numberOfLines={1}
+          <FixedText
             style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(Total * TipPercent).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (Total * TipPercent).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-          </Text>
+            number={Total * TipPercent}
+            isRounding={isRounding}
+          />
         </View>
         <View style={styles.totalExtras}>
           <Text style={styles.totalExtrasHeader}>Per Person:</Text>
-          <Text
-            numberOfLines={1}
+          <FixedText
             style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil((Total * TipPercent) / split).toLocaleString(
-                  undefined,
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                )
-              : ((Total * TipPercent) / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-          </Text>
+            number={(Total * TipPercent) / split}
+            isRounding={isRounding}
+          />
         </View>
       </View>
     </View>
@@ -140,7 +86,6 @@ export default Totals;
 
 const height = Dimensions.get("screen").height;
 let totalHeight;
-let totalFont;
 
 if (height <= 667) {
   totalHeight = 100;
@@ -148,14 +93,6 @@ if (height <= 667) {
   totalHeight = 300;
 } else {
   totalHeight = 150;
-}
-
-if (height <= 667) {
-  totalFont = 50;
-} else if (height >= 1194) {
-  totalFont = 180;
-} else {
-  totalFont = 80;
 }
 
 const styles = StyleSheet.create({
@@ -193,21 +130,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   totalExtrasPrice: {
-    color: colors.accent,
     fontWeight: "500",
     fontSize: height >= 1194 ? sizes.fxxl : sizes.fxl,
-    textAlign: "center",
   },
   totalText: {
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-  totalTextAccent: {
-    fontWeight: "bold",
-    color: colors.accent,
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: totalFont,
   },
   totalTextSub: {
     fontSize: sizes.flg,
