@@ -27,7 +27,6 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
       <View style={styles.total}>
         <View style={styles.totalText}>
           <Text style={styles.totalTextSub}>Total:</Text>
-          {/* <Text style={styles.totalTextSub}>Total:</Text> */}
           <Pressable
             style={styles.totalTextSub}
             onPress={() => setBillTotal(0)}>
