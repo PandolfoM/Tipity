@@ -77,6 +77,7 @@ function HomeScreen() {
                 suffixUnit: "",
               }}
               value={billTotal}
+              onPressIn={() => setBillTotal("")}
               onChangeText={setBillTotal}
               keyboardType="number-pad"
               style={styles.billInput}

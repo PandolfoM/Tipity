@@ -5,8 +5,7 @@ import sizes from "../config/sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
 
-function Totals(props) {
-  const { billTotal, split, service, isRounding, setBillTotal } = props;
+function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
 
@@ -19,7 +18,7 @@ function Totals(props) {
   }
 
   let Tip = parseFloat(Total * TipPercent);
-  let TotalWTip = Tip + parseFloat(Total);
+  let TotalWTip = Tip + parseFloat(!Total ? "0" : Total);
 
   return (
     <View>
