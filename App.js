@@ -15,7 +15,6 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        await AsyncStorage.clear();
         const value = await storage.getData("darkMode");
         setDarkMode(value === null ? "auto" : value);
       } catch (error) {
