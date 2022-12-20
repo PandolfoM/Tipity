@@ -4,6 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import HomeScreen from "./app/screens/HomeScreen";
 import DarkContext from "./app/utils/context";
 import storage from "./app/utils/storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,8 +15,9 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
+        await AsyncStorage.clear();
         const value = await storage.getData("darkMode");
-        setDarkMode(value);
+        setDarkMode(value === null ? "auto" : value);
       } catch (error) {
         console.log(error);
       } finally {
