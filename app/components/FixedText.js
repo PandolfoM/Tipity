@@ -1,6 +1,5 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, useColorScheme } from "react-native";
-import colors from "../config/colors";
+import { Dimensions, StyleSheet, Text } from "react-native";
 import useDarkMode from "../hooks/useDarkMode";
 
 const height = Dimensions.get("screen").height;
@@ -14,8 +13,7 @@ if (height <= 667) {
 }
 
 function FixedText({ number = 0, isRounding, style }) {
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+  const isDarkMode = useDarkMode();
 
   return (
     <Text

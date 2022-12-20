@@ -1,13 +1,11 @@
 import { Slider } from "@miblanchard/react-native-slider";
 import React from "react";
-import { Dimensions, StyleSheet, useColorScheme, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import sizes from "../config/sizes.js";
 import useDarkMode from "../hooks/useDarkMode.js";
 
-function Rating(props) {
-  const { split, setSplit, service, setService } = props;
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+function Rating({ split, setSplit, service, setService }) {
+  const isDarkMode = useDarkMode();
 
   return (
     <View style={styles.container}>

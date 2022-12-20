@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import sizes from "../config/sizes";
 import useDarkMode from "../hooks/useDarkMode";
 import Rating from "./Rating";
 
 function Service(props) {
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+  const isDarkMode = useDarkMode();
   let valuesArr = [];
   const { service, setService } = props;
   for (let i = 1; i < 101; i++) {

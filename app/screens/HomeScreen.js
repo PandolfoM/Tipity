@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -10,54 +9,53 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useColorScheme } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 
 import Header from "../components/Header";
 import Service from "../components/Service";
 import Split from "../components/Split";
 import Totals from "../components/Totals";
-import colors from "../config/colors";
 import sizes from "../config/sizes";
-import { getData } from "../utils";
+import storage from "../utils/storage";
 import useDarkMode from "../hooks/useDarkMode";
 
-function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+function HomeScreen({ ...otherProps }) {
+  const isDarkMode = useDarkMode();
   const [isRounding, setIsRounding] = useState(false);
   const [billTotal, setBillTotal] = useState(0);
   const [split, setSplit] = useState(1);
   const [service, setService] = useState(15);
+  const data = ["split", "service", "rounding"];
 
-  const storeData = async (splitAmt, serviceAmt, rounding) => {
-    try {
-      await AsyncStorage.setItem("splitAmt", splitAmt.toString());
-      await AsyncStorage.setItem("serviceAmt", serviceAmt.toString());
-      await AsyncStorage.setItem("rounding", rounding.toString());
-    } catch (e) {
-      console.log(e);
-    }
+  let arr = [];
+  const getData = async (item) => {
+    const value = await storage.getData(item);
+    arr.push(value);
+    setSplit(arr[0] || 1);
+    setService(arr[1] || 15);
+    setIsRounding(arr[2] || false);
   };
 
   useEffect(() => {
-    getData()
-      .then((value) => {
-        setSplit(value[0] || 1);
-        setService(value[1] || 15);
-        setIsRounding(value[2] === "true" ? true : false);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    data.map((i) => getData(i));
   }, []);
 
   useEffect(() => {
-    storeData(split, service, isRounding);
-  }, [split, service, isRounding]);
+    storage.storeData("split", split);
+  }, [split]);
+
+  useEffect(() => {
+    storage.storeData("rounding", isRounding);
+  }, [isRounding]);
+
+  useEffect(() => {
+    storage.storeData("service", service);
+  }, [service]);
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      {...otherProps}>
       <SafeAreaView
         style={[styles.container, { backgroundColor: isDarkMode.primary }]}>
         <StatusBar animated={true} barStyle={"light-content"} />

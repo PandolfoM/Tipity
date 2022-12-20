@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-} from "react-native";
+import React from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import useDarkMode from "../hooks/useDarkMode";
 import Text from "./Text";
 
-function RadioButton({ name, appearance, setAppearance }) {
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+function RadioButton({ name, darkMode, setDarkMode }) {
+  const isDarkMode = useDarkMode();
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: isDarkMode.white }}>{name}</Text>
       <TouchableOpacity
-        style={[styles.outer, { borderColor: isDarkMode.accent }]}
-        onPress={() => setAppearance(name)}>
-        {appearance === name && (
-          <View
-            style={[styles.options, { backgroundColor: isDarkMode.accent }]}
-          />
-        )}
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+        onPress={() => setDarkMode(name)}>
+        <Text style={[styles.text, { color: isDarkMode.white }]}>{name}</Text>
+        <View style={[styles.outer, { borderColor: isDarkMode.accent }]}>
+          {darkMode === name && (
+            <View
+              style={[styles.options, { backgroundColor: isDarkMode.accent }]}
+            />
+          )}
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
     height: 15,
     margin: 10,
     borderRadius: 10,
+  },
+  text: {
+    textTransform: "capitalize",
   },
 });
 

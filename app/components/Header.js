@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
-  FlatList,
   Modal,
   SectionList,
   StyleSheet,
   Switch,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -18,13 +16,18 @@ import useDarkMode from "../hooks/useDarkMode";
 import Screen from "./Screen";
 import AppText from "./Text";
 import RadioButton from "./RadioButton";
+import storage from "../utils/storage";
+import DarkContext from "../utils/context";
 
-function Header({ isRounding, setIsRounding, setBillTotal }) {
+function Header({ isRounding, setIsRounding }) {
+  const { darkMode, setDarkMode } = useContext(DarkContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [appearance, setAppearance] = useState("Auto");
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
-  const data = [{ title: "Appearance", data: ["Auto", "Dark", "Light"] }];
+  const isDarkMode = useDarkMode();
+  const data = [{ title: "Appearance", data: ["auto", "dark", "light"] }];
+
+  useEffect(() => {
+    storage.storeData("darkMode", darkMode);
+  }, [darkMode]);
 
   return (
     <>
@@ -56,19 +59,23 @@ function Header({ isRounding, setIsRounding, setBillTotal }) {
           style={{
             backgroundColor: isDarkMode.primary,
           }}>
-          <Button
-            title="Close"
+          <TouchableOpacity
             onPress={() => setModalVisible(false)}
-            color={isDarkMode.accent}
-          />
+            style={{ alignSelf: "flex-end", margin: 15 }}>
+            <MaterialCommunityIcons
+              name="close"
+              size={sizes.fxl}
+              color={isDarkMode.white}
+            />
+          </TouchableOpacity>
           <SectionList
             sections={data}
             keyExtractor={(item, i) => item + i}
             renderItem={({ item }) => (
               <RadioButton
                 name={item}
-                appearance={appearance}
-                setAppearance={setAppearance}
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
               />
             )}
             renderSectionHeader={({ section: { title } }) => (

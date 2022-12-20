@@ -1,22 +1,14 @@
 import React from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import FixedText from "./FixedText";
 import Text from "./Text";
-import colors from "../config/colors";
 import sizes from "../config/sizes";
 import useDarkMode from "../hooks/useDarkMode";
 
 function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
-  const colorScheme = useColorScheme();
-  const isDarkMode = useDarkMode(colorScheme);
+  const isDarkMode = useDarkMode();
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
 
