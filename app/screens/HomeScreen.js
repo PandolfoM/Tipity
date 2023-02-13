@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
   Keyboard,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
+  useWindowDimensions,
   View,
 } from "react-native";
 
@@ -26,6 +26,8 @@ function HomeScreen({ ...otherProps }) {
   const [split, setSplit] = useState(1);
   const [service, setService] = useState(15);
   const data = ["split", "service", "rounding"];
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   let arr = [];
   const getData = async (item) => {
@@ -93,7 +95,6 @@ function HomeScreen({ ...otherProps }) {
               prefix="$"
               delimiter=","
               separator="."
-              onPressIn={() => setBillTotal(0)}
             />
             {/* Split check */}
             <Split split={split} setSplit={setSplit} />
@@ -113,24 +114,24 @@ function HomeScreen({ ...otherProps }) {
   );
 }
 
-const height = Dimensions.get("screen").height;
-
-const styles = StyleSheet.create({
-  billInput: {
-    height: 100,
-    fontSize: height >= 1194 ? 100 : 50,
-    textAlign: "center",
-  },
-  container: {
-    flex: 1,
-  },
-  sectionTitle: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    paddingLeft: sizes.sm,
-    paddingVertical: sizes.xs,
-  },
-});
+const makeStyles = (fontScale) =>
+  StyleSheet.create({
+    billInput: {
+      height: 100,
+      fontSize: 60 / fontScale,
+      textAlign: "center",
+      fontWeight: "500",
+    },
+    container: {
+      flex: 1,
+    },
+    sectionTitle: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      color: "white",
+      paddingLeft: sizes.sm,
+      paddingVertical: sizes.xs,
+    },
+  });
 
 export default HomeScreen;

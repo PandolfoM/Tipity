@@ -1,13 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import sizes from "../config/sizes";
 import useDarkMode from "../hooks/useDarkMode";
 import Rating from "./Rating";
 
-function Service(props) {
+function Service({ service, setService }) {
   const isDarkMode = useDarkMode();
   let valuesArr = [];
-  const { service, setService } = props;
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
   for (let i = 1; i < 101; i++) {
     valuesArr.push({ label: `${i}`, value: `${i}`, color: "white" });
   }
@@ -38,34 +45,29 @@ function Service(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  numberInput: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-  section: {
-    flexDirection: "row",
-  },
-  percent: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    alignSelf: "center",
-  },
-  sectionInput: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
-  },
-  sectionTitle: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    paddingLeft: sizes.sm,
-    paddingVertical: sizes.xs,
-  },
-});
+const makeStyles = (fontScale) =>
+  StyleSheet.create({
+    numberInput: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      alignSelf: "center",
+    },
+    section: {
+      flexDirection: "row",
+    },
+    percent: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      color: "white",
+      alignSelf: "center",
+    },
+    sectionTitle: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      color: "white",
+      paddingLeft: sizes.sm,
+      paddingVertical: sizes.xs,
+    },
+  });
 
 export default Service;

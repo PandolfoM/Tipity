@@ -1,5 +1,10 @@
 import React from "react";
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import FixedText from "./FixedText";
@@ -11,6 +16,8 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
   const isDarkMode = useDarkMode();
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   if (service.toString() === "100") {
     TipPercent = "2";
@@ -106,58 +113,45 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
 
 export default Totals;
 
-const height = Dimensions.get("screen").height;
-let totalHeight;
-
-if (height <= 667) {
-  totalHeight = 100;
-} else if (height >= 1194) {
-  totalHeight = 300;
-} else {
-  totalHeight = 150;
-}
-
-const styles = StyleSheet.create({
-  info: {
-    fontSize: sizes.fsm,
-  },
-  total: {
-    height: totalHeight,
-    paddingHorizontal: sizes.sm,
-    paddingVertical: sizes.xs,
-  },
-  totalsCategory: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-  totalExtras: {
-    paddingHorizontal: sizes.sm,
-    paddingVertical: sizes.xs,
-    width: "50%",
-  },
-  totalExtrasContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    borderRadius: 50,
-    borderTopWidth: 2,
-  },
-  totalExtrasHeader: {
-    fontSize: height >= 1194 ? sizes.fxl : sizes.fmd,
-    fontWeight: "500",
-    textAlign: "center",
-  },
-  totalExtrasPrice: {
-    fontWeight: "500",
-    fontSize: height >= 1194 ? sizes.fxxl : sizes.fxl,
-  },
-  totalText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  totalTextSub: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-});
+const makeStyles = (fontScale) =>
+  StyleSheet.create({
+    total: {
+      paddingHorizontal: sizes.sm,
+      justifyContent: "center",
+    },
+    totalsCategory: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      alignSelf: "center",
+      paddingVertical: 5 / fontScale,
+    },
+    totalExtras: {
+      paddingHorizontal: sizes.sm,
+      paddingVertical: sizes.xs,
+      width: "50%",
+    },
+    totalExtrasContainer: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      borderRadius: 50,
+      borderTopWidth: 2,
+    },
+    totalExtrasHeader: {
+      fontSize: 20 / fontScale,
+      fontWeight: "500",
+      textAlign: "center",
+    },
+    totalExtrasPrice: {
+      fontWeight: "500",
+      fontSize: 35 / fontScale,
+    },
+    totalText: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    totalTextSub: {
+      fontSize: 35 / fontScale,
+      fontWeight: "bold",
+      alignSelf: "center",
+    },
+  });
