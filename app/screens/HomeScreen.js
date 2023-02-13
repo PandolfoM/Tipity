@@ -29,7 +29,7 @@ function HomeScreen() {
         <StatusBar animated={true} barStyle={"light-content"} />
         <View>
           <Header isRounding={isRounding} setIsRounding={setIsRounding} />
-          <View>
+          <View style={styles.mainContainer}>
             {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>
             <FakeCurrencyInput
@@ -76,6 +76,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
+  mainContainer: {
+    height: "97%",
+    overflow: "hidden",
+  },
   sectionTitle: {
     fontSize: sizes.flg,
     fontWeight: "bold",
@@ -83,6 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     paddingLeft: sizes.sm,
     paddingVertical: sizes.xs,
+    height: "5%",
   },
 });
 
