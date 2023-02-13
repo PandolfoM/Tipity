@@ -20,7 +20,7 @@
     "expo-updates": "~0.15.6",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-masked-text": "^1.13.0",
+    "react-native-currency-input": "^1.1.0",
     "react-native-svg": "^13.4.0"
   },
   "devDependencies": {

@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
 
 import Header from "../components/Header";
 import Service from "../components/Service";
@@ -18,6 +17,7 @@ import Totals from "../components/Totals";
 import sizes from "../config/sizes";
 import storage from "../utils/storage";
 import useDarkMode from "../hooks/useDarkMode";
+import { FakeCurrencyInput } from "react-native-currency-input";
 
 function HomeScreen({ ...otherProps }) {
   const isDarkMode = useDarkMode();
@@ -74,21 +74,13 @@ function HomeScreen({ ...otherProps }) {
               ]}>
               Bill Total:
             </Text>
-            <TextInputMask
+            <FakeCurrencyInput
               autoComplete={false}
               autoCapitalize={false}
-              type="money"
-              maxLength={11}
-              options={{
-                precision: 2,
-                separator: ".",
-                delimiter: ",",
-                unit: "$",
-                suffixUnit: "",
-              }}
               value={billTotal}
-              onPressIn={() => setBillTotal("")}
-              onChangeText={setBillTotal}
+              onChangeValue={(formattedValue) => {
+                setBillTotal(!formattedValue ? 0 : formattedValue);
+              }}
               keyboardType="number-pad"
               style={[
                 styles.billInput,
@@ -97,6 +89,11 @@ function HomeScreen({ ...otherProps }) {
                   color: isDarkMode.accent,
                 },
               ]}
+              maxLength={11}
+              prefix="$"
+              delimiter=","
+              separator="."
+              onPressIn={() => setBillTotal(0)}
             />
             {/* Split check */}
             <Split split={split} setSplit={setSplit} />
