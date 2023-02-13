@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Tip Calculator",
+    "name": "Tipity",
     "slug": "Tip-Calculator",
-    "version": "1.0.1",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pandolfom.TipCalculator",
-      "buildNumber": "4"
+      "buildNumber": "9"
     },
     "android": {
       "adaptiveIcon": {

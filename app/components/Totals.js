@@ -1,21 +1,23 @@
 import React from "react";
 import {
-  Dimensions,
-  Pressable,
-  SafeAreaView,
   StyleSheet,
-  Text,
+  TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
-import colors from "../config/colors";
-import sizes from "../config/sizes";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faRotateLeft } from "@fortawesome/free-solid-svg-icons/faRotateLeft";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function Totals(props) {
-  const { billTotal, split, service, isRounding, setBillTotal } = props;
+import FixedText from "./FixedText";
+import Text from "./Text";
+import sizes from "../config/sizes";
+import useDarkMode from "../hooks/useDarkMode";
+
+function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
+  const isDarkMode = useDarkMode();
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   if (service.toString() === "100") {
     TipPercent = "2";
@@ -25,119 +27,84 @@ function Totals(props) {
     TipPercent = "0.0" + service.toString();
   }
 
-  let Tip = Total * TipPercent;
-  let TotalWTip = parseInt(Total.toString().replace(/\.(.*)/g, "")) + Tip;
+  let Tip = parseFloat(Total * TipPercent);
+  let TotalWTip = Tip + parseFloat(!Total ? "0" : Total);
 
   return (
     <View>
-      <View style={styles.total}>
+      <View style={[styles.total, { backgroundColor: isDarkMode.tertiary }]}>
         <View style={styles.totalText}>
-          <Text style={styles.totalTextSub}>Total:</Text>
-          <Pressable
-            style={styles.totalTextSub}
+          <Text style={[styles.totalTextSub, { color: isDarkMode.white }]}>
+            Total:
+          </Text>
+          <TouchableOpacity
+            style={[styles.totalTextSub, { color: isDarkMode.white }]}
             onPress={() => setBillTotal(0)}>
-            <FontAwesomeIcon
-              style={styles.totalTextSub}
-              icon={faRotateLeft}
+            <MaterialCommunityIcons
+              style={[styles.totalTextSub, { color: isDarkMode.white }]}
+              name="undo"
               size={sizes.flg}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
-        <Text
-          numberOfLines={1}
-          style={styles.totalTextAccent}
-          adjustsFontSizeToFit>
-          $
-          {isRounding
-            ? Math.ceil(TotalWTip).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })
-            : TotalWTip.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-        </Text>
+        <FixedText number={TotalWTip} isRounding={isRounding} />
       </View>
-      <Text style={styles.totalsCategory}>Per Person:</Text>
-      <View style={styles.totalExtrasContainer}>
+      <Text style={[styles.totalsCategory, { color: isDarkMode.white }]}>
+        Per Person:
+      </Text>
+      <View
+        style={[
+          styles.totalExtrasContainer,
+          { borderTopColor: isDarkMode.tertiary },
+        ]}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>With Tip:</Text>
-          <Text
-            numberOfLines={1}
-            style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(TotalWTip / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (TotalWTip / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            With Tip:
           </Text>
+          <FixedText
+            number={TotalWTip / split}
+            isRounding={isRounding}
+            style={styles.totalExtrasPrice}
+          />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Without Tip:</Text>
-          <Text
-            numberOfLines={1}
-            style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(Total / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (Total / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Without Tip:
           </Text>
+          <FixedText
+            style={styles.totalExtrasPrice}
+            number={Total / split}
+            isRounding={isRounding}
+          />
         </View>
       </View>
-      <Text style={styles.totalsCategory}>Tip:</Text>
-      <View style={styles.totalExtrasContainer}>
+      <Text style={[styles.totalsCategory, { color: isDarkMode.white }]}>
+        Tip:
+      </Text>
+      <View
+        style={[
+          styles.totalExtrasContainer,
+          { borderTopColor: isDarkMode.tertiary },
+        ]}>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Total:</Text>
-          <Text
-            numberOfLines={1}
-            style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil(Total * TipPercent).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : (Total * TipPercent).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Total:
           </Text>
+          <FixedText
+            style={styles.totalExtrasPrice}
+            number={Total * TipPercent}
+            isRounding={isRounding}
+          />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={styles.totalExtrasHeader}>Per Person:</Text>
-          <Text
-            numberOfLines={1}
-            style={styles.totalExtrasPrice}
-            adjustsFontSizeToFit>
-            $
-            {isRounding
-              ? Math.ceil((Total * TipPercent) / split).toLocaleString(
-                  undefined,
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                )
-              : ((Total * TipPercent) / split).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+          <Text style={[styles.totalExtrasHeader, { color: isDarkMode.white }]}>
+            Per Person:
           </Text>
+          <FixedText
+            style={styles.totalExtrasPrice}
+            number={(Total * TipPercent) / split}
+            isRounding={isRounding}
+          />
         </View>
       </View>
     </View>
@@ -146,81 +113,45 @@ function Totals(props) {
 
 export default Totals;
 
-const height = Dimensions.get("screen").height;
-console.log(height);
-let totalHeight;
-let totalFont;
-
-if (height <= 667) {
-  totalHeight = 100;
-} else if (height >= 1194) {
-  totalHeight = 300;
-} else {
-  totalHeight = 150;
-}
-
-if (height <= 667) {
-  totalFont = 50;
-} else if (height >= 1194) {
-  totalFont = 180;
-} else {
-  totalFont = 80;
-}
-
-const styles = StyleSheet.create({
-  total: {
-    backgroundColor: colors.tertiary,
-    height: totalHeight,
-    paddingHorizontal: sizes.sm,
-    paddingVertical: sizes.xs,
-    overflow: "hidden",
-  },
-  totalsCategory: {
-    color: colors.white,
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-  totalExtras: {
-    paddingHorizontal: sizes.sm,
-    paddingVertical: sizes.xs,
-    width: "50%",
-  },
-  totalExtrasContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    borderTopColor: colors.tertiary,
-    borderRadius: 50,
-    borderTopWidth: 2,
-  },
-  totalExtrasHeader: {
-    color: colors.white,
-    fontSize: height >= 1194 ? sizes.fxl : sizes.fmd,
-    fontWeight: "500",
-    textAlign: "center",
-  },
-  totalExtrasPrice: {
-    color: colors.accent,
-    fontWeight: "500",
-    fontSize: height >= 1194 ? sizes.fxxl : sizes.fxl,
-    textAlign: "center",
-  },
-  totalText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  totalTextAccent: {
-    fontWeight: "bold",
-    color: colors.accent,
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: totalFont,
-    paddingBottom: "10%",
-  },
-  totalTextSub: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: colors.white,
-    alignSelf: "center",
-  },
-});
+const makeStyles = (fontScale) =>
+  StyleSheet.create({
+    total: {
+      paddingHorizontal: sizes.sm,
+      justifyContent: "center",
+    },
+    totalsCategory: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      alignSelf: "center",
+      paddingVertical: 5 / fontScale,
+    },
+    totalExtras: {
+      paddingHorizontal: sizes.sm,
+      paddingVertical: sizes.xs,
+      width: "50%",
+    },
+    totalExtrasContainer: {
+      flexWrap: "wrap",
+      flexDirection: "row",
+      borderRadius: 50,
+      borderTopWidth: 2,
+    },
+    totalExtrasHeader: {
+      fontSize: 20 / fontScale,
+      fontWeight: "500",
+      textAlign: "center",
+    },
+    totalExtrasPrice: {
+      fontWeight: "500",
+      fontSize: 35 / fontScale,
+    },
+    totalText: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    totalTextSub: {
+      fontSize: 35 / fontScale,
+      fontWeight: "bold",
+      alignSelf: "center",
+    },
+  });

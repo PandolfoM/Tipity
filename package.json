@@ -11,13 +11,11 @@
     "build": "eas build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.1",
-    "@fortawesome/free-brands-svg-icons": "^6.2.1",
-    "@fortawesome/free-regular-svg-icons": "^6.2.1",
-    "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@miblanchard/react-native-slider": "^2.1.0",
+    "@react-native-async-storage/async-storage": "~1.17.3",
     "expo": "~47.0.8",
+    "expo-constants": "~14.0.2",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-updates": "~0.15.6",
     "react": "18.1.0",

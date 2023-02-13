@@ -1,27 +1,42 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import colors from "../config/colors";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import sizes from "../config/sizes";
+import useDarkMode from "../hooks/useDarkMode";
 import Rating from "./Rating";
 
-function Split(props) {
+function Split({ split, setSplit }) {
+  const isDarkMode = useDarkMode();
   let valuesArr = [];
-  const { split, setSplit } = props;
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
   for (let i = 1; i < 101; i++) {
     valuesArr.push({ label: `${i}`, value: `${i}`, color: "white" });
   }
 
   return (
     <View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Split: </Text>
+      <View style={[styles.section, { backgroundColor: isDarkMode.secondary }]}>
+        <Text
+          style={[
+            styles.sectionTitle,
+            { backgroundColor: isDarkMode.secondary },
+          ]}>
+          Split:{" "}
+        </Text>
         <TextInput
           maxLength={3}
           onFocus={() => setSplit("")}
+          onEndEditing={() => !split && setSplit("1")}
           onChangeText={(value) => setSplit(value)}
           keyboardType="number-pad"
-          value={split === null ? "1" : split.toString()}
-          style={styles.numberInput}
+          value={split.toString()}
+          style={[styles.numberInput, { color: isDarkMode.accent }]}
         />
       </View>
       <Rating split={split} setSplit={setSplit} />
@@ -29,52 +44,27 @@ function Split(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  numberInput: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: colors.accent,
-    alignSelf: "center",
-  },
-  pickerContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  picker: {
-    inputIOS: {
-      fontSize: sizes.flg,
+const makeStyles = (fontScale) =>
+  StyleSheet.create({
+    numberInput: {
+      fontSize: 25 / fontScale,
       fontWeight: "bold",
-      color: colors.accent,
       alignSelf: "center",
-      width: "100%",
-      paddingRight: 20,
     },
-    modalViewMiddle: {
-      backgroundColor: colors.secondary,
-      borderTopWidth: 0,
+    pickerContainer: {
+      flexDirection: "column",
+      justifyContent: "center",
     },
-    modalViewBottom: {
-      backgroundColor: colors.primary,
+    section: {
+      flexDirection: "row",
     },
-  },
-  section: {
-    flexDirection: "row",
-    backgroundColor: colors.secondary,
-  },
-  sectionInput: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
-  },
-  sectionTitle: {
-    fontSize: sizes.flg,
-    fontWeight: "bold",
-    color: "white",
-    backgroundColor: colors.secondary,
-    paddingLeft: sizes.sm,
-    paddingVertical: sizes.xs,
-  },
-});
+    sectionTitle: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+      color: "white",
+      paddingLeft: sizes.sm,
+      paddingVertical: sizes.xs,
+    },
+  });
 
 export default Split;
