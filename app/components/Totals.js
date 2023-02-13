@@ -1,5 +1,12 @@
 import React from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -140,6 +147,7 @@ function Totals(props) {
 export default Totals;
 
 const height = Dimensions.get("screen").height;
+console.log(height);
 let totalHeight;
 let totalFont;
 
@@ -160,14 +168,12 @@ if (height <= 667) {
 }
 
 const styles = StyleSheet.create({
-  info: {
-    fontSize: sizes.fsm,
-  },
   total: {
     backgroundColor: colors.tertiary,
     height: totalHeight,
     paddingHorizontal: sizes.sm,
     paddingVertical: sizes.xs,
+    overflow: "hidden",
   },
   totalsCategory: {
     color: colors.white,
@@ -209,6 +215,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: totalFont,
+    paddingBottom: "10%",
   },
   totalTextSub: {
     fontSize: sizes.flg,

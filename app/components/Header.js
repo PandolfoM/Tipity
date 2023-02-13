@@ -4,7 +4,7 @@ import colors from "../config/colors";
 import sizes from "../config/sizes";
 
 function Header(props) {
-  const { isRounding, setIsRounding, setBillTotal } = props;
+  const { isRounding, setIsRounding } = props;
 
   return (
     <View style={styles.header}>

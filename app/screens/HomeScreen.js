@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
+import { FakeCurrencyInput } from "react-native-currency-input";
 import Header from "../components/Header";
 import Service from "../components/Service";
 import Split from "../components/Split";
@@ -19,7 +19,7 @@ import sizes from "../config/sizes";
 
 function HomeScreen() {
   const [isRounding, setIsRounding] = useState(false);
-  const [billTotal, setBillTotal] = useState(0);
+  const [billTotal, setBillTotal] = useState(0.0);
   const [split, setSplit] = useState(1);
   const [service, setService] = useState(15);
 
@@ -28,28 +28,21 @@ function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <StatusBar animated={true} barStyle={"light-content"} />
         <View>
-          <Header
-            isRounding={isRounding}
-            setIsRounding={setIsRounding}
-            setBillTotal={setBillTotal}
-          />
+          <Header isRounding={isRounding} setIsRounding={setIsRounding} />
           <View>
             {/* Bill Total */}
             <Text style={styles.sectionTitle}>Bill Total:</Text>
-            <TextInputMask
-              type="money"
-              maxLength={11}
-              options={{
-                precision: 2,
-                separator: ".",
-                delimiter: ",",
-                unit: "$",
-                suffixUnit: "",
-              }}
+            <FakeCurrencyInput
               value={billTotal}
-              onChangeText={setBillTotal}
+              onChangeValue={(formattedValue) => {
+                setBillTotal(!formattedValue ? 0 : formattedValue);
+              }}
               keyboardType="number-pad"
               style={styles.billInput}
+              maxLength={11}
+              prefix="$"
+              delimiter=","
+              separator="."
             />
             {/* Split check */}
             <Split split={split} setSplit={setSplit} />

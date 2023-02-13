@@ -5,8 +5,8 @@ import sizes from "../config/sizes";
 import Rating from "./Rating";
 
 function Service(props) {
-  let valuesArr = [];
   const { service, setService } = props;
+  let valuesArr = [];
   for (let i = 1; i < 101; i++) {
     valuesArr.push({ label: `${i}`, value: `${i}`, color: "white" });
   }

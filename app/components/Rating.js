@@ -38,15 +38,15 @@ if (height <= 667) {
 } else if (height >= 1194) {
   thumbSize = 60;
 } else {
-  thumbSize = 40;
+  thumbSize = 30;
 }
 
 if (height <= 667) {
-  trackSize = 10;
+  trackSize = 8;
 } else if (height >= 1194) {
-  trackSize = 25;
-} else {
   trackSize = 15;
+} else {
+  trackSize = 10;
 }
 
 if (height <= 667) {
