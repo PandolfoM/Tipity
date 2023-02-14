@@ -16,8 +16,8 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
   const isDarkMode = useDarkMode();
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent;
-  const { fontScale } = useWindowDimensions();
-  const styles = makeStyles(fontScale);
+  const { fontScale, scale } = useWindowDimensions();
+  const styles = makeStyles(fontScale, scale);
 
   if (service.toString() === "100") {
     TipPercent = "2";
@@ -47,7 +47,11 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
             />
           </TouchableOpacity>
         </View>
-        <FixedText number={TotalWTip} isRounding={isRounding} />
+        <FixedText
+          number={TotalWTip}
+          isRounding={isRounding}
+          style={styles.totalCalculated}
+        />
       </View>
       <Text style={[styles.totalsCategory, { color: isDarkMode.white }]}>
         Per Person:
@@ -113,11 +117,20 @@ function Totals({ billTotal, split, service, isRounding, setBillTotal }) {
 
 export default Totals;
 
-const makeStyles = (fontScale) =>
+const makeStyles = (fontScale, scale) =>
   StyleSheet.create({
     total: {
-      paddingHorizontal: sizes.sm,
+      height: 400 / scale,
       justifyContent: "center",
+      position: "relative",
+    },
+    totalCalculated: {
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      justifyContent: "center",
+      alignSelf: "center",
     },
     totalsCategory: {
       fontSize: 25 / fontScale,
@@ -148,6 +161,10 @@ const makeStyles = (fontScale) =>
     totalText: {
       flexDirection: "row",
       justifyContent: "space-between",
+      position: "absolute",
+      width: "100%",
+      top: 0,
+      paddingHorizontal: sizes.sm,
     },
     totalTextSub: {
       fontSize: 35 / fontScale,
