@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.0.0"
+    "version": ">= 16.2.1",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -10,15 +11,11 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "autoIncrement": true
+    }
   },
   "submit": {
-    "production": {
-      "ios": {
-        "appleId": "matt@pandolfo.com",
-        "ascAppId": "6444921554",
-        "appleTeamId": "GA927JBMYY"
-      }
-    }
+    "production": {}
   }
 }
