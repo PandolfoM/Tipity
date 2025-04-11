@@ -13,12 +13,8 @@ import Slider from "./Slider";
 
 function Split() {
   const { split, setSplit } = useApp();
-  let valuesArr = [];
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
-  for (let i = 1; i < 101; i++) {
-    valuesArr.push({ label: `${i}`, value: `${i}`, color: "white" });
-  }
 
   const backgroundColor = useThemeColor({}, "secondary");
   const accentColor = useThemeColor({}, "accent");
