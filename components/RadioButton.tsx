@@ -10,6 +10,7 @@ import {
 import { Text } from "./ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useApp } from "@/context/AppContext";
+import storage from "@/utils/storage";
 
 type RadioButtonProps = {
   name: "auto" | "dark" | "light";
@@ -24,6 +25,7 @@ function RadioButton({ name }: RadioButtonProps) {
 
     setThemeColor(name);
     Appearance.setColorScheme(color as ColorSchemeName);
+    storage.storeData("darkMode", color);
   };
 
   return (

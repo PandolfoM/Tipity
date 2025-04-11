@@ -6,7 +6,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { useColorScheme } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 
 interface AppContextProps {
   isRounding: boolean;
@@ -38,8 +38,11 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     async function prepare() {
       try {
-        // const value = await storage.getData("darkMode");
-        // setThemeColor(value === null ? "auto" : value);
+        let value = await storage.getData("darkMode");
+        console.log(value);
+
+        Appearance.setColorScheme(value);
+        setThemeColor(value == null ? "auto" : value);
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +50,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
     prepare();
   }, []);
-
   return (
     <AppContext.Provider
       value={{ isRounding, setIsRounding, themeColor, setThemeColor }}>
