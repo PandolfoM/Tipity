@@ -1,16 +1,20 @@
 import storage from "@/utils/storage";
+import { SplashScreen } from "expo-router";
 import React, {
   createContext,
   useState,
   ReactNode,
   useContext,
   useEffect,
+  useCallback,
 } from "react";
-import { Appearance, useColorScheme } from "react-native";
+import { Appearance, useColorScheme, View } from "react-native";
 
 interface AppContextProps {
   isRounding: boolean;
   setIsRounding: React.Dispatch<React.SetStateAction<boolean>>;
+  split: number | undefined;
+  setSplit: React.Dispatch<React.SetStateAction<number | undefined>>;
   themeColor: "auto" | "dark" | "light";
   setThemeColor: React.Dispatch<
     React.SetStateAction<"auto" | "dark" | "light">
@@ -28,9 +32,9 @@ function useApp(): AppContextProps {
 }
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
-  const colorScheme = useColorScheme();
-
+  const [isReady, setIsReady] = useState<boolean>(false);
   const [isRounding, setIsRounding] = useState<boolean>(false);
+  const [split, setSplit] = useState<number | undefined>(1);
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
   );
@@ -39,21 +43,41 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     async function prepare() {
       try {
         let value = await storage.getData("darkMode");
-        console.log(value);
-
         Appearance.setColorScheme(value);
         setThemeColor(value == null ? "auto" : value);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsReady(true);
       }
     }
 
     prepare();
   }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (isReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <AppContext.Provider
-      value={{ isRounding, setIsRounding, themeColor, setThemeColor }}>
-      {children}
+      value={{
+        isRounding,
+        setIsRounding,
+        themeColor,
+        setThemeColor,
+        split,
+        setSplit,
+      }}>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {children}
+      </View>
     </AppContext.Provider>
   );
 };

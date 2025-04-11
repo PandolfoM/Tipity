@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Tipity",
-    "slug": "Tipity",
-    "version": "1.0.0",
+    "slug": "Tip-Calculator",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pandolfom.Tipity",
+      "bundleIdentifier": "com.pandolfom.TipCalculator",
+      "buildNumber": "9",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -32,9 +33,8 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#16161d"
         }
       ]
     ],
@@ -46,7 +46,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "80d048f5-bd8a-4153-a224-b15433120223"
+        "projectId": "d79858d0-0229-4946-85f5-bf810d3d7df9"
       }
     }
   }

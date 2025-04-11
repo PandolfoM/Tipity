@@ -63,7 +63,7 @@ function Header() {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <ThemedView>
+        <ThemedView style={[{ flex: 1 }]}>
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
             style={{ alignSelf: "flex-end", margin: 15 }}>

@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "matt@pandolfo.com",
+        "ascAppId": "6444921554",
+        "appleTeamId": "GA927JBMYY"
+      }
+    }
   }
 }
