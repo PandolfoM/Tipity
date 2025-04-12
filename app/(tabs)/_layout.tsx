@@ -3,7 +3,6 @@ import React from "react";
 import { Platform, useColorScheme } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
-import TabBarBackground from "@/components/ui/TabBarBackground.ios";
 import { Colors } from "@/constants/Colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import sizes from "@/config/sizes";
