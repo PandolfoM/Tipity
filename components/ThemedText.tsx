@@ -1,5 +1,10 @@
 import { useThemeColor } from "@/hooks/useThemeColors";
-import { Text as TextStock, type TextProps, StyleSheet } from "react-native";
+import {
+  Text as TextStock,
+  type TextProps,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -15,6 +20,8 @@ export function Text({
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const { fontScale } = useWindowDimensions();
+  const styles = makeStyles(fontScale);
 
   return (
     <TextStock
@@ -32,28 +39,29 @@ export function Text({
   );
 }
 
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "600",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    color: "#0a7ea4",
-  },
-});
+const makeStyles = (fontScale: number) =>
+  StyleSheet.create({
+    default: {
+      fontSize: 20 / fontScale,
+      lineHeight: 24,
+    },
+    defaultSemiBold: {
+      fontSize: 16 / fontScale,
+      lineHeight: 24,
+      fontWeight: "600",
+    },
+    title: {
+      fontSize: 35 / fontScale,
+      fontWeight: "bold",
+      lineHeight: 35,
+    },
+    subtitle: {
+      fontSize: 25 / fontScale,
+      fontWeight: "bold",
+    },
+    link: {
+      fontSize: 16 / fontScale,
+      lineHeight: 30,
+      color: "#0a7ea4",
+    },
+  });

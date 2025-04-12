@@ -18,8 +18,6 @@ function Totals() {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(fontScale, scale);
 
-  if (!split) return;
-
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent: string = "0.0";
 
@@ -45,7 +43,7 @@ function Totals() {
     <View>
       <View style={[styles.total, { backgroundColor: tertiaryColor }]}>
         <View style={styles.totalText}>
-          <Text style={[styles.totalTextSub, { color: whiteColor }]}>
+          <Text type="title" style={[{ color: whiteColor }]}>
             Total:
           </Text>
           <TouchableOpacity
@@ -60,7 +58,9 @@ function Totals() {
         </View>
         <NumberText number={TotalWTip} style={styles.totalCalculated} />
       </View>
-      <Text style={[styles.totalsCategory, { color: whiteColor }]}>
+      <Text
+        type="subtitle"
+        style={[styles.totalsCategory, { color: whiteColor }]}>
         Per Person:
       </Text>
       <View
@@ -73,7 +73,7 @@ function Totals() {
             With Tip:
           </Text>
           <NumberText
-            number={TotalWTip / split}
+            number={split && split > 0 ? TotalWTip / split : TotalWTip}
             style={styles.totalExtrasPrice}
           />
         </View>
@@ -83,7 +83,7 @@ function Totals() {
           </Text>
           <NumberText
             style={styles.totalExtrasPrice}
-            number={parseFloat(Total) / split}
+            number={parseFloat(Total) / (split ?? 1)}
           />
         </View>
       </View>
@@ -108,7 +108,9 @@ function Totals() {
           </Text>
           <NumberText
             style={styles.totalExtrasPrice}
-            number={((parseFloat(Total) || 0) * parseFloat(TipPercent)) / split}
+            number={
+              ((parseFloat(Total) || 0) * parseFloat(TipPercent)) / (split ?? 1)
+            }
           />
         </View>
       </View>
@@ -134,7 +136,6 @@ const makeStyles = (fontScale: number, scale: number) =>
       alignSelf: "center",
     },
     totalsCategory: {
-      fontSize: 25 / fontScale,
       fontWeight: "bold",
       alignSelf: "center",
       paddingVertical: 5 / fontScale,

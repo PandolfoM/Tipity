@@ -21,7 +21,7 @@ function Slider({ state, setState, minValue, maxValue }: Props) {
   return (
     <View style={styles.container}>
       <Slide
-        value={state}
+        value={state ? state : minValue}
         step={1}
         thumbTintColor={accentColor}
         minimumTrackTintColor={accentColor}

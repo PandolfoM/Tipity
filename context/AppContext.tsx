@@ -73,11 +73,14 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const saveData = async () => {
       try {
-        await Promise.all([
-          storage.storeData("split", split),
-          storage.storeData("rounding", isRounding),
-          storage.storeData("service", service),
-        ]);
+        await Promise.all(
+          [
+            split !== undefined && storage.storeData("split", split),
+            isRounding !== undefined &&
+              storage.storeData("rounding", isRounding),
+            service !== undefined && storage.storeData("service", service),
+          ].filter(Boolean)
+        );
       } catch (error) {
         console.error("Error saving data:", error);
       }
