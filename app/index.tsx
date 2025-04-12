@@ -1,10 +1,12 @@
 import Header from "@/components/Header";
+import Service from "@/components/Service";
 import Split from "@/components/Split";
 import { Text } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import Totals from "@/components/Totals";
 import sizes from "@/config/sizes";
+import { useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import { useState } from "react";
 import {
   Keyboard,
   StyleSheet,
@@ -15,7 +17,7 @@ import {
 import { FakeCurrencyInput } from "react-native-currency-input";
 
 export default function Index() {
-  const [billTotal, setBillTotal] = useState(0.0);
+  const { billTotal, setBillTotal } = useApp();
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
 
@@ -23,7 +25,7 @@ export default function Index() {
   const accentColor = useThemeColor({}, "accent");
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ThemedView style={[styles.container]}>
         <Header />
 
@@ -56,6 +58,10 @@ export default function Index() {
         <Split />
 
         {/* Service */}
+        <Service />
+
+        {/* Total */}
+        <Totals />
       </ThemedView>
     </TouchableWithoutFeedback>
   );

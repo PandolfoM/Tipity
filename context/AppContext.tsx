@@ -15,6 +15,10 @@ interface AppContextProps {
   setIsRounding: React.Dispatch<React.SetStateAction<boolean>>;
   split: number | undefined;
   setSplit: React.Dispatch<React.SetStateAction<number | undefined>>;
+  service: number | undefined;
+  setService: React.Dispatch<React.SetStateAction<number | undefined>>;
+  billTotal: number;
+  setBillTotal: React.Dispatch<React.SetStateAction<number>>;
   themeColor: "auto" | "dark" | "light";
   setThemeColor: React.Dispatch<
     React.SetStateAction<"auto" | "dark" | "light">
@@ -35,6 +39,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isRounding, setIsRounding] = useState<boolean>(false);
   const [split, setSplit] = useState<number | undefined>(1);
+  const [service, setService] = useState<number | undefined>(18);
+  const [billTotal, setBillTotal] = useState<number>(0);
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
   );
@@ -74,6 +80,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setThemeColor,
         split,
         setSplit,
+        service,
+        setService,
+        billTotal,
+        setBillTotal,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}

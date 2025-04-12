@@ -7,9 +7,11 @@ import { StyleSheet, useWindowDimensions, View } from "react-native";
 type Props = {
   state: number | undefined;
   setState: React.Dispatch<React.SetStateAction<number | undefined>>;
+  minValue?: number;
+  maxValue?: number;
 };
 
-function Slider({ state, setState }: Props) {
+function Slider({ state, setState, minValue, maxValue }: Props) {
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
 
@@ -24,8 +26,8 @@ function Slider({ state, setState }: Props) {
         thumbTintColor={accentColor}
         minimumTrackTintColor={accentColor}
         maximumTrackTintColor={secColor}
-        minimumValue={state ? 1 : 0}
-        maximumValue={state ? 6 : 30}
+        minimumValue={minValue ? minValue : 0}
+        maximumValue={maxValue ? maxValue : 6}
         onValueChange={(value) => setState(Number(value))}
         thumbStyle={styles.thumb}
         trackStyle={{ ...styles.track }}

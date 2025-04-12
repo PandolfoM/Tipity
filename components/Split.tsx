@@ -33,7 +33,7 @@ function Split() {
           style={[styles.numberInput, { color: accentColor, flex: 1 }]}
         />
       </View>
-      <Slider state={split} setState={setSplit} />
+      <Slider state={split} setState={setSplit} minValue={1} />
     </View>
   );
 }
@@ -58,22 +58,6 @@ const makeStyles = (fontScale: number) =>
       color: "white",
       paddingLeft: sizes.sm,
       paddingVertical: sizes.xs,
-    },
-
-    container: {
-      alignItems: "stretch",
-      justifyContent: "center",
-      marginHorizontal: sizes.sm,
-      marginVertical: 10 / fontScale,
-    },
-    thumb: {
-      height: 40 / fontScale,
-      width: 40 / fontScale,
-      borderRadius: "100%",
-    },
-    track: {
-      height: 15 / fontScale,
-      borderRadius: 15 / fontScale,
     },
   });
 
