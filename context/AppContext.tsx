@@ -48,11 +48,20 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     async function prepare() {
       try {
-        let value = await storage.getData("darkMode");
-        Appearance.setColorScheme(value);
-        setThemeColor(value == null ? "auto" : value);
+        const [darkMode, split, service, rounding] = await Promise.all([
+          storage.getData("darkMode"),
+          storage.getData("split"),
+          storage.getData("service"),
+          storage.getData("rounding"),
+        ]);
+
+        Appearance.setColorScheme(darkMode);
+        setThemeColor(darkMode == null ? "auto" : darkMode);
+        setSplit(split || 1);
+        setService(service || 18);
+        setIsRounding(rounding || false);
       } catch (error) {
-        console.log(error);
+        console.error("Error loading data:", error);
       } finally {
         setIsReady(true);
       }
@@ -60,6 +69,22 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
     prepare();
   }, []);
+
+  useEffect(() => {
+    const saveData = async () => {
+      try {
+        await Promise.all([
+          storage.storeData("split", split),
+          storage.storeData("rounding", isRounding),
+          storage.storeData("service", service),
+        ]);
+      } catch (error) {
+        console.error("Error saving data:", error);
+      }
+    };
+
+    saveData();
+  }, [split, isRounding, service]);
 
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {
