@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   Appearance,
   ColorSchemeName,
-  useColorScheme,
 } from "react-native";
 import { Text } from "./ThemedText";
-import { Colors } from "@/constants/Colors";
 import { useApp } from "@/context/AppContext";
 import storage from "@/utils/storage";
+import { useThemeColor } from "@/hooks/useThemeColors";
 
 type RadioButtonProps = {
   name: "auto" | "dark" | "light";
@@ -18,7 +17,7 @@ type RadioButtonProps = {
 
 function RadioButton({ name }: RadioButtonProps) {
   const { themeColor, setThemeColor } = useApp();
-  const colorScheme = useColorScheme();
+  const accentColor = useThemeColor({}, "accent");
 
   const setColorScheme = () => {
     const color = name === "auto" ? null : name;
@@ -42,10 +41,7 @@ function RadioButton({ name }: RadioButtonProps) {
           style={[
             styles.outer,
             {
-              borderColor:
-                colorScheme === "dark"
-                  ? Colors.dark.accent
-                  : Colors.light.accent,
+              borderColor: accentColor,
             },
           ]}>
           {themeColor === name && (
@@ -53,10 +49,7 @@ function RadioButton({ name }: RadioButtonProps) {
               style={[
                 styles.options,
                 {
-                  backgroundColor:
-                    colorScheme === "dark"
-                      ? Colors.dark.accent
-                      : Colors.light.accent,
+                  backgroundColor: accentColor,
                 },
               ]}
             />

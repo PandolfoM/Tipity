@@ -5,16 +5,15 @@ import {
   StyleSheet,
   Switch,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from "react-native";
 import { useApp } from "@/context/AppContext";
-import { Colors } from "@/constants/Colors";
 import { Text } from "./ThemedText";
 import sizes from "@/config/sizes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import RadioButton from "./RadioButton";
+import { useThemeColor } from "@/hooks/useThemeColors";
 
 const data: { title: string; data: ("auto" | "dark" | "light")[] }[] = [
   { title: "Appearance", data: ["auto", "dark", "light"] },
@@ -23,7 +22,10 @@ const data: { title: string; data: ("auto" | "dark" | "light")[] }[] = [
 function Header() {
   const { isRounding, setIsRounding } = useApp();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const colorScheme = useColorScheme();
+
+  const secColor = useThemeColor({}, "secondary");
+  const accentColor = useThemeColor({}, "accent");
+  const whiteColor = useThemeColor({}, "white");
 
   return (
     <>
@@ -33,14 +35,8 @@ function Header() {
             value={isRounding}
             style={styles.switch}
             trackColor={{
-              false:
-                colorScheme === "dark"
-                  ? Colors.dark.secondary
-                  : Colors.light.secondary,
-              true:
-                colorScheme === "dark"
-                  ? Colors.dark.accent
-                  : Colors.light.accent,
+              false: secColor,
+              true: accentColor,
             }}
             onValueChange={() => setIsRounding(!isRounding)}
           />
@@ -50,9 +46,7 @@ function Header() {
           <MaterialCommunityIcons
             name="cog"
             size={sizes.flg}
-            color={
-              colorScheme === "dark" ? Colors.dark.white : Colors.light.white
-            }
+            color={whiteColor}
           />
         </TouchableOpacity>
       </View>
@@ -70,9 +64,7 @@ function Header() {
             <MaterialCommunityIcons
               name="close"
               size={sizes.fxl}
-              color={
-                colorScheme === "dark" ? Colors.dark.white : Colors.light.white
-              }
+              color={whiteColor}
             />
           </TouchableOpacity>
           <SectionList
