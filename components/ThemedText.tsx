@@ -43,17 +43,17 @@ const makeStyles = (fontScale: number) =>
   StyleSheet.create({
     default: {
       fontSize: 20 / fontScale,
-      lineHeight: 24,
+      // lineHeight: 24,
     },
     defaultSemiBold: {
       fontSize: 16 / fontScale,
-      lineHeight: 24,
+      // lineHeight: 24,
       fontWeight: "600",
     },
     title: {
       fontSize: 35 / fontScale,
       fontWeight: "bold",
-      lineHeight: 35,
+      // lineHeight: 35,
     },
     subtitle: {
       fontSize: 25 / fontScale,
@@ -61,7 +61,7 @@ const makeStyles = (fontScale: number) =>
     },
     link: {
       fontSize: 16 / fontScale,
-      lineHeight: 30,
+      // lineHeight: 30,
       color: "#0a7ea4",
     },
   });
