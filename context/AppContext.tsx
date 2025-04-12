@@ -8,7 +8,13 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { Appearance, useColorScheme, View } from "react-native";
+import {
+  Appearance,
+  AppState,
+  AppStateStatus,
+  useColorScheme,
+  View,
+} from "react-native";
 
 interface AppContextProps {
   isRounding: boolean;
@@ -70,23 +76,61 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     prepare();
   }, []);
 
+  // useEffect(() => {
+  //   const saveData = async () => {
+  //     try {
+  //       await Promise.all(
+  //         [
+  //           split !== undefined && storage.storeData("split", split),
+  //           isRounding !== undefined &&
+  //             storage.storeData("rounding", isRounding),
+  //           service !== undefined && storage.storeData("service", service),
+  //         ].filter(Boolean)
+  //       );
+  //     } catch (error) {
+  //       console.error("Error saving data:", error);
+  //     }
+  //   };
+
+  //   saveData();
+  // }, [split, isRounding, service]);
+
   useEffect(() => {
-    const saveData = async () => {
-      try {
-        await Promise.all(
-          [
-            split !== undefined && storage.storeData("split", split),
-            isRounding !== undefined &&
-              storage.storeData("rounding", isRounding),
-            service !== undefined && storage.storeData("service", service),
-          ].filter(Boolean)
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      console.log("here");
+
+      if (nextAppState === "background") {
+        // Trigger your event here
+        console.log(
+          "App is going to the background. Save data or perform cleanup."
         );
-      } catch (error) {
-        console.error("Error saving data:", error);
+        // Example: Save data to storage
+        const saveData = async () => {
+          try {
+            await Promise.all(
+              [
+                split !== undefined && storage.storeData("split", split),
+                isRounding !== undefined &&
+                  storage.storeData("rounding", isRounding),
+                service !== undefined && storage.storeData("service", service),
+              ].filter(Boolean)
+            );
+          } catch (error) {
+            console.error("Error saving data on app close:", error);
+          }
+        };
+        saveData();
       }
     };
 
-    saveData();
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
+
+    return () => {
+      subscription.remove();
+    };
   }, [split, isRounding, service]);
 
   const onLayoutRootView = useCallback(async () => {
