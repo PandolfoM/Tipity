@@ -7,6 +7,7 @@ import Totals from "@/components/Totals";
 import sizes from "@/config/sizes";
 import { useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
+import { useKeepAwake } from "expo-keep-awake";
 import {
   Keyboard,
   StyleSheet,
@@ -17,6 +18,8 @@ import {
 import { FakeCurrencyInput } from "react-native-currency-input";
 
 export default function Index() {
+  useKeepAwake();
+
   const { billTotal, setBillTotal } = useApp();
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
