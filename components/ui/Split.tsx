@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import sizes from "../config/sizes";
+import { StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
+import sizes from "@/config/sizes";
 import { useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import Slider from "./Slider";
+import Slider from "@/components/Slider";
+import { Text } from "@/components/ThemedText";
 
 function Split() {
   const { split, setSplit } = useApp();
@@ -18,11 +13,14 @@ function Split() {
 
   const backgroundColor = useThemeColor({}, "secondary");
   const accentColor = useThemeColor({}, "accent");
+  const whiteColor = useThemeColor({}, "white");
 
   return (
     <View>
       <View style={[styles.section, { backgroundColor }]}>
-        <Text style={[styles.sectionTitle, { backgroundColor }]}>Split: </Text>
+        <Text type="title" style={[styles.sectionTitle, { color: whiteColor }]}>
+          Split:{" "}
+        </Text>
         <TextInput
           maxLength={3}
           onFocus={() => setSplit(undefined)}
@@ -55,9 +53,7 @@ const makeStyles = (fontScale: number) =>
     sectionTitle: {
       fontSize: 25 / fontScale,
       fontWeight: "bold",
-      color: "white",
       paddingLeft: sizes.sm,
-      paddingVertical: sizes.xs,
     },
   });
 

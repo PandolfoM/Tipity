@@ -7,9 +7,9 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import sizes from "../config/sizes";
-import NumberText from "./NumberText";
-import { Text } from "./ThemedText";
+import sizes from "@/config/sizes";
+import NumberText from "@/components/NumberText";
+import { Text } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import { useApp } from "@/context/AppContext";
 
@@ -21,7 +21,7 @@ function Totals() {
   let Total = billTotal.toString().replace(/[,$]/g, "");
   let TipPercent: string = "0.0";
 
-  const whiteColor = useThemeColor({}, "white");
+  const textColor = useThemeColor({}, "text");
   const tertiaryColor = useThemeColor({}, "tertiary");
 
   if (service != undefined) {
@@ -43,24 +43,19 @@ function Totals() {
     <View>
       <View style={[styles.total, { backgroundColor: tertiaryColor }]}>
         <View style={styles.totalText}>
-          <Text type="title" style={[{ color: whiteColor }]}>
+          <Text type="title" style={[{ paddingTop: sizes.xs }]}>
             Total:
           </Text>
-          <TouchableOpacity
-            style={[styles.totalTextSub]}
-            onPress={() => setBillTotal(0)}>
+          <TouchableOpacity onPress={() => setBillTotal(0)}>
             <MaterialCommunityIcons
-              style={[styles.totalTextSub, { color: whiteColor }]}
+              style={[styles.totalTextSub, { color: textColor }]}
               name="undo"
-              size={sizes.flg}
             />
           </TouchableOpacity>
         </View>
         <NumberText number={TotalWTip} style={styles.totalCalculated} />
       </View>
-      <Text
-        type="subtitle"
-        style={[styles.totalsCategory, { color: whiteColor }]}>
+      <Text type="subtitle" style={[styles.totalsCategory]}>
         Per Person:
       </Text>
       <View
@@ -69,43 +64,35 @@ function Totals() {
           { borderTopColor: tertiaryColor },
         ]}>
         <View style={styles.totalExtras}>
-          <Text style={[styles.totalExtrasHeader, { color: whiteColor }]}>
-            With Tip:
-          </Text>
+          <Text style={[styles.totalExtrasHeader]}>With Tip:</Text>
           <NumberText
             number={split && split > 0 ? TotalWTip / split : TotalWTip}
             style={styles.totalExtrasPrice}
           />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={[styles.totalExtrasHeader, { color: whiteColor }]}>
-            Without Tip:
-          </Text>
+          <Text style={[styles.totalExtrasHeader]}>Without Tip:</Text>
           <NumberText
             style={styles.totalExtrasPrice}
             number={parseFloat(Total) / (split ?? 1)}
           />
         </View>
       </View>
-      <Text style={[styles.totalsCategory, { color: whiteColor }]}>Tip:</Text>
+      <Text style={[styles.totalsCategory]}>Tip:</Text>
       <View
         style={[
           styles.totalExtrasContainer,
           { borderTopColor: tertiaryColor },
         ]}>
         <View style={styles.totalExtras}>
-          <Text style={[styles.totalExtrasHeader, { color: whiteColor }]}>
-            Total:
-          </Text>
+          <Text style={[styles.totalExtrasHeader]}>Total:</Text>
           <NumberText
             style={styles.totalExtrasPrice}
             number={(parseFloat(Total) || 0) * parseFloat(TipPercent)}
           />
         </View>
         <View style={styles.totalExtras}>
-          <Text style={[styles.totalExtrasHeader, { color: whiteColor }]}>
-            Per Person:
-          </Text>
+          <Text style={[styles.totalExtrasHeader]}>Per Person:</Text>
           <NumberText
             style={styles.totalExtrasPrice}
             number={
@@ -172,5 +159,6 @@ const makeStyles = (fontScale: number, scale: number) =>
       fontSize: 35 / fontScale,
       fontWeight: "bold",
       alignSelf: "center",
+      paddingTop: sizes.xs,
     },
   });

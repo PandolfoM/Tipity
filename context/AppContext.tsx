@@ -100,11 +100,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       console.log("here");
 
       if (nextAppState === "background") {
-        // Trigger your event here
-        console.log(
-          "App is going to the background. Save data or perform cleanup."
-        );
-        // Example: Save data to storage
         const saveData = async () => {
           try {
             await Promise.all(

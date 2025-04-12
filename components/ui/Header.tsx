@@ -1,4 +1,4 @@
-import { ThemedView } from "./ThemedView";
+import { ThemedView } from "@/components/ThemedView";
 import {
   Modal,
   SectionList,
@@ -8,11 +8,11 @@ import {
   View,
 } from "react-native";
 import { useApp } from "@/context/AppContext";
-import { Text } from "./ThemedText";
+import { Text } from "@/components/ThemedText";
 import sizes from "@/config/sizes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import RadioButton from "./RadioButton";
+import RadioButton from "@/components/RadioButton";
 import { useThemeColor } from "@/hooks/useThemeColors";
 
 const data: { title: string; data: ("auto" | "dark" | "light")[] }[] = [
@@ -26,6 +26,7 @@ function Header() {
   const secColor = useThemeColor({}, "secondary");
   const accentColor = useThemeColor({}, "accent");
   const whiteColor = useThemeColor({}, "white");
+  const textColor = useThemeColor({}, "text");
 
   return (
     <>
@@ -40,13 +41,15 @@ function Header() {
             }}
             onValueChange={() => setIsRounding(!isRounding)}
           />
-          <Text style={[styles.roundText]}>Round Up</Text>
+          <Text type="defaultSemiBold" style={[styles.roundText]}>
+            Round Up
+          </Text>
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <MaterialCommunityIcons
             name="cog"
             size={sizes.flg}
-            color={whiteColor}
+            color={textColor}
           />
         </TouchableOpacity>
       </View>
@@ -84,7 +87,7 @@ function Header() {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: "3%",
+    height: "4%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -97,7 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   roundText: {
-    fontSize: sizes.fsm,
     paddingLeft: sizes.sm,
   },
   switch: {

@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import {
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
-import sizes from "../config/sizes";
+import sizes from "@/config/sizes";
 import { useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import Slider from "./Slider";
+import Slider from "@/components/Slider";
+import { Text } from "@/components/ThemedText";
 
 function Service() {
   const { service, setService } = useApp();
@@ -19,13 +19,16 @@ function Service() {
 
   const backgroundColor = useThemeColor({}, "secondary");
   const accentColor = useThemeColor({}, "accent");
+  const whiteColor = useThemeColor({}, "white");
 
   const inputRef = useRef<TextInput | null>(null);
 
   return (
     <View>
       <View style={[styles.section, { backgroundColor }]}>
-        <Text style={[styles.sectionTitle, { backgroundColor }]}>
+        <Text
+          type="title"
+          style={[styles.sectionTitle, { backgroundColor, color: whiteColor }]}>
           Service:{" "}
         </Text>
         <TouchableOpacity
@@ -46,7 +49,9 @@ function Service() {
             value={service !== undefined ? service.toString() : ""}
             style={[styles.numberInput, { color: accentColor }]}
           />
-          <Text style={[styles.percent, { color: accentColor }]}>%</Text>
+          <Text type="title" style={[styles.percent, { color: accentColor }]}>
+            %
+          </Text>
         </TouchableOpacity>
       </View>
       <Slider state={service} setState={setService} maxValue={30} />
@@ -71,9 +76,7 @@ const makeStyles = (fontScale: number) =>
     sectionTitle: {
       fontSize: 25 / fontScale,
       fontWeight: "bold",
-      color: "white",
       paddingLeft: sizes.sm,
-      paddingVertical: sizes.xs,
     },
     percent: {
       fontSize: 25 / fontScale,
