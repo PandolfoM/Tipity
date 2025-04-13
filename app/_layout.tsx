@@ -1,4 +1,5 @@
 import { AppProvider } from "@/context/AppContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   DarkTheme,
   DefaultTheme,
@@ -12,12 +13,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <AppProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-        </Stack>
-      </AppProvider>
+      <GestureHandlerRootView>
+        <AppProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+          </Stack>
+        </AppProvider>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

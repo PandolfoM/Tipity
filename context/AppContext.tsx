@@ -64,6 +64,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
+    console.log(billTotal);
+  }, [billTotal]);
+
+  useEffect(() => {
     async function prepare() {
       try {
         const [darkMode, split, service, rounding, orders] = await Promise.all([
@@ -112,6 +116,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
                     storage.storeData("orders", updatedOrders),
                 ].filter(Boolean)
               );
+            } else {
+              await Promise.all(
+                [storage.storeData("orders", orders)].filter(Boolean)
+              );
             }
 
             await Promise.all(
@@ -138,7 +146,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, [split, isRounding, service, orders]);
+  }, [split, isRounding, service, orders, billTotal, tip, total]);
 
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {
