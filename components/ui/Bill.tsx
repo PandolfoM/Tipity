@@ -58,7 +58,6 @@ const makeStyles = (fontScale: number) =>
       flex: 1,
     },
     sectionTitle: {
-      fontSize: 25 / fontScale,
       fontWeight: "bold",
       paddingLeft: sizes.sm,
     },

@@ -43,15 +43,19 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="explore"
+      <Tabs.Screen
+        name="orders"
         options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          title: "Past Bills",
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="receipt"
+              size={sizes.md}
+              color={whiteColor}
+            />
           ),
         }}
-      /> */}
+      />
     </Tabs>
   );
 }

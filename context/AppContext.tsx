@@ -8,13 +8,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import {
-  Appearance,
-  AppState,
-  AppStateStatus,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Appearance, AppState, AppStateStatus, View } from "react-native";
 
 interface AppContextProps {
   isRounding: boolean;
@@ -25,10 +19,20 @@ interface AppContextProps {
   setService: React.Dispatch<React.SetStateAction<number | undefined>>;
   billTotal: number;
   setBillTotal: React.Dispatch<React.SetStateAction<number>>;
+  orders: Array<OrderProps>;
+  setOrders: React.Dispatch<React.SetStateAction<Array<OrderProps>>>;
   themeColor: "auto" | "dark" | "light";
   setThemeColor: React.Dispatch<
     React.SetStateAction<"auto" | "dark" | "light">
   >;
+}
+
+export interface OrderProps {
+  total: string;
+  split: number;
+  service: number;
+  date: number;
+  rounded: boolean;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -46,6 +50,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isRounding, setIsRounding] = useState<boolean>(false);
   const [split, setSplit] = useState<number | undefined>(1);
   const [service, setService] = useState<number | undefined>(18);
+  const [orders, setOrders] = useState<Array<OrderProps>>([]);
   const [billTotal, setBillTotal] = useState<number>(0);
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
@@ -54,18 +59,22 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     async function prepare() {
       try {
-        const [darkMode, split, service, rounding] = await Promise.all([
+        const [darkMode, split, service, rounding, orders] = await Promise.all([
           storage.getData("darkMode"),
           storage.getData("split"),
           storage.getData("service"),
           storage.getData("rounding"),
+          storage.getData("orders"),
         ]);
+
+        console.log(orders);
 
         Appearance.setColorScheme(darkMode);
         setThemeColor(darkMode == null ? "auto" : darkMode);
         setSplit(split || 1);
         setService(service || 18);
         setIsRounding(rounding || false);
+        setOrders(orders || []);
       } catch (error) {
         console.error("Error loading data:", error);
       } finally {
@@ -76,32 +85,29 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     prepare();
   }, []);
 
-  // useEffect(() => {
-  //   const saveData = async () => {
-  //     try {
-  //       await Promise.all(
-  //         [
-  //           split !== undefined && storage.storeData("split", split),
-  //           isRounding !== undefined &&
-  //             storage.storeData("rounding", isRounding),
-  //           service !== undefined && storage.storeData("service", service),
-  //         ].filter(Boolean)
-  //       );
-  //     } catch (error) {
-  //       console.error("Error saving data:", error);
-  //     }
-  //   };
-
-  //   saveData();
-  // }, [split, isRounding, service]);
-
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
-      console.log("here");
-
       if (nextAppState === "background") {
         const saveData = async () => {
           try {
+            if (billTotal !== 0) {
+              const newOrder: OrderProps = {
+                date: Date.now(),
+                rounded: isRounding,
+                service: service || 0,
+                split: split || 1,
+                total: billTotal.toString(),
+              };
+              const updatedOrders = [...orders, newOrder];
+
+              await Promise.all(
+                [
+                  updatedOrders.length > orders.length &&
+                    storage.storeData("orders", updatedOrders),
+                ].filter(Boolean)
+              );
+            }
+
             await Promise.all(
               [
                 split !== undefined && storage.storeData("split", split),
@@ -126,7 +132,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, [split, isRounding, service]);
+  }, [split, isRounding, service, orders]);
 
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {
@@ -151,6 +157,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setService,
         billTotal,
         setBillTotal,
+        orders,
+        setOrders,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}

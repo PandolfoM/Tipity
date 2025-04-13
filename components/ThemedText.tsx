@@ -51,7 +51,7 @@ const makeStyles = (fontScale: number) =>
       fontWeight: "600",
     },
     title: {
-      fontSize: 35 / fontScale,
+      fontSize: 25 / fontScale,
       fontWeight: "bold",
       lineHeight: 35,
     },
