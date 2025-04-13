@@ -1,21 +1,17 @@
 import { Text } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import sizes from "@/config/sizes";
 import { OrderProps, useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import React from "react";
 import { FlatList, View } from "react-native";
+import React from "react";
+import sizes from "@/config/sizes";
+import dayjs from "dayjs";
 
 const Item = (item: OrderProps) => {
   const styles = makeStyles();
-  const formattedDate = new Date(item.date).toLocaleString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const formattedDate = dayjs(item.date).format("MMMM D, YYYY hh:mm A");
   const billBackground = useThemeColor({}, "secondary");
+  const accentColor = useThemeColor({}, "accent");
   const roundedNumber = Math.ceil(Number(item.total)).toLocaleString(
     undefined,
     {
@@ -40,24 +36,29 @@ const Item = (item: OrderProps) => {
         <View style={[{ gap: 5 }]}>
           <Text style={[{ fontWeight: "bold" }]}>
             Total:{" "}
-            <Text style={[{ fontWeight: "normal" }]}>
+            <Text style={[{ fontWeight: "normal", color: accentColor }]}>
               ${item.rounded ? roundedNumber : item.total}
             </Text>
           </Text>
           <Text style={[{ fontWeight: "bold" }]}>
-            Tip: <Text style={[{ fontWeight: "normal" }]}>{item.service}%</Text>
+            Tip:{" "}
+            <Text style={[{ fontWeight: "normal", color: accentColor }]}>
+              ${item.tip} ({item.service}%)
+            </Text>
           </Text>
         </View>
         <View style={[{ gap: 5 }]}>
           {item.split !== 1 && (
             <Text style={[{ fontWeight: "bold" }]}>
               Party:{" "}
-              <Text style={[{ fontWeight: "normal" }]}>{item.split}</Text>
+              <Text style={[{ fontWeight: "normal", color: accentColor }]}>
+                {item.split}
+              </Text>
             </Text>
           )}
           <Text style={[{ fontWeight: "bold" }]}>
             Rounded Up:{" "}
-            <Text style={[{ fontWeight: "normal" }]}>
+            <Text style={[{ fontWeight: "normal", color: accentColor }]}>
               {item.rounded ? "Yes" : "No"}
             </Text>
           </Text>

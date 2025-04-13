@@ -19,6 +19,10 @@ interface AppContextProps {
   setService: React.Dispatch<React.SetStateAction<number | undefined>>;
   billTotal: number;
   setBillTotal: React.Dispatch<React.SetStateAction<number>>;
+  total: string;
+  setTotal: React.Dispatch<React.SetStateAction<string>>;
+  tip: string;
+  setTip: React.Dispatch<React.SetStateAction<string>>;
   orders: Array<OrderProps>;
   setOrders: React.Dispatch<React.SetStateAction<Array<OrderProps>>>;
   themeColor: "auto" | "dark" | "light";
@@ -33,6 +37,7 @@ export interface OrderProps {
   service: number;
   date: number;
   rounded: boolean;
+  tip: string;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -52,6 +57,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [service, setService] = useState<number | undefined>(18);
   const [orders, setOrders] = useState<Array<OrderProps>>([]);
   const [billTotal, setBillTotal] = useState<number>(0);
+  const [total, setTotal] = useState<string>("0.00");
+  const [tip, setTip] = useState<string>("0.00");
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
   );
@@ -66,8 +73,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
           storage.getData("rounding"),
           storage.getData("orders"),
         ]);
-
-        console.log(orders);
 
         Appearance.setColorScheme(darkMode);
         setThemeColor(darkMode == null ? "auto" : darkMode);
@@ -96,7 +101,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
                 rounded: isRounding,
                 service: service || 0,
                 split: split || 1,
-                total: billTotal.toString(),
+                total,
+                tip,
               };
               const updatedOrders = [...orders, newOrder];
 
@@ -159,6 +165,10 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setBillTotal,
         orders,
         setOrders,
+        total,
+        setTotal,
+        tip,
+        setTip,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -14,7 +14,8 @@ import { useThemeColor } from "@/hooks/useThemeColors";
 import { useApp } from "@/context/AppContext";
 
 function Totals() {
-  const { service, split, billTotal, setBillTotal, setSplit } = useApp();
+  const { service, split, billTotal, setBillTotal, setTotal, setTip } =
+    useApp();
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(fontScale, scale);
 
@@ -38,6 +39,11 @@ function Totals() {
     String((parseFloat(Total) || 0) * parseFloat(TipPercent))
   );
   let TotalWTip = Tip + (parseFloat(Total) || 0);
+
+  useEffect(() => {
+    setTotal(TotalWTip.toFixed(2));
+    setTip(Tip.toFixed(2));
+  }, [TotalWTip, Tip]);
 
   return (
     <View>
@@ -78,7 +84,9 @@ function Totals() {
           />
         </View>
       </View>
-      <Text style={[styles.totalsCategory]}>Tip:</Text>
+      <Text type="subtitle" style={[styles.totalsCategory]}>
+        Tip:
+      </Text>
       <View
         style={[
           styles.totalExtrasContainer,
@@ -125,7 +133,7 @@ const makeStyles = (fontScale: number, scale: number) =>
     totalsCategory: {
       fontWeight: "bold",
       alignSelf: "center",
-      paddingVertical: 5 / fontScale,
+      paddingVertical: sizes.xxs,
     },
     totalExtras: {
       paddingHorizontal: sizes.sm,

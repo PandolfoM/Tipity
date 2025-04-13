@@ -23,7 +23,16 @@ const storeData = async (item: string, value: any) => {
   }
 };
 
+const removeData = async (item: string) => {
+  try {
+    await AsyncStorage.removeItem(item);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export default {
   getData,
   storeData,
+  removeData,
 };
