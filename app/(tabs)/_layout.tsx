@@ -31,12 +31,25 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="settings"
         options={{
-          title: "Home",
+          title: "Settings",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="cog"
+              size={sizes.md}
+              color={whiteColor}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Calculator",
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="calculator"
               size={sizes.md}
               color={whiteColor}
             />

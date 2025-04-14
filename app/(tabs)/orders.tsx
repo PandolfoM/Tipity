@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { OrderProps, useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import { FlatList, TouchableOpacity, View } from "react-native";
-import React, { useCallback } from "react";
+import React from "react";
 import sizes from "@/config/sizes";
 import dayjs from "dayjs";
 import { StyleSheet } from "react-native";

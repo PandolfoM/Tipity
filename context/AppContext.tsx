@@ -64,10 +64,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    console.log(billTotal);
-  }, [billTotal]);
-
-  useEffect(() => {
     async function prepare() {
       try {
         const [darkMode, split, service, rounding, orders] = await Promise.all([
