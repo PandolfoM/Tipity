@@ -7,6 +7,7 @@ import {
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
+import { SettingsProvider } from "@/context/SettingsContext";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -15,10 +16,15 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView>
         <AppProvider>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-          </Stack>
+          <SettingsProvider>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="+not-found"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+          </SettingsProvider>
         </AppProvider>
       </GestureHandlerRootView>
     </ThemeProvider>

@@ -4,7 +4,6 @@ import Split from "@/components/ui/Split";
 import Totals from "@/components/ui/Totals";
 import Bill from "@/components/ui/Bill";
 import { ThemedView } from "@/components/ThemedView";
-import { useKeepAwake } from "expo-keep-awake";
 import { useState } from "react";
 import {
   Keyboard,
@@ -15,7 +14,6 @@ import {
 } from "react-native";
 
 export default function Index() {
-  useKeepAwake();
   const [isScrollable, setIsScrollable] = useState(false);
   const { height: screenHeight } = useWindowDimensions();
 
