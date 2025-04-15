@@ -1,14 +1,11 @@
 import React from "react";
 import { ThemedView } from "@/components/ThemedView";
-import { Text } from "@/components/ThemedText";
-import { Link } from "expo-router";
+import SettingsFolder from "@/components/ui/SettingsFolder";
 
 export default function Settings() {
   return (
     <ThemedView style={[{ flex: 1 }]}>
-      <Link href="/settings/darkmode">
-        <Text>Dark Mode</Text>
-      </Link>
+      <SettingsFolder title="Display" url="/settings/display" />
     </ThemedView>
   );
 }
