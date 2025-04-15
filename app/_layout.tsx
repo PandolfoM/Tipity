@@ -15,8 +15,8 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView>
-        <AppProvider>
-          <SettingsProvider>
+        <SettingsProvider>
+          <AppProvider>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
@@ -24,8 +24,8 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
               />
             </Stack>
-          </SettingsProvider>
-        </AppProvider>
+          </AppProvider>
+        </SettingsProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
   );

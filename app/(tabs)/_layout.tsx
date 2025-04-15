@@ -9,6 +9,7 @@ import sizes from "@/config/sizes";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import { useSettings } from "@/context/SettingsContext";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import storage from "@/utils/storage";
 
 export default function TabLayout() {
   const { keepAwake } = useSettings();

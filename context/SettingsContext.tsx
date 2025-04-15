@@ -13,15 +13,6 @@ interface SettingsContextProps {
   setKeepAwake: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface OrderProps {
-  total: string;
-  split: number;
-  service: number;
-  date: number;
-  rounded: boolean;
-  tip: string;
-}
-
 const SettingsContext = createContext<SettingsContextProps | undefined>(
   undefined
 );
@@ -29,7 +20,7 @@ const SettingsContext = createContext<SettingsContextProps | undefined>(
 function useSettings(): SettingsContextProps {
   const context = useContext(SettingsContext);
   if (context === undefined) {
-    throw new Error("useApp must be used within a SettingsProvider");
+    throw new Error("useSettings must be used within a SettingsProvider");
   }
   return context;
 }
@@ -75,7 +66,7 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, []);
+  }, [keepAwake]);
 
   return (
     <SettingsContext.Provider
