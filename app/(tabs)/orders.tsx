@@ -97,13 +97,15 @@ function Orders() {
     setOrders(newOrders);
   };
 
+  const sortedOrders = [...orders].sort((a, b) => b.date - a.date);
+
   return (
     <ThemedView style={[{ flex: 1 }]}>
       <Text style={styles.header} type="title">
         Past Bills
       </Text>
       <FlatList
-        data={orders}
+        data={sortedOrders}
         style={styles.list}
         keyExtractor={(item) => item.date.toString()}
         renderItem={({ item }) => <Item item={item} onDelete={onDelete} />}

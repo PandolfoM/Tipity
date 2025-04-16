@@ -17,7 +17,7 @@ function Split() {
 
   return (
     <View>
-      <View style={[styles.section, { backgroundColor }]}>
+      <View style={[styles.section]}>
         <Text type="title" style={[styles.sectionTitle, { color: whiteColor }]}>
           Split:{" "}
         </Text>

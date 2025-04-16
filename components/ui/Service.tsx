@@ -25,10 +25,8 @@ function Service() {
 
   return (
     <View>
-      <View style={[styles.section, { backgroundColor }]}>
-        <Text
-          type="title"
-          style={[styles.sectionTitle, { backgroundColor, color: whiteColor }]}>
+      <View style={[styles.section]}>
+        <Text type="title" style={[styles.sectionTitle, { color: whiteColor }]}>
           Service:{" "}
         </Text>
         <TouchableOpacity
