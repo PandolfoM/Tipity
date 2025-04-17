@@ -1,7 +1,6 @@
-import { Tabs } from "expo-router";
 import React, { useEffect } from "react";
 import { Platform, useColorScheme } from "react-native";
-
+import { Tabs } from "expo-router";
 import { HapticTab } from "@/components/HapticTab";
 import { Colors } from "@/constants/Colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -9,7 +8,7 @@ import sizes from "@/config/sizes";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import { useSettings } from "@/context/SettingsContext";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
-import storage from "@/utils/storage";
+import TabBar from "@/components/TabBar";
 
 export default function TabLayout() {
   const { keepAwake } = useSettings();
@@ -26,6 +25,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      // tabBar={(props: any) => <TabBar {...props} />}
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
