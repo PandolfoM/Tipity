@@ -77,8 +77,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
           storage.getData("orders"),
         ]);
 
-        Appearance.setColorScheme(darkMode);
-        setThemeColor(darkMode == null ? "auto" : darkMode);
+        Appearance.setColorScheme(darkMode ?? "auto");
+        setThemeColor(!darkMode ? "auto" : darkMode);
         setSplit(split || 1);
         setService(service || 18);
         setIsRounding(rounding || false);
