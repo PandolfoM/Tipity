@@ -11,6 +11,8 @@ import { AppState, AppStateStatus, View } from "react-native";
 interface SettingsContextProps {
   keepAwake: boolean;
   setKeepAwake: React.Dispatch<React.SetStateAction<boolean>>;
+  saveBills: boolean;
+  setSaveBills: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -27,13 +29,18 @@ function useSettings(): SettingsContextProps {
 
 const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [keepAwake, setKeepAwake] = useState<boolean>(false);
+  const [saveBills, setSaveBills] = useState<boolean>(true);
 
   useEffect(() => {
     async function prepare() {
       try {
-        const [keepAwake] = await Promise.all([storage.getData("keepAwake")]);
+        const [keepAwake, saveBills] = await Promise.all([
+          storage.getData("keepAwake"),
+          storage.getData("saveBills"),
+        ]);
 
-        setKeepAwake(keepAwake);
+        setKeepAwake(keepAwake || false);
+        setSaveBills(saveBills || true);
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -48,7 +55,10 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         const saveData = async () => {
           try {
             await Promise.all(
-              [storage.storeData("keepAwake", keepAwake)].filter(Boolean)
+              [
+                storage.storeData("keepAwake", keepAwake),
+                storage.storeData("saveBills", saveBills),
+              ].filter(Boolean)
             );
           } catch (error) {
             console.error("Error saving data on app close:", error);
@@ -66,13 +76,15 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, [keepAwake]);
+  }, [keepAwake, saveBills]);
 
   return (
     <SettingsContext.Provider
       value={{
         keepAwake,
         setKeepAwake,
+        saveBills,
+        setSaveBills,
       }}>
       <View style={{ flex: 1 }}>{children}</View>
     </SettingsContext.Provider>

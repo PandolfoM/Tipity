@@ -11,7 +11,7 @@ import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
 import TabBar from "@/components/TabBar";
 
 export default function TabLayout() {
-  const { keepAwake } = useSettings();
+  const { keepAwake, saveBills } = useSettings();
   const colorScheme = useColorScheme();
   const whiteColor = useThemeColor({}, "white");
 
@@ -71,7 +71,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="orders"
         options={{
-          title: "Past Bills",
+          title: "Past Tabs",
+          href: !saveBills ? null : "/orders",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="receipt"

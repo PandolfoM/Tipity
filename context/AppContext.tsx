@@ -9,6 +9,7 @@ import React, {
   useCallback,
 } from "react";
 import { Appearance, AppState, AppStateStatus, View } from "react-native";
+import { useSettings } from "./SettingsContext";
 
 interface AppContextProps {
   isRounding: boolean;
@@ -51,6 +52,8 @@ function useApp(): AppContextProps {
 }
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
+  const { saveBills } = useSettings();
+
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isRounding, setIsRounding] = useState<boolean>(false);
   const [split, setSplit] = useState<number | undefined>(1);
@@ -95,27 +98,29 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       if (nextAppState === "background") {
         const saveData = async () => {
           try {
-            if (billTotal !== 0) {
-              const newOrder: OrderProps = {
-                date: Date.now(),
-                rounded: isRounding,
-                service: service || 0,
-                split: split || 1,
-                total,
-                tip,
-              };
-              const updatedOrders = [...orders, newOrder];
+            if (saveBills) {
+              if (billTotal !== 0) {
+                const newOrder: OrderProps = {
+                  date: Date.now(),
+                  rounded: isRounding,
+                  service: service || 0,
+                  split: split || 1,
+                  total,
+                  tip,
+                };
+                const updatedOrders = [...orders, newOrder];
 
-              await Promise.all(
-                [
-                  updatedOrders.length > orders.length &&
-                    storage.storeData("orders", updatedOrders),
-                ].filter(Boolean)
-              );
-            } else {
-              await Promise.all(
-                [storage.storeData("orders", orders)].filter(Boolean)
-              );
+                await Promise.all(
+                  [
+                    updatedOrders.length > orders.length &&
+                      storage.storeData("orders", updatedOrders),
+                  ].filter(Boolean)
+                );
+              } else {
+                await Promise.all(
+                  [storage.storeData("orders", orders)].filter(Boolean)
+                );
+              }
             }
 
             await Promise.all(
@@ -142,7 +147,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, [split, isRounding, service, orders, billTotal, tip, total]);
+  }, [split, isRounding, service, orders, billTotal, tip, total, saveBills]);
 
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {

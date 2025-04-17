@@ -102,7 +102,7 @@ function Orders() {
   return (
     <ThemedView style={[{ flex: 1 }]}>
       <Text style={styles.header} type="title">
-        Past Bills
+        Past Tabs
       </Text>
       <FlatList
         data={sortedOrders}
