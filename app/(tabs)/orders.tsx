@@ -101,15 +101,25 @@ function Orders() {
 
   return (
     <ThemedView style={[{ flex: 1 }]}>
-      <Text style={styles.header} type="title">
-        Past Tabs
-      </Text>
-      <FlatList
-        data={sortedOrders}
-        style={styles.list}
-        keyExtractor={(item) => item.date.toString()}
-        renderItem={({ item }) => <Item item={item} onDelete={onDelete} />}
-      />
+      {sortedOrders.length > 0 ? (
+        <FlatList
+          data={sortedOrders}
+          style={styles.list}
+          keyExtractor={(item) => item.date.toString()}
+          renderItem={({ item }) => <Item item={item} onDelete={onDelete} />}
+        />
+      ) : (
+        <View
+          style={[
+            {
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}>
+          <Text type="subtitle">Nothing to see here yet</Text>
+        </View>
+      )}
     </ThemedView>
   );
 }

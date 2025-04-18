@@ -7,8 +7,8 @@ import { ThemedView } from "@/components/ThemedView";
 import { useState } from "react";
 import {
   Keyboard,
+  Pressable,
   ScrollView,
-  TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -33,10 +33,10 @@ export default function Index() {
   );
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <Pressable style={[{ flex: 1 }]} onPress={() => Keyboard.dismiss()}>
       <ThemedView style={[{ flex: 1 }]}>
         {isScrollable ? <ScrollView>{Content}</ScrollView> : Content}
       </ThemedView>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 }
