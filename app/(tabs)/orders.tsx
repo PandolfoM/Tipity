@@ -78,8 +78,8 @@ const Item = ({
         <View style={[styles.modal, { backgroundColor: billBackground }]}>
           <Image
             source={{ uri: item.image }}
-            style={{ height: "100%", width: "100%" }}
-            contentFit="contain"
+            style={{ width: "100%", aspectRatio: 0.8 }}
+            contentFit="cover"
           />
         </View>
       </Modal>
@@ -218,6 +218,7 @@ const makeStyles = () =>
     },
     modal: {
       flex: 1,
+      paddingTop: 100,
     },
     icon: {
       fontSize: sizes.flg,
