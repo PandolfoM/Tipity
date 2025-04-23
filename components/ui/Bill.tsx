@@ -16,7 +16,7 @@ import TextRecognition from "react-native-text-recognition";
 import * as ImagePicker from "expo-image-picker";
 
 function Bill() {
-  const { billTotal, setBillTotal } = useApp();
+  const { billTotal, setBillTotal, setImageUri } = useApp();
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
 
@@ -65,6 +65,7 @@ function Bill() {
 
         // Find the highest value
         const highestValue = Math.max(...values);
+        setImageUri(imageUri);
         return highestValue.toFixed(2); // Return the highest value as a string with 2 decimal places
       }
     } catch (error) {

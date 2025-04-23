@@ -24,6 +24,8 @@ interface AppContextProps {
   setTotal: React.Dispatch<React.SetStateAction<string>>;
   tip: string;
   setTip: React.Dispatch<React.SetStateAction<string>>;
+  imageUri: string;
+  setImageUri: React.Dispatch<React.SetStateAction<string>>;
   orders: Array<OrderProps>;
   setOrders: React.Dispatch<React.SetStateAction<Array<OrderProps>>>;
   themeColor: "auto" | "dark" | "light";
@@ -39,6 +41,7 @@ export interface OrderProps {
   date: number;
   rounded: boolean;
   tip: string;
+  image?: string;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -62,6 +65,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [billTotal, setBillTotal] = useState<number>(0);
   const [total, setTotal] = useState<string>("0.00");
   const [tip, setTip] = useState<string>("0.00");
+  const [imageUri, setImageUri] = useState<string>("");
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
   );
@@ -107,6 +111,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
                   split: split || 1,
                   total,
                   tip,
+                  image: imageUri ?? null,
                 };
                 const updatedOrders = [...orders, newOrder];
 
@@ -178,6 +183,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setTotal,
         tip,
         setTip,
+        imageUri,
+        setImageUri,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}

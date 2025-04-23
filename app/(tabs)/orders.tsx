@@ -3,11 +3,21 @@ import { Text } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { OrderProps, useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import React from "react";
+import {
+  FlatList,
+  TouchableOpacity,
+  View,
+  Pressable,
+  Modal,
+} from "react-native";
+import React, { useState } from "react";
 import sizes from "@/config/sizes";
 import dayjs from "dayjs";
 import { StyleSheet } from "react-native";
+import { Image } from "expo-image";
+
+const blurhash =
+  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 const Item = ({
   item,
@@ -16,6 +26,7 @@ const Item = ({
   item: OrderProps;
   onDelete: (item: OrderProps) => void;
 }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const styles = makeStyles();
   const formattedDate = dayjs(item.date).format("MMMM D, YYYY hh:mm A");
   const billBackground = useThemeColor({}, "secondary");
@@ -32,6 +43,17 @@ const Item = ({
     }
   );
 
+  const checkImage = async () => {
+    if (item.image) {
+      try {
+        const isValid = await Image.prefetch(item.image);
+        if (isValid) setIsVisible(true);
+      } catch {
+        console.warn("Invalid image URI:", item.image);
+      }
+    }
+  };
+
   const RightActions = () => (
     <TouchableOpacity style={styles.deleteBtn} onPress={() => onDelete(item)}>
       <Text style={styles.deleteTxt}>Delete</Text>
@@ -39,52 +61,71 @@ const Item = ({
   );
 
   return (
-    <Swipeable friction={2} renderRightActions={RightActions}>
-      <View style={[styles.bill, { backgroundColor: billBackground, gap: 5 }]}>
-        <Text style={[{ margin: "auto", fontWeight: "bold" }]}>
-          {formattedDate}
-        </Text>
-        <View
-          style={[
-            {
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            },
-          ]}>
-          <View style={[{ gap: 5 }]}>
-            <Text style={[{ fontWeight: "bold" }]}>
-              Total:{" "}
-              <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                ${item.rounded ? roundedNumber : item.total}
-              </Text>
-            </Text>
-            <Text style={[{ fontWeight: "bold" }]}>
-              Tip:{" "}
-              <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                ${formattedTip} ({item.service}%)
-              </Text>
-            </Text>
-          </View>
-          <View style={[{ gap: 5 }]}>
-            {item.split !== 1 && (
-              <Text style={[{ fontWeight: "bold" }]}>
-                Party:{" "}
-                <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                  {item.split}
-                </Text>
-              </Text>
-            )}
-            <Text style={[{ fontWeight: "bold" }]}>
-              Rounded Up:{" "}
-              <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                {item.rounded ? "Yes" : "No"}
-              </Text>
-            </Text>
-          </View>
+    <>
+      <Modal
+        visible={isVisible}
+        animationType="slide"
+        onRequestClose={() => setIsVisible(false)}
+        presentationStyle="pageSheet">
+        <View style={[styles.modal, { backgroundColor: billBackground }]}>
+          <Image
+            source={{ uri: item.image }}
+            style={{ height: "100%", width: "100%" }}
+            contentFit="contain"
+          />
         </View>
-      </View>
-    </Swipeable>
+      </Modal>
+      <Swipeable friction={2} renderRightActions={RightActions}>
+        <Pressable onPress={checkImage}>
+          <View
+            style={[styles.bill, { backgroundColor: billBackground, gap: 5 }]}>
+            <Text style={[{ margin: "auto", fontWeight: "bold" }]}>
+              {formattedDate}
+            </Text>
+            <View
+              style={[
+                {
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                },
+              ]}>
+              <View style={[{ gap: 5 }]}>
+                <Text style={[{ fontWeight: "bold" }]}>
+                  Total:{" "}
+                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
+                    ${item.rounded ? roundedNumber : item.total}
+                  </Text>
+                </Text>
+                <Text style={[{ fontWeight: "bold" }]}>
+                  Tip:{" "}
+                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
+                    ${formattedTip} ({item.service}%)
+                  </Text>
+                </Text>
+              </View>
+              <View style={[{ gap: 5 }]}>
+                {item.split !== 1 && (
+                  <Text style={[{ fontWeight: "bold" }]}>
+                    Party:{" "}
+                    <Text
+                      style={[{ fontWeight: "normal", color: accentColor }]}>
+                      {item.split}
+                    </Text>
+                  </Text>
+                )}
+                <Text style={[{ fontWeight: "bold" }]}>
+                  Rounded Up:{" "}
+                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
+                    {item.rounded ? "Yes" : "No"}
+                  </Text>
+                </Text>
+              </View>
+            </View>
+          </View>
+        </Pressable>
+      </Swipeable>
+    </>
   );
 };
 
@@ -148,7 +189,11 @@ const makeStyles = () =>
     },
     list: {
       display: "flex",
-      // paddingTop: 10,
+    },
+    modal: {
+      flex: 1,
+      // justifyContent: "center",
+      // alignItems: "center",
     },
   });
 
