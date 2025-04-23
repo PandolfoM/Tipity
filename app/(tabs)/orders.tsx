@@ -10,11 +10,12 @@ import {
   Pressable,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import sizes from "@/config/sizes";
 import dayjs from "dayjs";
 import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -27,10 +28,12 @@ const Item = ({
   onDelete: (item: OrderProps) => void;
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const styles = makeStyles();
   const formattedDate = dayjs(item.date).format("MMMM D, YYYY hh:mm A");
   const billBackground = useThemeColor({}, "secondary");
   const accentColor = useThemeColor({}, "accent");
+  const whiteColor = useThemeColor({}, "white");
   const formattedTip = Number(item.tip).toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -43,16 +46,21 @@ const Item = ({
     }
   );
 
-  const checkImage = async () => {
-    if (item.image) {
-      try {
-        const isValid = await Image.prefetch(item.image);
-        if (isValid) setIsVisible(true);
-      } catch {
-        console.warn("Invalid image URI:", item.image);
+  useEffect(() => {
+    const preloadImage = async () => {
+      if (item.image) {
+        try {
+          const isValid = await Image.prefetch(item.image);
+          setIsImageValid(isValid); // Cache the result
+        } catch {
+          console.warn("Invalid image URI:", item.image);
+          setIsImageValid(false);
+        }
       }
-    }
-  };
+    };
+
+    preloadImage();
+  }, [item.image]);
 
   const RightActions = () => (
     <TouchableOpacity style={styles.deleteBtn} onPress={() => onDelete(item)}>
@@ -76,52 +84,65 @@ const Item = ({
         </View>
       </Modal>
       <Swipeable friction={2} renderRightActions={RightActions}>
-        <Pressable onPress={checkImage}>
+        <Pressable onPress={() => isImageValid && setIsVisible(true)}>
           <View
             style={[styles.bill, { backgroundColor: billBackground, gap: 5 }]}>
-            <Text style={[{ margin: "auto", fontWeight: "bold" }]}>
-              {formattedDate}
-            </Text>
-            <View
-              style={[
-                {
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                },
-              ]}>
-              <View style={[{ gap: 5 }]}>
-                <Text style={[{ fontWeight: "bold" }]}>
-                  Total:{" "}
-                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                    ${item.rounded ? roundedNumber : item.total}
-                  </Text>
-                </Text>
-                <Text style={[{ fontWeight: "bold" }]}>
-                  Tip:{" "}
-                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                    ${formattedTip} ({item.service}%)
-                  </Text>
-                </Text>
-              </View>
-              <View style={[{ gap: 5 }]}>
-                {item.split !== 1 && (
+            <View style={{ flex: 1 }}>
+              <Text style={[{ margin: "auto", fontWeight: "bold" }]}>
+                {formattedDate}
+              </Text>
+              <View
+                style={[
+                  {
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  },
+                ]}>
+                <View style={[{ gap: 5 }]}>
                   <Text style={[{ fontWeight: "bold" }]}>
-                    Party:{" "}
+                    Total:{" "}
                     <Text
                       style={[{ fontWeight: "normal", color: accentColor }]}>
-                      {item.split}
+                      ${item.rounded ? roundedNumber : item.total}
                     </Text>
                   </Text>
-                )}
-                <Text style={[{ fontWeight: "bold" }]}>
-                  Rounded Up:{" "}
-                  <Text style={[{ fontWeight: "normal", color: accentColor }]}>
-                    {item.rounded ? "Yes" : "No"}
+                  <Text style={[{ fontWeight: "bold" }]}>
+                    Tip:{" "}
+                    <Text
+                      style={[{ fontWeight: "normal", color: accentColor }]}>
+                      ${formattedTip} ({item.service}%)
+                    </Text>
                   </Text>
-                </Text>
+                </View>
+                <View style={[{ gap: 5 }]}>
+                  {item.split !== 1 && (
+                    <Text style={[{ fontWeight: "bold" }]}>
+                      Party:{" "}
+                      <Text
+                        style={[{ fontWeight: "normal", color: accentColor }]}>
+                        {item.split}
+                      </Text>
+                    </Text>
+                  )}
+                  <Text style={[{ fontWeight: "bold" }]}>
+                    Rounded Up:{" "}
+                    <Text
+                      style={[{ fontWeight: "normal", color: accentColor }]}>
+                      {item.rounded ? "Yes" : "No"}
+                    </Text>
+                  </Text>
+                </View>
               </View>
             </View>
+            {isImageValid && (
+              <View>
+                <MaterialCommunityIcons
+                  style={[styles.icon, { color: whiteColor }]}
+                  name="chevron-right"
+                />
+              </View>
+            )}
           </View>
         </Pressable>
       </Swipeable>
@@ -156,6 +177,7 @@ function Orders() {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
+              width: 2,
             },
           ]}>
           <Text type="subtitle">Nothing to see here yet</Text>
@@ -171,6 +193,10 @@ const makeStyles = () =>
       paddingHorizontal: sizes.sm,
       paddingVertical: sizes.sm,
       marginVertical: sizes.xxs,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
     deleteBtn: {
       backgroundColor: "red",
@@ -192,8 +218,10 @@ const makeStyles = () =>
     },
     modal: {
       flex: 1,
-      // justifyContent: "center",
-      // alignItems: "center",
+    },
+    icon: {
+      fontSize: sizes.flg,
+      opacity: 0.3,
     },
   });
 
