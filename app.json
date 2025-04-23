@@ -13,17 +13,28 @@
       "bundleIdentifier": "com.pandolfom.TipCalculator",
       "buildNumber": "10",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["location"],
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to detect when you are near a restaurant.",
+        "NSLocationAlwaysUsageDescription": "This app needs access to your location to detect when you are near a restaurant, even when the app is in the background.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to your location to detect when you are near a restaurant.",
+        "NSCameraUsageDescription": "This app needs access to your camera to capture images of restaurant bills."
       },
       "config": {
         "usesPushNotifications": true
-      }
+      },
+      "UIBackgroundModes": ["location", "fetch"]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#16161d"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +49,12 @@
           "image": "./assets/images/splash.png",
           "resizeMode": "contain",
           "backgroundColor": "#16161d"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
       ]
     ],

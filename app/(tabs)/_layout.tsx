@@ -73,16 +73,6 @@ export default function TabLayout() {
         name="orders"
         options={{
           title: "Past Tabs",
-          headerShown: true,
-          headerStyle: {
-            backgroundColor,
-          },
-          headerBackTitleStyle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#fff",
-          },
-          headerTintColor: whiteColor,
           href: !saveBills ? null : "/orders",
           tabBarIcon: () => (
             <MaterialCommunityIcons
