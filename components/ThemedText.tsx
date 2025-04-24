@@ -56,8 +56,7 @@ const makeStyles = (fontScale: number) =>
       lineHeight: 35,
     },
     subtitle: {
-      fontSize: 25 / fontScale,
-      fontWeight: "bold",
+      fontSize: 20 / fontScale,
     },
     link: {
       fontSize: 16 / fontScale,

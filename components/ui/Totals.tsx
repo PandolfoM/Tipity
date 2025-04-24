@@ -61,7 +61,7 @@ function Totals() {
         </View>
         <NumberText number={TotalWTip} style={styles.totalCalculated} />
       </View>
-      <Text type="subtitle" style={[styles.totalsCategory]}>
+      <Text type="title" style={[styles.totalsCategory]}>
         Per Person:
       </Text>
       <View
@@ -84,7 +84,7 @@ function Totals() {
           />
         </View>
       </View>
-      <Text type="subtitle" style={[styles.totalsCategory]}>
+      <Text type="title" style={[styles.totalsCategory]}>
         Tip:
       </Text>
       <View

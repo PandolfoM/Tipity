@@ -17,9 +17,6 @@ import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
-
 const Item = ({
   item,
   onDelete,
@@ -51,7 +48,7 @@ const Item = ({
       if (item.image) {
         try {
           const isValid = await Image.prefetch(item.image);
-          setIsImageValid(isValid); // Cache the result
+          setIsImageValid(isValid);
         } catch {
           console.warn("Invalid image URI:", item.image);
           setIsImageValid(false);
@@ -177,10 +174,9 @@ function Orders() {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              width: 2,
             },
           ]}>
-          <Text type="subtitle">Nothing to see here yet</Text>
+          <Text type="title">Nothing to see here yet</Text>
         </View>
       )}
     </ThemedView>
