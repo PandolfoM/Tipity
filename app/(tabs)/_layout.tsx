@@ -45,12 +45,20 @@ export default function TabLayout() {
               name="cog"
               size={sizes.fmd}
               color={whiteColor}
-              style={[isActive("/settings") && { color: accentColor }]}
+              style={[
+                (isActive("/settings") ||
+                  pathname.startsWith("/settings/")) && {
+                  color: accentColor,
+                },
+              ]}
             />
             <Text
               style={[
                 styles.triggerText,
-                isActive("/settings") && { color: accentColor },
+                (isActive("/settings") ||
+                  pathname.startsWith("/settings/")) && {
+                  color: accentColor,
+                },
               ]}>
               Settings
             </Text>

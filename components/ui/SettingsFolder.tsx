@@ -18,7 +18,7 @@ export default function SettingsFolder({ url, title }: FolderProps) {
     // @ts-ignore
     <Link href={url} asChild style={styles.option}>
       <Pressable>
-        <Text style={styles.title}>{title}</Text>
+        <Text type="defaultSemiBold">{title}</Text>
         <MaterialCommunityIcons
           style={[styles.icon, { color: whiteColor }]}
           name="chevron-right"
@@ -36,10 +36,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: sizes.sm,
-  },
-  title: {
-    fontSize: sizes.fsm,
-    fontWeight: "bold",
   },
   icon: {
     fontSize: sizes.flg,
