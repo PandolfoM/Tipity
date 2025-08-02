@@ -26,13 +26,17 @@ function Bill() {
 
   const openCamera = async () => {
     Keyboard.dismiss();
-    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    // const permission = await ImagePicker.requestCameraPermissionsAsync();
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       alert("Camera permission required");
       return;
     }
 
-    const result = await ImagePicker.launchCameraAsync({
+    // const result = await ImagePicker.launchCameraAsync({
+    //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+    // });
+    const result = await ImagePicker.launchImageLibraryAsync({
       presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
     });
 
@@ -47,32 +51,52 @@ function Bill() {
     }
   };
 
-  const extractBillTotalWithNativeOCR = async (imageUri: string) => {
+  const extractBillTotalWithNativeOCR = async (
+    imageUri: string
+  ): Promise<string | null> => {
     try {
       const detectedText = await TextRecognition.recognize(imageUri);
 
-      // Combine detected text into a single string
-      const combinedText = detectedText.join(" ");
+      const tipMarkerRegex = /suggest(ed)? tip/i;
+      const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
 
-      // Extract the bill total using a regex
-      const matches = combinedText.match(/\$\s?(\d+(\.\d{2})?)/g); // Matches all "$123.45"
+      const validLines: string[] = [];
 
-      if (matches && matches.length > 0) {
-        // Remove the "$" and parse the values as floats
-        const values = matches.map((match) =>
-          parseFloat(match.replace("$", "").trim())
-        );
+      for (const line of detectedText) {
+        if (tipMarkerRegex.test(line)) {
+          // Stop processing when "Suggested Tip" is reached
+          break;
+        }
 
-        // Find the highest value
-        const highestValue = Math.max(...values);
-        setImageUri(imageUri);
-        return highestValue.toFixed(2); // Return the highest value as a string with 2 decimal places
+        if (line.includes("%")) {
+          // Skip lines with percentage signs
+          continue;
+        }
+
+        validLines.push(line);
+      }
+
+      const validAmounts: number[] = [];
+
+      for (const line of validLines) {
+        const matches = line.match(amountRegex);
+        if (matches) {
+          const lineValues = matches.map((match) =>
+            parseFloat(match.replace(/[^0-9.]/g, ""))
+          );
+          validAmounts.push(...lineValues);
+        }
+      }
+
+      if (validAmounts.length > 0) {
+        const highestValue = Math.max(...validAmounts);
+        return highestValue.toFixed(2);
       }
     } catch (error) {
       console.error("Error with Native OCR:", error);
     }
 
-    return null; // Return null if no bill total is found
+    return null;
   };
 
   return (

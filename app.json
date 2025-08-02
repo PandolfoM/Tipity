@@ -2,7 +2,7 @@
   "expo": {
     "name": "Tipity",
     "slug": "Tip-Calculator",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "tipity",
@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pandolfom.TipCalculator",
-      "buildNumber": "10",
+      "buildNumber": "13",
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs access to your camera to capture images of restaurant bills.",
         "ITSAppUsesNonExemptEncryption": false
