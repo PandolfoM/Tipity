@@ -8,6 +8,7 @@ import {
 import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 import { SettingsProvider } from "@/context/SettingsContext";
+import ImageProvider from "@/context/ImageProvider";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -17,13 +18,15 @@ export default function RootLayout() {
       <GestureHandlerRootView>
         <SettingsProvider>
           <AppProvider>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="+not-found"
-                options={{ headerShown: false }}
-              />
-            </Stack>
+            <ImageProvider>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="+not-found"
+                  options={{ headerShown: false }}
+                />
+              </Stack>
+            </ImageProvider>
           </AppProvider>
         </SettingsProvider>
       </GestureHandlerRootView>

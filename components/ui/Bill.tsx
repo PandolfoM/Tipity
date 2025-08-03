@@ -26,19 +26,19 @@ function Bill() {
 
   const openCamera = async () => {
     Keyboard.dismiss();
-    // const permission = await ImagePicker.requestCameraPermissionsAsync();
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    // const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       alert("Camera permission required");
       return;
     }
 
-    // const result = await ImagePicker.launchCameraAsync({
-    //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
-    // });
-    const result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchCameraAsync({
       presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
     });
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+    // });
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
@@ -57,47 +57,108 @@ function Bill() {
     try {
       const detectedText = await TextRecognition.recognize(imageUri);
 
-      const tipMarkerRegex = /suggest(ed)? tip/i;
-      const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
+      const validLines = getValidLinesBeforeTipSection(detectedText);
 
-      const validLines: string[] = [];
+      const likelyTotal = findLikelyTotal(validLines);
+      if (likelyTotal !== null) return likelyTotal.toFixed(2);
 
-      for (const line of detectedText) {
-        if (tipMarkerRegex.test(line)) {
-          // Stop processing when "Suggested Tip" is reached
-          break;
-        }
+      const allAmounts = extractAmountsFromLines(validLines);
+      if (allAmounts.length === 0) return null;
 
-        if (line.includes("%")) {
-          // Skip lines with percentage signs
-          continue;
-        }
-
-        validLines.push(line);
-      }
-
-      const validAmounts: number[] = [];
-
-      for (const line of validLines) {
-        const matches = line.match(amountRegex);
-        if (matches) {
-          const lineValues = matches.map((match) =>
-            parseFloat(match.replace(/[^0-9.]/g, ""))
-          );
-          validAmounts.push(...lineValues);
-        }
-      }
-
-      if (validAmounts.length > 0) {
-        const highestValue = Math.max(...validAmounts);
-        return highestValue.toFixed(2);
-      }
+      const highest = Math.max(...allAmounts);
+      return highest.toFixed(2);
     } catch (error) {
       console.error("Error with Native OCR:", error);
+      return null;
+    }
+  };
+
+  const getValidLinesBeforeTipSection = (lines: string[]): string[] => {
+    const tipTriggerRegex = /suggest(ed)? tip/i;
+
+    const validLines: string[] = [];
+    for (const line of lines) {
+      if (tipTriggerRegex.test(line)) break;
+      if (line.includes("%")) continue;
+
+      validLines.push(line);
+    }
+
+    return validLines;
+  };
+
+  const extractAmountsFromLines = (lines: string[]): number[] => {
+    const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
+
+    return lines.flatMap((line) => {
+      const matches = line.match(amountRegex) || [];
+      return matches.map((m) => parseFloat(m.replace(/[^0-9.]/g, "")));
+    });
+  };
+
+  const findLikelyTotal = (lines: string[]): number | null => {
+    const totalKeywords = /total|amount due|balance due/i;
+
+    // Check lines from bottom-up, assuming total is near the bottom
+    for (const line of [...lines].reverse()) {
+      if (totalKeywords.test(line) && !line.includes("%")) {
+        const match = line.match(/\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/);
+        if (match) {
+          return parseFloat(match[0].replace(/[^0-9.]/g, ""));
+        }
+      }
     }
 
     return null;
   };
+
+  // const extractBillTotalWithNativeOCR = async (
+  //   imageUri: string
+  // ): Promise<string | null> => {
+  //   try {
+  //     const detectedText = await TextRecognition.recognize(imageUri);
+
+  //     const tipMarkerRegex = /suggest(ed)? tip/i;
+  //     const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
+
+  //     const validLines: string[] = [];
+
+  //     for (const line of detectedText) {
+  //       if (tipMarkerRegex.test(line)) {
+  //         // Stop processing when "Suggested Tip" is reached
+  //         break;
+  //       }
+
+  //       if (line.includes("%")) {
+  //         // Skip lines with percentage signs
+  //         continue;
+  //       }
+
+  //       validLines.push(line);
+  //     }
+
+  //     const validAmounts: number[] = [];
+
+  //     for (const line of validLines) {
+  //       const matches = line.match(amountRegex);
+  //       if (matches) {
+  //         const lineValues = matches.map((match) =>
+  //           parseFloat(match.replace(/[^0-9.]/g, ""))
+  //         );
+  //         validAmounts.push(...lineValues);
+  //       }
+  //     }
+
+  //     if (validAmounts.length > 0) {
+  //       const highestValue = Math.max(...validAmounts);
+  //       return highestValue.toFixed(2);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error with Native OCR:", error);
+  //   }
+
+  //   return null;
+  // };
 
   return (
     <View style={[{ backgroundColor }]}>

@@ -3,19 +3,14 @@ import { Text } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { OrderProps, useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import {
-  FlatList,
-  TouchableOpacity,
-  View,
-  Pressable,
-  Modal,
-} from "react-native";
+import { FlatList, TouchableOpacity, View, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import sizes from "@/config/sizes";
 import dayjs from "dayjs";
 import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useImage } from "@/context/ImageProvider";
 
 const Item = ({
   item,
@@ -24,7 +19,7 @@ const Item = ({
   item: OrderProps;
   onDelete: (item: OrderProps) => void;
 }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { showImage } = useImage();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const styles = makeStyles();
   const formattedDate = dayjs(item.date).format("MMMM D, YYYY hh:mm A");
@@ -67,21 +62,9 @@ const Item = ({
 
   return (
     <>
-      <Modal
-        visible={isVisible}
-        animationType="slide"
-        onRequestClose={() => setIsVisible(false)}
-        presentationStyle="pageSheet">
-        <View style={[styles.modal, { backgroundColor: billBackground }]}>
-          <Image
-            source={{ uri: item.image }}
-            style={{ width: "100%", aspectRatio: 0.8 }}
-            contentFit="cover"
-          />
-        </View>
-      </Modal>
-      <Swipeable friction={2} renderRightActions={RightActions}>
-        <Pressable onPress={() => isImageValid && setIsVisible(true)}>
+      <Swipeable friction={1} renderRightActions={RightActions}>
+        <Pressable
+          onPress={() => isImageValid && showImage(item.image as string)}>
           <View
             style={[styles.bill, { backgroundColor: billBackground, gap: 5 }]}>
             <View style={{ flex: 1 }}>
@@ -214,7 +197,7 @@ const makeStyles = () =>
     },
     modal: {
       flex: 1,
-      paddingTop: 100,
+      // paddingTop: 100,
     },
     icon: {
       fontSize: sizes.flg,
