@@ -26,19 +26,19 @@ function Bill() {
 
   const openCamera = async () => {
     Keyboard.dismiss();
-    // const permission = await ImagePicker.requestCameraPermissionsAsync();
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    // const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       alert("Camera permission required");
       return;
     }
 
-    // const result = await ImagePicker.launchCameraAsync({
-    //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
-    // });
-    const result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchCameraAsync({
       presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
     });
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+    // });
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
