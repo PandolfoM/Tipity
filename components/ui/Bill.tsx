@@ -113,54 +113,6 @@ function Bill() {
     return null;
   };
 
-  // const extractBillTotalWithNativeOCR = async (
-  //   imageUri: string
-  // ): Promise<string | null> => {
-  //   try {
-  //     const detectedText = await TextRecognition.recognize(imageUri);
-
-  //     const tipMarkerRegex = /suggest(ed)? tip/i;
-  //     const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
-
-  //     const validLines: string[] = [];
-
-  //     for (const line of detectedText) {
-  //       if (tipMarkerRegex.test(line)) {
-  //         // Stop processing when "Suggested Tip" is reached
-  //         break;
-  //       }
-
-  //       if (line.includes("%")) {
-  //         // Skip lines with percentage signs
-  //         continue;
-  //       }
-
-  //       validLines.push(line);
-  //     }
-
-  //     const validAmounts: number[] = [];
-
-  //     for (const line of validLines) {
-  //       const matches = line.match(amountRegex);
-  //       if (matches) {
-  //         const lineValues = matches.map((match) =>
-  //           parseFloat(match.replace(/[^0-9.]/g, ""))
-  //         );
-  //         validAmounts.push(...lineValues);
-  //       }
-  //     }
-
-  //     if (validAmounts.length > 0) {
-  //       const highestValue = Math.max(...validAmounts);
-  //       return highestValue.toFixed(2);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error with Native OCR:", error);
-  //   }
-
-  //   return null;
-  // };
-
   return (
     <View style={[{ backgroundColor }]}>
       <View>
