@@ -12,7 +12,6 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { Text } from "@/components/ThemedText";
 
 export default function Index() {
   const [isScrollable, setIsScrollable] = useState(false);

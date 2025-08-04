@@ -26,19 +26,19 @@ function Bill() {
 
   const openCamera = async () => {
     Keyboard.dismiss();
-    const permission = await ImagePicker.requestCameraPermissionsAsync();
-    // const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    // const permission = await ImagePicker.requestCameraPermissionsAsync();
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       alert("Camera permission required");
       return;
     }
 
-    const result = await ImagePicker.launchCameraAsync({
-      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
-    });
-    // const result = await ImagePicker.launchImageLibraryAsync({
+    // const result = await ImagePicker.launchCameraAsync({
     //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
     // });
+    const result = await ImagePicker.launchImageLibraryAsync({
+      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+    });
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
@@ -74,7 +74,8 @@ function Bill() {
   };
 
   const getValidLinesBeforeTipSection = (lines: string[]): string[] => {
-    const tipTriggerRegex = /suggest(ed)? tip/i;
+    const tipTriggerRegex =
+      /(suggest(ed)? (tip|gratuity))|tip amount|gratuity amount|tip recommended|service charge|\b\d{1,2}%/i;
 
     const validLines: string[] = [];
     for (const line of lines) {
