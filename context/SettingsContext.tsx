@@ -13,6 +13,8 @@ interface SettingsContextProps {
   setKeepAwake: React.Dispatch<React.SetStateAction<boolean>>;
   saveBills: boolean;
   setSaveBills: React.Dispatch<React.SetStateAction<boolean>>;
+  autoSaveTabs: boolean;
+  setAutoSaveTabs: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -30,17 +32,22 @@ function useSettings(): SettingsContextProps {
 const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [keepAwake, setKeepAwake] = useState<boolean>(false);
   const [saveBills, setSaveBills] = useState<boolean>(true);
+  const [autoSaveTabs, setAutoSaveTabs] = useState<boolean>(true);
 
   useEffect(() => {
     async function prepare() {
       try {
-        const [keepAwake, saveBills] = await Promise.all([
+        const [keepAwake, saveBills, autoSaveTabs] = await Promise.all([
           storage.getData("keepAwake"),
           storage.getData("saveBills"),
+          storage.getData("autoSaveTabs"),
         ]);
 
         setKeepAwake(keepAwake || false);
-        setSaveBills(saveBills || true);
+        setSaveBills(typeof saveBills === "boolean" ? saveBills : true);
+        setAutoSaveTabs(
+          typeof autoSaveTabs === "boolean" ? autoSaveTabs : true
+        );
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -58,6 +65,7 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
               [
                 storage.storeData("keepAwake", keepAwake),
                 storage.storeData("saveBills", saveBills),
+                storage.storeData("autoSaveTabs", autoSaveTabs),
               ].filter(Boolean)
             );
           } catch (error) {
@@ -76,7 +84,7 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.remove();
     };
-  }, [keepAwake, saveBills]);
+  }, [keepAwake, saveBills, autoSaveTabs]);
 
   return (
     <SettingsContext.Provider
@@ -85,6 +93,8 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setKeepAwake,
         saveBills,
         setSaveBills,
+        autoSaveTabs,
+        setAutoSaveTabs,
       }}>
       <View style={{ flex: 1 }}>{children}</View>
     </SettingsContext.Provider>

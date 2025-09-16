@@ -33,6 +33,7 @@ interface AppContextProps {
   setThemeColor: React.Dispatch<
     React.SetStateAction<"auto" | "dark" | "light">
   >;
+  saveNewBill: () => Promise<void>;
 }
 
 export interface OrderProps {
@@ -57,7 +58,7 @@ function useApp(): AppContextProps {
 }
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
-  const { saveBills } = useSettings();
+  const { saveBills, autoSaveTabs } = useSettings();
 
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -83,6 +84,36 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location);
+  }
+
+  async function saveNewBill() {
+    if (saveBills) {
+      if (billTotal !== 0) {
+        const newOrder: OrderProps = {
+          date: Date.now(),
+          rounded: isRounding,
+          service: service || 0,
+          split: split || 1,
+          total,
+          tip,
+          image: imageUri ?? null,
+          location: location ?? undefined,
+        };
+        const updatedOrders = [...orders, newOrder];
+        setOrders(updatedOrders);
+
+        await Promise.all(
+          [
+            updatedOrders.length > orders.length &&
+              storage.storeData("orders", updatedOrders),
+          ].filter(Boolean)
+        );
+      } else {
+        await Promise.all(
+          [storage.storeData("orders", orders)].filter(Boolean)
+        );
+      }
+    }
   }
 
   useEffect(() => {
@@ -117,31 +148,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
       if (nextAppState === "background") {
         const saveData = async () => {
           try {
-            if (saveBills) {
-              if (billTotal !== 0) {
-                const newOrder: OrderProps = {
-                  date: Date.now(),
-                  rounded: isRounding,
-                  service: service || 0,
-                  split: split || 1,
-                  total,
-                  tip,
-                  image: imageUri ?? null,
-                  location: location ?? undefined,
-                };
-                const updatedOrders = [...orders, newOrder];
-
-                await Promise.all(
-                  [
-                    updatedOrders.length > orders.length &&
-                      storage.storeData("orders", updatedOrders),
-                  ].filter(Boolean)
-                );
-              } else {
-                await Promise.all(
-                  [storage.storeData("orders", orders)].filter(Boolean)
-                );
-              }
+            if (autoSaveTabs) {
+              await saveNewBill();
             }
 
             await Promise.all(
@@ -202,6 +210,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setTip,
         imageUri,
         setImageUri,
+        saveNewBill,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { ThemedView } from "@/components/ThemedView";
-import SettingsFolder from "@/components/ui/SettingsFolder";
-import { useSettings } from "@/context/SettingsContext";
 import ConfirmModal from "@/components/ConfirmModal";
-import storage from "@/utils/storage";
+import { ThemedView } from "@/components/ThemedView";
+import SettingsOption from "@/components/ui/SettingsOption";
 import { useApp } from "@/context/AppContext";
+import { useSettings } from "@/context/SettingsContext";
+import storage from "@/utils/storage";
+import React, { useState } from "react";
 
-export default function Settings() {
-  const { saveBills, setSaveBills } = useSettings();
+function Pasttabs() {
+  const { saveBills, setSaveBills, autoSaveTabs, setAutoSaveTabs } =
+    useSettings();
   const { setOrders, orders } = useApp();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -32,9 +33,21 @@ export default function Settings() {
         onCancel={() => setIsVisible(false)}
       />
       <ThemedView style={[{ flex: 1 }]}>
-        <SettingsFolder title="Display" url="/settings/display" />
-        <SettingsFolder title="Past Tabs" url="/settings/pasttabs" />
+        <SettingsOption
+          name="Save Past Tabs"
+          value={saveBills}
+          onValueChange={toggleSaveBills}
+        />
+        {saveBills && (
+          <SettingsOption
+            name="Auto Save"
+            value={autoSaveTabs}
+            onValueChange={(value) => setAutoSaveTabs(value)}
+          />
+        )}
       </ThemedView>
     </>
   );
 }
+
+export default Pasttabs;

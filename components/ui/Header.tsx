@@ -8,7 +8,6 @@ import {
 import { useApp } from "@/context/AppContext";
 import { Text } from "@/components/ThemedText";
 import sizes from "@/config/sizes";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import Switch from "@/components/Switch";
@@ -17,17 +16,16 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useSettings } from "@/context/SettingsContext";
 
 function Header() {
-  const { isRounding, setIsRounding } = useApp();
-  const backgroundColor = useThemeColor({}, "background");
+  const [saved, setSaved] = useState(false);
+  const { isRounding, setIsRounding, billTotal, saveNewBill } = useApp();
+  const { saveBills, autoSaveTabs } = useSettings();
   const translateY = useSharedValue(-100);
 
-  const closeBar = useAnimatedStyle(() => {
-    return {
-      height: Math.abs(30),
-    };
-  }, []);
+  const backgroundColor = useThemeColor({}, "background");
+  const accentColor = useThemeColor({}, "accent");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
@@ -77,6 +75,22 @@ function Header() {
             Round Up
           </Text>
         </View>
+        {saveBills && !autoSaveTabs && (
+          <TouchableOpacity
+            disabled={billTotal === 0 || saved}
+            onPress={() => {
+              saveNewBill();
+              setSaved(true);
+            }}
+            style={{
+              opacity: billTotal === 0 || saved ? 0.5 : 1,
+              transitionDuration: "200ms",
+              transitionProperty: "opacity",
+              transitionTimingFunction: "ease-in-out",
+            }}>
+            <Text style={[styles.saveBtn, { color: accentColor }]}>Save</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </>
   );
@@ -109,6 +123,9 @@ const styles = StyleSheet.create({
   },
   close: {
     textAlign: "right",
+  },
+  saveBtn: {
+    fontWeight: "700",
   },
 });
 

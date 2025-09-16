@@ -48,6 +48,7 @@ export default function SettingsLayout() {
       <Stack.Screen name="index" options={{ title: "Settings" }} />
       <Stack.Screen name="darkmode" options={{ title: "Dark Mode" }} />
       <Stack.Screen name="display" options={{ title: "Display" }} />
+      <Stack.Screen name="pasttabs" options={{ title: "Past Tabs" }} />
     </Stack>
   );
 }
