@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Pressable,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Tooltip from "@/components/ui/Tooltip";
 
 import sizes from "@/config/sizes";
 import NumberText from "@/components/NumberText";
@@ -14,8 +16,17 @@ import { useThemeColor } from "@/hooks/useThemeColors";
 import { useApp } from "@/context/AppContext";
 
 function Totals() {
-  const { service, split, billTotal, setBillTotal, setTotal, setTip } =
-    useApp();
+  const [showRealTip, setShowRealTip] = useState(false);
+  const [showRealPersonTip, setShowRealPersonTip] = useState(false);
+  const {
+    service,
+    split,
+    billTotal,
+    setBillTotal,
+    setTotal,
+    setTip,
+    isRounding,
+  } = useApp();
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(fontScale, scale);
 
@@ -24,6 +35,7 @@ function Totals() {
 
   const textColor = useThemeColor({}, "text");
   const tertiaryColor = useThemeColor({}, "tertiary");
+  const accentColor = useThemeColor({}, "accent");
 
   if (service != undefined) {
     if (service.toString() === "100") {
@@ -84,9 +96,31 @@ function Totals() {
           />
         </View>
       </View>
-      <Text type="title" style={[styles.totalsCategory]}>
-        Tip:
-      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        <Text type="title" style={[styles.totalsCategory]}>
+          Tip:
+        </Text>
+        {isRounding && (
+          <Tooltip
+            visible={showRealTip}
+            onToggle={() => setShowRealTip((prev) => !prev)}
+            text={`Tips before rounding:\nTotal: $${(
+              (parseFloat(Total) || 0) * parseFloat(TipPercent)
+            ).toFixed(2)}\nPer Person: $${(
+              ((parseFloat(Total) || 0) * parseFloat(TipPercent)) /
+              (split ?? 1)
+            ).toFixed(2)}`}
+            accentColor={accentColor}
+            backgroundColor={tertiaryColor}
+            textColor={textColor}
+          />
+        )}
+      </View>
       <View
         style={[
           styles.totalExtrasContainer,
@@ -117,6 +151,9 @@ export default Totals;
 
 const makeStyles = (fontScale: number, scale: number) =>
   StyleSheet.create({
+    infoBtn: {
+      fontSize: 18,
+    },
     total: {
       height: 400 / scale,
       justifyContent: "center",
@@ -143,8 +180,8 @@ const makeStyles = (fontScale: number, scale: number) =>
     totalExtrasContainer: {
       flexWrap: "wrap",
       flexDirection: "row",
-      borderRadius: 50,
       borderTopWidth: 2,
+      marginHorizontal: sizes.lg,
     },
     totalExtrasHeader: {
       fontSize: 20 / fontScale,
