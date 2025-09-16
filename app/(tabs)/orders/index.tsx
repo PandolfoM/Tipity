@@ -19,6 +19,7 @@ import { Image } from "expo-image";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useImage } from "@/context/ImageProvider";
 import * as Location from "expo-location";
+import { useSettings } from "@/context/SettingsContext";
 
 const Item = ({
   item,
@@ -28,6 +29,7 @@ const Item = ({
   onDelete: (item: OrderProps) => void;
 }) => {
   const { showImage } = useImage();
+  const { saveNewBill } = useApp();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const [address, setAddress] = useState<string>("");
   const styles = makeStyles();
@@ -195,12 +197,13 @@ const Item = ({
 };
 
 function Orders() {
-  const { orders, setOrders } = useApp();
+  const { orders, setOrders, saveNewBill } = useApp();
   const styles = makeStyles();
 
   const onDelete = (item: OrderProps) => {
     const newOrders = orders.filter((order) => order !== item);
     setOrders(newOrders);
+    saveNewBill(true, newOrders);
   };
 
   const sortedOrders = [...orders].sort((a, b) => b.date - a.date);

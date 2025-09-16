@@ -33,7 +33,10 @@ interface AppContextProps {
   setThemeColor: React.Dispatch<
     React.SetStateAction<"auto" | "dark" | "light">
   >;
-  saveNewBill: () => Promise<void>;
+  saveNewBill: (
+    onlySave?: boolean,
+    ordersParam?: Array<OrderProps>
+  ) => Promise<void>;
 }
 
 export interface OrderProps {
@@ -86,7 +89,11 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     setLocation(location);
   }
 
-  async function saveNewBill() {
+  async function saveNewBill(
+    onlySave?: boolean,
+    ordersParam?: Array<OrderProps>
+  ) {
+    console.log(saveBills, onlySave);
     if (saveBills) {
       if (billTotal !== 0) {
         const newOrder: OrderProps = {
@@ -107,6 +114,12 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
             updatedOrders.length > orders.length &&
               storage.storeData("orders", updatedOrders),
           ].filter(Boolean)
+        );
+      } else if (onlySave && ordersParam) {
+        console.log(ordersParam);
+
+        await Promise.all(
+          [storage.storeData("orders", ordersParam)].filter(Boolean)
         );
       } else {
         await Promise.all(

@@ -1,8 +1,8 @@
 import React from "react";
 import {
   Keyboard,
-  Pressable,
   StyleSheet,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -120,13 +120,13 @@ function Bill() {
           <Text type="title" style={[{ color: whiteColor }]}>
             Bill Total
           </Text>
-          <Pressable onPress={openCamera}>
+          <TouchableOpacity onPress={openCamera}>
             <MaterialCommunityIcons
               style={[{ color: whiteColor }]}
               size={sizes.flg}
               name="camera"
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <FakeCurrencyInput
           autoComplete="off"
