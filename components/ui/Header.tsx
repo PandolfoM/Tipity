@@ -43,6 +43,12 @@ function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (saved && billTotal !== 0) {
+      setSaved(false);
+    }
+  }, [billTotal]);
+
   const handleKeyboardShow = () => {
     translateY.value = withTiming(0, { duration: 300 }); // Slide down
   };
