@@ -93,7 +93,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     onlySave?: boolean,
     ordersParam?: Array<OrderProps>
   ) {
-    console.log(saveBills, onlySave);
     if (saveBills) {
       if (billTotal !== 0) {
         const newOrder: OrderProps = {
@@ -116,8 +115,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
           ].filter(Boolean)
         );
       } else if (onlySave && ordersParam) {
-        console.log(ordersParam);
-
         await Promise.all(
           [storage.storeData("orders", ordersParam)].filter(Boolean)
         );
