@@ -2,7 +2,7 @@
   "expo": {
     "name": "Tipity",
     "slug": "Tip-Calculator",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "tipity",
@@ -49,6 +49,12 @@
         "expo-image-picker",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ],

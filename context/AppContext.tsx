@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { Appearance, AppState, AppStateStatus, View } from "react-native";
 import { useSettings } from "./SettingsContext";
+import * as Location from "expo-location";
 
 interface AppContextProps {
   isRounding: boolean;
@@ -42,6 +43,7 @@ export interface OrderProps {
   rounded: boolean;
   tip: string;
   image?: string;
+  location?: Location.LocationObject;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -57,6 +59,9 @@ function useApp(): AppContextProps {
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const { saveBills } = useSettings();
 
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isRounding, setIsRounding] = useState<boolean>(false);
   const [split, setSplit] = useState<number | undefined>(1);
@@ -69,6 +74,16 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [themeColor, setThemeColor] = useState<"auto" | "dark" | "light">(
     "auto"
   );
+
+  async function getCurrentLocation() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+  }
 
   useEffect(() => {
     async function prepare() {
@@ -112,6 +127,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
                   total,
                   tip,
                   image: imageUri ?? null,
+                  location: location ?? undefined,
                 };
                 const updatedOrders = [...orders, newOrder];
 
@@ -157,6 +173,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {
       await SplashScreen.hideAsync();
+      await getCurrentLocation();
     }
   }, [isReady]);
 

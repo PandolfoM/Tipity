@@ -3,7 +3,14 @@ import { Text } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { OrderProps, useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
-import { FlatList, TouchableOpacity, View, Pressable } from "react-native";
+import {
+  FlatList,
+  TouchableOpacity,
+  View,
+  Pressable,
+  Platform,
+  Linking,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import sizes from "@/config/sizes";
 import dayjs from "dayjs";
@@ -11,6 +18,7 @@ import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useImage } from "@/context/ImageProvider";
+import * as Location from "expo-location";
 
 const Item = ({
   item,
@@ -21,6 +29,7 @@ const Item = ({
 }) => {
   const { showImage } = useImage();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>("");
   const styles = makeStyles();
   const formattedDate = dayjs(item.date).format("MMMM D, YYYY hh:mm A");
   const billBackground = useThemeColor({}, "secondary");
@@ -39,6 +48,34 @@ const Item = ({
   );
 
   useEffect(() => {
+    async function fetchAddress() {
+      if (item.location && item.location.coords) {
+        const { latitude, longitude } = item.location.coords;
+        try {
+          const results = await Location.reverseGeocodeAsync({
+            latitude,
+            longitude,
+          });
+          if (results && results.length > 0) {
+            const place = results[0];
+            let addr = place.name || "";
+            // if (place.street) addr += `, ${place.street}`;
+            if (place.city) addr += `, ${place.city}`;
+            if (place.region) addr += `, ${place.region}`;
+            // if (place.country) addr += `, ${place.country}`;
+            setAddress(addr);
+          } else {
+            setAddress(`${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+          }
+        } catch (e) {
+          setAddress(`${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+        }
+      }
+    }
+    fetchAddress();
+  }, [item.location]);
+
+  useEffect(() => {
     const preloadImage = async () => {
       if (item.image) {
         try {
@@ -55,10 +92,28 @@ const Item = ({
   }, [item.image]);
 
   const RightActions = () => (
-    <TouchableOpacity style={styles.deleteBtn} onPress={() => onDelete(item)}>
-      <Text style={styles.deleteTxt}>Delete</Text>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity style={styles.deleteBtn} onPress={() => onDelete(item)}>
+        <Text style={styles.deleteTxt}>Delete</Text>
+      </TouchableOpacity>
+      {address && (
+        <TouchableOpacity style={styles.viewBtn} onPress={() => openInMaps()}>
+          <Text style={styles.deleteTxt}>View Location</Text>
+        </TouchableOpacity>
+      )}
+    </>
   );
+
+  const openInMaps = () => {
+    if (item.location && item.location.coords) {
+      const url = Platform.select({
+        ios: `maps:0,0?q=${item.location.coords.latitude},${item.location.coords.longitude}`,
+        android: `geo:0,0?q=${item.location.coords.latitude},${item.location.coords.longitude}`,
+        default: `https://www.google.com/maps/search/?api=1&query=${item.location.coords.latitude},${item.location.coords.longitude}`,
+      });
+      Linking.openURL(url);
+    }
+  };
 
   return (
     <>
@@ -71,6 +126,15 @@ const Item = ({
               <Text style={[{ margin: "auto", fontWeight: "bold" }]}>
                 {formattedDate}
               </Text>
+              {address !== "" && (
+                <Text
+                  style={{
+                    fontSize: 16,
+                    textAlign: "center",
+                  }}>
+                  {address}
+                </Text>
+              )}
               <View
                 style={[
                   {
@@ -177,6 +241,13 @@ const makeStyles = () =>
       justifyContent: "space-between",
       alignItems: "center",
     },
+    viewBtn: {
+      backgroundColor: "dodgerblue",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 100,
+      marginVertical: sizes.xxs,
+    },
     deleteBtn: {
       backgroundColor: "red",
       justifyContent: "center",
@@ -187,6 +258,7 @@ const makeStyles = () =>
     deleteTxt: {
       color: "white",
       fontWeight: "bold",
+      textAlign: "center",
       fontSize: sizes.fsm,
     },
     header: {
