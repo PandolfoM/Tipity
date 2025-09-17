@@ -63,6 +63,7 @@ const makeStyles = (fontScale: number) =>
       fontSize: 25 / fontScale,
       fontWeight: "bold",
       alignSelf: "center",
+      textDecorationLine: "underline",
     },
     pickerContainer: {
       flexDirection: "column",
