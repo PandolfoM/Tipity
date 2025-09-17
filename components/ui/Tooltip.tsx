@@ -2,14 +2,12 @@ import React, { useRef, useState } from "react";
 import { Modal } from "react-native";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useThemeColor } from "@/hooks/useThemeColors";
 
 interface TooltipProps {
   visible: boolean;
   onToggle: () => void;
   text: string;
-  accentColor?: string;
-  backgroundColor?: string;
-  textColor?: string;
   style?: object;
 }
 
@@ -17,9 +15,6 @@ const Tooltip: React.FC<TooltipProps> = ({
   visible,
   onToggle,
   text,
-  accentColor = "#007AFF",
-  backgroundColor = "#FFF",
-  textColor = "#222",
   style = {},
 }) => {
   const iconRef = useRef<View>(null);
@@ -27,6 +22,10 @@ const Tooltip: React.FC<TooltipProps> = ({
     x: 0,
     y: 0,
   });
+
+  const textColor = useThemeColor({}, "text");
+  const backgroundColor = useThemeColor({}, "tertiary");
+  const accentColor = useThemeColor({}, "accent");
 
   const handleIconLayout = () => {
     if (iconRef.current) {
@@ -64,7 +63,7 @@ const Tooltip: React.FC<TooltipProps> = ({
               {
                 backgroundColor,
                 top: iconPos.y + 24,
-                left: iconPos.x,
+                left: iconPos.x - 25,
                 position: "absolute",
               },
             ]}>

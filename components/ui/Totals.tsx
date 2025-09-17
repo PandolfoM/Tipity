@@ -115,9 +115,6 @@ function Totals() {
               ((parseFloat(Total) || 0) * parseFloat(TipPercent)) /
               (split ?? 1)
             ).toFixed(2)}`}
-            accentColor={accentColor}
-            backgroundColor={tertiaryColor}
-            textColor={textColor}
           />
         )}
       </View>

@@ -15,6 +15,8 @@ interface SettingsContextProps {
   setSaveBills: React.Dispatch<React.SetStateAction<boolean>>;
   autoSaveTabs: boolean;
   setAutoSaveTabs: React.Dispatch<React.SetStateAction<boolean>>;
+  aiExtractTotal: boolean;
+  setAiExtractTotal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
@@ -33,20 +35,26 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [keepAwake, setKeepAwake] = useState<boolean>(false);
   const [saveBills, setSaveBills] = useState<boolean>(true);
   const [autoSaveTabs, setAutoSaveTabs] = useState<boolean>(true);
+  const [aiExtractTotal, setAiExtractTotal] = useState<boolean>(false);
 
   useEffect(() => {
     async function prepare() {
       try {
-        const [keepAwake, saveBills, autoSaveTabs] = await Promise.all([
-          storage.getData("keepAwake"),
-          storage.getData("saveBills"),
-          storage.getData("autoSaveTabs"),
-        ]);
+        const [keepAwake, saveBills, autoSaveTabs, aiExtractTotal] =
+          await Promise.all([
+            storage.getData("keepAwake"),
+            storage.getData("saveBills"),
+            storage.getData("autoSaveTabs"),
+            storage.getData("aiExtractTotal"),
+          ]);
 
-        setKeepAwake(keepAwake || false);
+        setKeepAwake(typeof keepAwake === "boolean" ? keepAwake : false);
         setSaveBills(typeof saveBills === "boolean" ? saveBills : true);
         setAutoSaveTabs(
           typeof autoSaveTabs === "boolean" ? autoSaveTabs : true
+        );
+        setAiExtractTotal(
+          typeof aiExtractTotal === "boolean" ? aiExtractTotal : false
         );
       } catch (error) {
         console.error("Error loading data:", error);
@@ -95,6 +103,8 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setSaveBills,
         autoSaveTabs,
         setAutoSaveTabs,
+        aiExtractTotal,
+        setAiExtractTotal,
       }}>
       <View style={{ flex: 1 }}>{children}</View>
     </SettingsContext.Provider>

@@ -12,11 +12,13 @@ import { useApp } from "@/context/AppContext";
 import { useThemeColor } from "@/hooks/useThemeColors";
 import sizes from "@/config/sizes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import TextRecognition from "react-native-text-recognition";
 import * as ImagePicker from "expo-image-picker";
+import { extractTotal } from "@/utils/extractTotal";
+import { useSettings } from "@/context/SettingsContext";
 
 function Bill() {
   const { billTotal, setBillTotal, setImageUri } = useApp();
+  const { aiExtractTotal } = useSettings();
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
 
@@ -26,91 +28,31 @@ function Bill() {
 
   const openCamera = async () => {
     Keyboard.dismiss();
-    const permission = await ImagePicker.requestCameraPermissionsAsync();
-    // const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    // const permission = await ImagePicker.requestCameraPermissionsAsync();
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       alert("Camera permission required");
       return;
     }
 
-    const result = await ImagePicker.launchCameraAsync({
-      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
-    });
-    // const result = await ImagePicker.launchImageLibraryAsync({
+    // const result = await ImagePicker.launchCameraAsync({
     //   presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
     // });
+    const result = await ImagePicker.launchImageLibraryAsync({
+      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
+    });
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
-      const billTotal = await extractBillTotalWithNativeOCR(imageUri);
+      const billTotal = await extractTotal(imageUri, aiExtractTotal);
+
       if (billTotal) {
         setBillTotal(parseFloat(billTotal));
       } else {
         alert("Could not find bill total. Please try again.");
       }
     }
-  };
-
-  const extractBillTotalWithNativeOCR = async (
-    imageUri: string
-  ): Promise<string | null> => {
-    try {
-      const detectedText = await TextRecognition.recognize(imageUri);
-
-      const validLines = getValidLinesBeforeTipSection(detectedText);
-
-      const likelyTotal = findLikelyTotal(validLines);
-      if (likelyTotal !== null) return likelyTotal.toFixed(2);
-
-      const allAmounts = extractAmountsFromLines(validLines);
-      if (allAmounts.length === 0) return null;
-
-      const highest = Math.max(...allAmounts);
-      return highest.toFixed(2);
-    } catch (error) {
-      console.error("Error with Native OCR:", error);
-      return null;
-    }
-  };
-
-  const getValidLinesBeforeTipSection = (lines: string[]): string[] => {
-    const tipTriggerRegex =
-      /(suggest(ed)? (tip|gratuity))|tip amount|gratuity amount|tip recommended|service charge|\b\d{1,2}%/i;
-
-    const validLines: string[] = [];
-    for (const line of lines) {
-      if (tipTriggerRegex.test(line)) break;
-      if (line.includes("%")) continue;
-
-      validLines.push(line);
-    }
-
-    return validLines;
-  };
-
-  const extractAmountsFromLines = (lines: string[]): number[] => {
-    const amountRegex = /\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/g;
-
-    return lines.flatMap((line) => {
-      const matches = line.match(amountRegex) || [];
-      return matches.map((m) => parseFloat(m.replace(/[^0-9.]/g, "")));
-    });
-  };
-
-  const findLikelyTotal = (lines: string[]): number | null => {
-    const totalKeywords = /total|amount due|balance due/i;
-
-    // Check lines from bottom-up, assuming total is near the bottom
-    for (const line of [...lines].reverse()) {
-      if (totalKeywords.test(line) && !line.includes("%")) {
-        const match = line.match(/\$?\s?(\d{1,3}(,\d{3})*|\d+)(\.\d{2})/);
-        if (match) {
-          return parseFloat(match[0].replace(/[^0-9.]/g, ""));
-        }
-      }
-    }
-
-    return null;
   };
 
   return (
