@@ -17,7 +17,7 @@ import { extractTotal } from "@/utils/extractTotal";
 import { useSettings } from "@/context/SettingsContext";
 
 function Bill() {
-  const { billTotal, setBillTotal, setImageUri } = useApp();
+  const { billTotal, setBillTotal, setLoading } = useApp();
   const { aiExtractTotal } = useSettings();
   const { fontScale } = useWindowDimensions();
   const styles = makeStyles(fontScale);
@@ -45,7 +45,9 @@ function Bill() {
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
+      if (aiExtractTotal) setLoading(true);
       const billTotal = await extractTotal(imageUri, aiExtractTotal);
+      setLoading(false);
 
       if (billTotal) {
         setBillTotal(parseFloat(billTotal));

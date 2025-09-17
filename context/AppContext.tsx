@@ -37,6 +37,8 @@ interface AppContextProps {
     onlySave?: boolean,
     ordersParam?: Array<OrderProps>
   ) => Promise<void>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface OrderProps {
@@ -63,6 +65,7 @@ function useApp(): AppContextProps {
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const { saveBills, autoSaveTabs } = useSettings();
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -221,6 +224,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         imageUri,
         setImageUri,
         saveNewBill,
+        loading,
+        setLoading,
       }}>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
         {children}
