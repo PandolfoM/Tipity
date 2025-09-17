@@ -16,39 +16,44 @@ async function chatgptExtract(image_url: string): Promise<string | null> {
   const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   image_url = await convertImageToBase64(image_url);
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4.1-mini",
-      input: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "input_text",
-              text: "Extract the total after taxes but before the tip from this receipt image and return just the number:",
-            },
-            {
-              type: "input_image",
-              image_url: `data:image/jpeg;base64,${image_url}`,
-            },
-          ],
-        },
-      ],
-    }),
-  });
+  try {
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4.1-mini",
+        input: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: "Extract the total after taxes but before the tip from this receipt image and return just the number:",
+              },
+              {
+                type: "input_image",
+                image_url: `data:image/jpeg;base64,${image_url}`,
+              },
+            ],
+          },
+        ],
+      }),
+    });
 
-  const data = await response.json();
-  const content = data.output[0].content[0].text;
-  if (content) {
-    return content;
+    const data = await response.json();
+    const content = data.output[0].content[0].text;
+    if (content) {
+      return content;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error with ChatGPT OCR:", error);
+    return null;
   }
-
-  return null;
 }
 
 const extractBillTotalWithNativeOCR = async (
