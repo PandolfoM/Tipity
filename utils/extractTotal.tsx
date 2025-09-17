@@ -1,13 +1,10 @@
 import TextRecognition from "react-native-text-recognition";
-import * as FileSystem from "expo-file-system";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export async function extractTotal(
   image_url: string,
   aiExtractTotal: boolean
 ): Promise<string | null> {
-  console.log(aiExtractTotal);
-  console.log(image_url);
-
   if (aiExtractTotal) {
     return await chatgptExtract(image_url);
   } else {
@@ -117,7 +114,14 @@ const findLikelyTotal = (lines: string[]): number | null => {
 };
 
 async function convertImageToBase64(uri: string): Promise<string> {
-  return await FileSystem.readAsStringAsync(uri, {
-    encoding: FileSystem.EncodingType.Base64,
+  const context = ImageManipulator.ImageManipulator.manipulate(uri);
+  const image = await context.renderAsync();
+  const result = await image.saveAsync({
+    base64: true,
+    compress: 0.5,
   });
+
+  if (!result) return "";
+
+  return result.base64 ?? "";
 }
