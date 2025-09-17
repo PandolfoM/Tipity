@@ -64,35 +64,36 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     prepare();
   }, []);
 
-  useEffect(() => {
-    const handleAppStateChange = (nextAppState: AppStateStatus) => {
-      if (nextAppState === "background") {
-        const saveData = async () => {
-          try {
-            await Promise.all(
-              [
-                storage.storeData("keepAwake", keepAwake),
-                storage.storeData("saveBills", saveBills),
-                storage.storeData("autoSaveTabs", autoSaveTabs),
-              ].filter(Boolean)
-            );
-          } catch (error) {
-            console.error("Error saving data on app close:", error);
-          }
-        };
-        saveData();
-      }
-    };
+  // useEffect(() => {
+  //   const handleAppStateChange = (nextAppState: AppStateStatus) => {
+  //     if (nextAppState === "background") {
+  //       const saveData = async () => {
+  //         try {
+  //           await Promise.all(
+  //             [
+  //               storage.storeData("keepAwake", keepAwake),
+  //               storage.storeData("saveBills", saveBills),
+  //               storage.storeData("autoSaveTabs", autoSaveTabs),
+  //               storage.storeData("aiExtractTotal", aiExtractTotal),
+  //             ].filter(Boolean)
+  //           );
+  //         } catch (error) {
+  //           console.error("Error saving data on app close:", error);
+  //         }
+  //       };
+  //       saveData();
+  //     }
+  //   };
 
-    const subscription = AppState.addEventListener(
-      "change",
-      handleAppStateChange
-    );
+  //   const subscription = AppState.addEventListener(
+  //     "change",
+  //     handleAppStateChange
+  //   );
 
-    return () => {
-      subscription.remove();
-    };
-  }, [keepAwake, saveBills, autoSaveTabs]);
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, [keepAwake, saveBills, autoSaveTabs]);
 
   return (
     <SettingsContext.Provider

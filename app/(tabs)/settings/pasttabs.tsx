@@ -35,11 +35,13 @@ function Pasttabs() {
       <ThemedView style={[{ flex: 1 }]}>
         <SettingsOption
           name="Save Past Tabs"
+          settingKey="saveBills"
           value={saveBills}
           onValueChange={toggleSaveBills}
         />
         {saveBills && (
           <SettingsOption
+            settingKey="autoSaveTabs"
             name="Auto Save"
             value={autoSaveTabs}
             onValueChange={(value) => setAutoSaveTabs(value)}

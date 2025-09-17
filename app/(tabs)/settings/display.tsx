@@ -12,6 +12,7 @@ function Display() {
       <SettingsOption
         name="Keep Awake"
         value={keepAwake}
+        settingKey="keepAwake"
         onValueChange={() => setKeepAwake(!keepAwake)}
       />
       <SettingsFolder title="Dark Mode" url="/settings/darkmode" />

@@ -4,10 +4,12 @@ import { Text } from "@/components/ThemedText";
 import Switch from "@/components/Switch";
 import sizes from "@/config/sizes";
 import Tooltip from "./Tooltip";
+import storage from "@/utils/storage";
 
 type OptionProps = {
   name: string;
   value: boolean;
+  settingKey?: string;
   info?: string;
   onValueChange: ((value: boolean) => Promise<void> | void) | null | undefined;
 };
@@ -16,9 +18,21 @@ export default function SettingsOption({
   name,
   value,
   info,
+  settingKey,
   onValueChange,
 }: OptionProps) {
   const [showTooltip, setShowTooltip] = useState(false);
+
+  const saveValue = async (newValue: boolean) => {
+    if (!settingKey) return;
+
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
+
+    await storage.storeData(settingKey, newValue);
+  };
+
   return (
     <View style={styles.roundContainer}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -31,7 +45,11 @@ export default function SettingsOption({
           />
         )}
       </View>
-      <Switch value={value} onValueChange={onValueChange} />
+      {settingKey ? (
+        <Switch value={value} onValueChange={(v) => saveValue(v)} />
+      ) : (
+        <Switch value={value} onValueChange={onValueChange} />
+      )}
     </View>
   );
 }

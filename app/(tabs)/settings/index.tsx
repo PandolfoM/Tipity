@@ -12,6 +12,7 @@ export default function Settings() {
         <SettingsOption
           name="AI Receipt Total Extraction"
           info="Extracts the total from your receipt photo using AI. This requires an internet connection and may be slower than local processing, but provides higher accuracy."
+          settingKey="aiExtractTotal"
           value={aiExtractTotal}
           onValueChange={setAiExtractTotal}
         />
