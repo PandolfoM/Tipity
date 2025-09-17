@@ -1,5 +1,6 @@
 import TextRecognition from "react-native-text-recognition";
 import * as ImageManipulator from "expo-image-manipulator";
+import storage from "./storage";
 
 export async function extractTotal(
   image_url: string,
@@ -13,6 +14,17 @@ export async function extractTotal(
 }
 
 async function chatgptExtract(image_url: string): Promise<string | null> {
+  const rateLimit = await storage.getData("gptRateLimit");
+  const now = new Date();
+  const FIVE_MINUTES = 5 * 60 * 1000;
+
+  if (rateLimit !== undefined) {
+    const last = new Date(rateLimit).getTime();
+    if (now.getTime() - last < FIVE_MINUTES) {
+      return "AI rate limit in effect. Please try again in 5 minutes.";
+    }
+  }
+
   const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   image_url = await convertImageToBase64(image_url);
 
@@ -45,6 +57,8 @@ async function chatgptExtract(image_url: string): Promise<string | null> {
 
     const data = await response.json();
     const content = data.output[0].content[0].text;
+
+    await storage.storeData("gptRateLimit", now);
     if (content) {
       return content;
     }

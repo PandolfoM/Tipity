@@ -63,7 +63,7 @@ const Tooltip: React.FC<TooltipProps> = ({
               {
                 backgroundColor,
                 top: iconPos.y + 24,
-                left: iconPos.x - 25,
+                left: iconPos.x - 40,
                 position: "absolute",
               },
             ]}>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
-    maxWidth: 200,
+    maxWidth: 225,
   },
   overlay: {
     position: "absolute",

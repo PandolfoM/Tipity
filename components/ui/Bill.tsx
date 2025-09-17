@@ -49,6 +49,13 @@ function Bill() {
       const billTotal = await extractTotal(imageUri, aiExtractTotal);
       setLoading(false);
 
+      if (
+        billTotal === "AI rate limit in effect. Please try again in 5 minutes."
+      ) {
+        alert(billTotal);
+        return;
+      }
+
       if (billTotal) {
         setBillTotal(parseFloat(billTotal));
       } else {
