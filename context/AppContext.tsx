@@ -117,6 +117,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
               storage.storeData("orders", updatedOrders),
           ].filter(Boolean)
         );
+        setBillTotal(0);
       } else if (onlySave && ordersParam) {
         await Promise.all(
           [storage.storeData("orders", ordersParam)].filter(Boolean)

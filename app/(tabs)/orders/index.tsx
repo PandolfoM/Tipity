@@ -203,7 +203,6 @@ function Orders() {
   const onDelete = (item: OrderProps) => {
     const newOrders = orders.filter((order) => order !== item);
     setOrders(newOrders);
-    saveNewBill(true, newOrders);
   };
 
   const sortedOrders = [...orders].sort((a, b) => b.date - a.date);
