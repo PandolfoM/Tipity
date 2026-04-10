@@ -34,7 +34,7 @@ export default function Index() {
 
   return (
     <Pressable style={[{ flex: 1 }]} onPress={() => Keyboard.dismiss()}>
-      <ThemedView style={[{ flex: 1 }]}>
+      <ThemedView style={[{ flex: 1 }]} edges={["top"]}>
         {/* {isScrollable ? <ScrollView>{Content}</ScrollView> : Content} */}
         <ScrollView>{Content}</ScrollView>
       </ThemedView>

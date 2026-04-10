@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "submit": "eas submit -p ios --latest",
     "build": "eas build --platform ios",
-    "build-dev": "eas build --platform ios --profile development"
+    "build-dev": "eas build --platform ios --profile development",
+    "build-sim": "eas build --platform ios --profile ios-simulator --local"
   },
   "jest": {
     "preset": "jest-expo"
@@ -29,6 +30,7 @@
     "dayjs": "^1.11.13",
     "expo": "^54.0.33",
     "expo-blur": "~15.0.8",
+    "expo-build-properties": "~1.0.10",
     "expo-constants": "~18.0.13",
     "expo-dev-client": "~6.0.20",
     "expo-file-system": "~19.0.21",
@@ -54,6 +56,8 @@
     "react-native-currency-input": "^1.1.1",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-google-mobile-ads": "^16.3.2",
+    "react-native-iap": "^14.7.20",
+    "react-native-nitro-modules": "^0.35.4",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",

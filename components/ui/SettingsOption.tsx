@@ -14,7 +14,7 @@ type OptionProps = {
   onValueChange: ((value: boolean) => Promise<void> | void) | null | undefined;
 };
 
-export default function SettingsOption({
+export default function SettingsButton({
   name,
   value,
   info,

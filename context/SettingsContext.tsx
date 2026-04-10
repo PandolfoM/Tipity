@@ -6,7 +6,11 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { AppState, AppStateStatus, View } from "react-native";
+import * as RNIap from "react-native-iap";
+import { View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const REMOVE_ADS_PRODUCT_ID = "no_ads";
 
 interface SettingsContextProps {
   keepAwake: boolean;
@@ -17,10 +21,13 @@ interface SettingsContextProps {
   setAutoSaveTabs: React.Dispatch<React.SetStateAction<boolean>>;
   aiExtractTotal: boolean;
   setAiExtractTotal: React.Dispatch<React.SetStateAction<boolean>>;
+  adsDisabled: boolean;
+  purchaseRemoveAds: () => Promise<void>;
+  checkRemoveAds: () => Promise<void>;
 }
 
 const SettingsContext = createContext<SettingsContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 function useSettings(): SettingsContextProps {
@@ -36,6 +43,63 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [saveBills, setSaveBills] = useState<boolean>(true);
   const [autoSaveTabs, setAutoSaveTabs] = useState<boolean>(true);
   const [aiExtractTotal, setAiExtractTotal] = useState<boolean>(false);
+  const [adsDisabled, setAdsDisabled] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await RNIap.initConnection();
+        await checkRemoveAds();
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    init();
+    return () => {
+      RNIap.endConnection();
+    };
+  }, []);
+
+  const checkRemoveAds = async () => {
+    // // Check AsyncStorage first for quick UX
+    // const stored = await AsyncStorage.getItem("adsDisabled");
+    // if (stored === "true") {
+    //   setAdsDisabled(true);
+    //   return;
+    // }
+
+    // Check purchase history
+    try {
+      const purchases = await RNIap.getAvailablePurchases();
+
+      const hasRemoveAds = purchases.some(
+        (purchase) => purchase.productId === REMOVE_ADS_PRODUCT_ID,
+      );
+      setAdsDisabled(hasRemoveAds);
+      if (hasRemoveAds) {
+        await AsyncStorage.setItem("adsDisabled", "true");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const purchaseRemoveAds = async () => {
+    try {
+      await RNIap.requestPurchase({
+        request: {
+          apple: {
+            sku: REMOVE_ADS_PRODUCT_ID,
+          },
+        },
+        type: "in-app",
+      });
+      setAdsDisabled(true);
+      await AsyncStorage.setItem("adsDisabled", "true");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     async function prepare() {
@@ -51,10 +115,10 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setKeepAwake(typeof keepAwake === "boolean" ? keepAwake : false);
         setSaveBills(typeof saveBills === "boolean" ? saveBills : true);
         setAutoSaveTabs(
-          typeof autoSaveTabs === "boolean" ? autoSaveTabs : true
+          typeof autoSaveTabs === "boolean" ? autoSaveTabs : true,
         );
         setAiExtractTotal(
-          typeof aiExtractTotal === "boolean" ? aiExtractTotal : false
+          typeof aiExtractTotal === "boolean" ? aiExtractTotal : false,
         );
       } catch (error) {
         console.error("Error loading data:", error);
@@ -106,7 +170,11 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setAutoSaveTabs,
         aiExtractTotal,
         setAiExtractTotal,
-      }}>
+        adsDisabled,
+        checkRemoveAds,
+        purchaseRemoveAds,
+      }}
+    >
       <View style={{ flex: 1 }}>{children}</View>
     </SettingsContext.Provider>
   );

@@ -12,7 +12,7 @@ import { usePathname } from "expo-router";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 
 export default function TabLayout() {
-  const { keepAwake, saveBills } = useSettings();
+  const { keepAwake, saveBills, adsDisabled } = useSettings();
   const whiteColor = useThemeColor({}, "white");
   const accentColor = useThemeColor({}, "accent");
   const backgroundColor = useThemeColor({}, "background");
@@ -31,13 +31,15 @@ export default function TabLayout() {
   return (
     <Tabs>
       <TabSlot />
-      <BannerAd
-        unitId="ca-app-pub-5845042256739490/5303832252"
-        size={BannerAdSize.FULL_BANNER}
-        requestOptions={{
-          requestNonPersonalizedAdsOnly: true,
-        }}
-      />
+      {!adsDisabled && (
+        <BannerAd
+          unitId="ca-app-pub-5845042256739490/5303832252"
+          size={BannerAdSize.FULL_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+        />
+      )}
       <TabList
         style={[
           styles.tabList,
