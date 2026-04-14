@@ -50,13 +50,13 @@
       [
         "expo-image-picker",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to capture images of restaurant bills."
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to save the location of your restaurant visits."
         }
       ],
       [
