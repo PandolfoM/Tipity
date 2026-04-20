@@ -11,8 +11,8 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "submit": "eas submit -p ios --latest",
-    "build": "eas build --platform ios",
-    "build-dev": "eas build --platform ios --profile development",
+    "build": "eas build --platform ios --local",
+    "build-dev": "eas build --platform ios --profile development --local",
     "build-sim": "eas build --platform ios --profile ios-simulator --local"
   },
   "jest": {

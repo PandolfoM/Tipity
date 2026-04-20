@@ -49,13 +49,29 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     const init = async () => {
       try {
         await RNIap.initConnection();
+        await RNIap.fetchProducts({ skus: [REMOVE_ADS_PRODUCT_ID], type: "in-app" });
         await checkRemoveAds();
       } catch (e) {
         console.log(e);
       }
     };
     init();
+
+    const purchaseListener = RNIap.purchaseUpdatedListener(async (purchase) => {
+      if (purchase.productId === REMOVE_ADS_PRODUCT_ID) {
+        await RNIap.finishTransaction({ purchase });
+        setAdsDisabled(true);
+        await AsyncStorage.setItem("adsDisabled", "true");
+      }
+    });
+
+    const errorListener = RNIap.purchaseErrorListener((error) => {
+      console.log("IAP error:", error);
+    });
+
     return () => {
+      purchaseListener.remove();
+      errorListener.remove();
       RNIap.endConnection();
     };
   }, []);
@@ -94,8 +110,6 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
         },
         type: "in-app",
       });
-      setAdsDisabled(true);
-      await AsyncStorage.setItem("adsDisabled", "true");
     } catch (e) {
       console.log(e);
     }
