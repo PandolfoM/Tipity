@@ -49,7 +49,10 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
     const init = async () => {
       try {
         await RNIap.initConnection();
-        await RNIap.fetchProducts({ skus: [REMOVE_ADS_PRODUCT_ID], type: "in-app" });
+        await RNIap.fetchProducts({
+          skus: [REMOVE_ADS_PRODUCT_ID],
+          type: "in-app",
+        });
         await checkRemoveAds();
       } catch (e) {
         console.log(e);
