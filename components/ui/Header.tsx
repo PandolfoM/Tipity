@@ -20,6 +20,7 @@ import { useSettings } from "@/context/SettingsContext";
 
 function Header() {
   const [saved, setSaved] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const { isRounding, setIsRounding, billTotal, saveNewBill } = useApp();
   const { saveBills, autoSaveTabs } = useSettings();
   const translateY = useSharedValue(-100);
@@ -30,11 +31,11 @@ function Header() {
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
       "keyboardWillShow",
-      handleKeyboardShow
+      handleKeyboardShow,
     );
     const hideSubscription = Keyboard.addListener(
       "keyboardWillHide",
-      handleKeyboardHide
+      handleKeyboardHide,
     );
 
     return () => {
@@ -51,10 +52,12 @@ function Header() {
 
   const handleKeyboardShow = () => {
     translateY.value = withTiming(0, { duration: 300 }); // Slide down
+    setKeyboardVisible(true);
   };
 
   const handleKeyboardHide = () => {
     translateY.value = withTiming(-100, { duration: 300 }); // Slide up
+    setKeyboardVisible(false);
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -66,9 +69,17 @@ function Header() {
   return (
     <>
       <Animated.View
-        style={[styles.keyboard, animatedStyle, { backgroundColor }]}>
+        style={[styles.keyboard, animatedStyle, { backgroundColor }]}
+      >
         <Pressable onPress={Keyboard.dismiss}>
-          <Text style={styles.close}>Close</Text>
+          <Text
+            style={[
+              styles.close,
+              { display: keyboardVisible ? "flex" : "none" },
+            ]}
+          >
+            Close
+          </Text>
         </Pressable>
       </Animated.View>
       <View style={styles.header}>
@@ -93,7 +104,8 @@ function Header() {
               transitionDuration: "200ms",
               transitionProperty: "opacity",
               transitionTimingFunction: "ease-in-out",
-            }}>
+            }}
+          >
             <Text style={[styles.saveBtn, { color: accentColor }]}>Save</Text>
           </TouchableOpacity>
         )}

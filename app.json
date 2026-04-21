@@ -2,7 +2,7 @@
   "expo": {
     "name": "Tipity",
     "slug": "Tip-Calculator",
-    "version": "1.0.17",
+    "version": "1.0.22",
     "orientation": "portrait",
     "scheme": "tipity",
     "userInterfaceStyle": "automatic",
@@ -10,14 +10,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pandolfom.TipCalculator",
-      "buildNumber": "13",
+      "buildNumber": "18",
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs access to your camera to capture images of restaurant bills.",
         "ITSAppUsesNonExemptEncryption": false
       },
-      "config": {
-        "usesPushNotifications": true
-      },
+      "config": {},
       "icon": {
         "light": "./assets/images/icon-light.png",
         "dark": "./assets/images/icon-dark.png",
@@ -52,13 +50,29 @@
       [
         "expo-image-picker",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to capture images of restaurant bills."
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to save the location of your restaurant visits."
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "iosAppId": "ca-app-pub-5845042256739490~9438634064",
+          "androidAppId": "ca-app-pub-5845042256739490~9438634064"
+        }
+      ],
+      "react-native-iap",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "2.2.0"
+          }
         }
       ]
     ],

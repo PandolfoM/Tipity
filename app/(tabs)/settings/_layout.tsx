@@ -20,6 +20,9 @@ export default function SettingsLayout() {
           fontWeight: "bold",
           color: "#fff",
         },
+        contentStyle: {
+          flex: 1,
+        },
         headerTintColor: whiteColor,
         pressOpacity: 0,
         headerLeft: (props: any) =>
@@ -44,7 +47,8 @@ export default function SettingsLayout() {
             title={getHeaderTitle(options, route.name)}
           />
         ),
-      }}>
+      }}
+    >
       <Stack.Screen name="index" options={{ title: "Settings" }} />
       <Stack.Screen name="darkmode" options={{ title: "Dark Mode" }} />
       <Stack.Screen name="display" options={{ title: "Display" }} />
